@@ -1,6 +1,7 @@
 <?php
 App::uses('AppModel', 'Model');
 App::uses('AuthComponent', 'Controller/Component');
+//App::uses('Core', 'Security');
 /**
  * User Model
  *
@@ -88,18 +89,18 @@ class User extends AppModel {
 	 *
 	 * @var array
 	 */
-		public $actsAs = array(
-			'Utils.Sluggable' => array(
-				'label' => 'username',
-				'method' => 'multibyteSlug'
-			)
-		);
+	public $actsAs = array(
+		'Utils.Sluggable' => array(
+			'label' => 'username',
+			'method' => 'multibyteSlug'
+		)
+	);
 		
-/**
- * belongsTo associations
- *
- * @var array
- */
+	/**
+	 * belongsTo associations
+	 *
+	 * @var array
+	 */
 	public $belongsTo = array(
 		'Attachment' => array(
 			'className' => 'Attachment',
@@ -110,11 +111,11 @@ class User extends AppModel {
 		)
 	);
 
-/**
- * hasMany associations
- *
- * @var array
- */
+	/**
+	 * hasMany associations
+	 *
+	 * @var array
+	 */
 	public $hasMany = array(
 		'Card' => array(
 			'className' => 'Card',
@@ -158,9 +159,11 @@ class User extends AppModel {
 	);
 	
 	/**
-	 * 
+	 * Fires when the user saves data.
+	 * @param
+	 * @return void
 	 */
-	public function beforeSave() {
+	/*public function beforeSave() {
 		//Was called by changePassword()
 		/*$this->validatePasswordChange = array(
 			'new_password' => $this->validate['passwd'],
@@ -169,12 +172,13 @@ class User extends AppModel {
 			'old_password' => array(
 				'to_short' => array('rule' => 'validateOldPassword', 'required' => true, 'message' => __('Invalid password.', true))));*/
 		
-		
-		if (isset($this->data[$this->alias]['passwd'])) {
+		//This was causing problems when trying to update the User data
+		/*if (isset($this->data[$this->alias]['passwd'])) {
+			//$this->data[$this->alias]['passwd'] = Security::hash($this->data[$this->alias]['passwd'], null, true);
 			$this->data[$this->alias]['passwd'] = AuthComponent::password($this->data[$this->alias]['passwd']);
-		}
-		return true;
-	}
+		}*/
+		//return true;
+	//}
 	
 	
 	/**
@@ -183,14 +187,14 @@ class User extends AppModel {
 	 * @param string $password Password
 	 * @return boolean Success
 	 */
-		public function confirmPassword($password = null) {
-			if ((isset($this->data[$this->alias]['passwd']) && isset($password['temppassword']))
-				&& !empty($password['temppassword'])
-				&& ($this->data[$this->alias]['passwd'] === $password['temppassword'])) {
-				return true;
-			}
-			return false;
+	public function confirmPassword($password = null) {
+		if ((isset($this->data[$this->alias]['passwd']) && isset($password['temppassword']))
+			&& !empty($password['temppassword'])
+			&& ($this->data[$this->alias]['passwd'] === $password['temppassword'])) {
+			return true;
 		}
+		return false;
+	}
 
 	/**
 	 * Compares the email confirmation
@@ -198,14 +202,14 @@ class User extends AppModel {
 	 * @param array $email Email data
 	 * @return boolean
 	 */
-		public function confirmEmail($email = null) {
-			if ((isset($this->data[$this->alias]['email']) && isset($email['confirm_email']))
-				&& !empty($email['confirm_email'])
-				&& (strtolower($this->data[$this->alias]['email']) === strtolower($email['confirm_email']))) {
-					return true;
-			}
-			return false;
+	public function confirmEmail($email = null) {
+		if ((isset($this->data[$this->alias]['email']) && isset($email['confirm_email']))
+			&& !empty($email['confirm_email'])
+			&& (strtolower($this->data[$this->alias]['email']) === strtolower($email['confirm_email']))) {
+				return true;
 		}
+		return false;
+	}
 	
 	/**
 	 * Returns the logged in user's info
@@ -224,42 +228,42 @@ class User extends AppModel {
 	 * @param boolean $now time() value
 	 * @return mixed false or user data
 	 */
-		public function validateToken($token = null, $reset = false, $now = null) {
-			if (!$now) {
-				$now = time();
-			}
-			$this->recursive = -1;
-			$data = false;
-			$match = $this->find('first',array(
-											'conditions' => array($this->alias.'.email_token' => $token),
-											'fields' => array('id', 'email', 'email_token_expires', 'role','passwd')
-										));
+	public function validateToken($token = null, $reset = false, $now = null) {
+		if (!$now) {
+			$now = time();
+		}
+		$this->recursive = -1;
+		$data = false;
+		$match = $this->find('first',array(
+										'conditions' => array($this->alias.'.email_token' => $token),
+										'fields' => array('id', 'email', 'email_token_expires', 'role_id','passwd')
+									));
 
-			if (!empty($match)){
-				$expires = strtotime($match[$this->alias]['email_token_expires']);
-				if ($expires > $now) {
-					$data[$this->alias]['id'] = $match[$this->alias]['id'];
-					$data[$this->alias]['email'] = $match[$this->alias]['email'];
-					$data[$this->alias]['email_authenticated'] = '1';
-					$data[$this->alias]['role'] = $match[$this->alias]['role'];
+		if (!empty($match)){
+			$expires = strtotime($match[$this->alias]['email_token_expires']);
+			if ($expires > $now) {
+				$data[$this->alias]['id'] = $match[$this->alias]['id'];
+				$data[$this->alias]['email'] = $match[$this->alias]['email'];
+				$data[$this->alias]['email_authenticated'] = '1';
+				$data[$this->alias]['role_id'] = $match[$this->alias]['role_id'];
 
-					if ($reset === true) {
-						//Generate a new password for the user
-						$data[$this->alias]['passwd'] = $this->generatePassword();
-						$data[$this->alias]['password_token'] = null;
-					}else{
-						$data[$this->alias]['passwd'] = $match[$this->alias]['passwd']; //So that I can log the user in afterwards
-					}
-					
-					$testing = true;
-					if(!$testing){
-						$data[$this->alias]['email_token'] = null;
-						$data[$this->alias]['email_token_expires'] = null;
-					}
+				if ($reset === true) {
+					//Generate a new password for the user
+					$data[$this->alias]['passwd'] = $this->generatePassword();
+					//$data[$this->alias]['password_token'] = null;
+				}else{
+					$data[$this->alias]['passwd'] = $match[$this->alias]['passwd']; //So that I can log the user in afterwards
+				}
+				
+				$testing = false;
+				if(!$testing){
+					$data[$this->alias]['email_token'] = null;
+					$data[$this->alias]['email_token_expires'] = null;
 				}
 			}
-			return $data;
 		}
+		return $data;
+	}
 
 	/**
 	 * Updates the last activity field of a user
@@ -267,15 +271,15 @@ class User extends AppModel {
 	 * @param string $user User ID
 	 * @return boolean True on success
 	 */
-		public function updateLastActivity($userId = null) {
-			if (!empty($userId)) {
-				$this->id = $userId;
-			}
-			if ($this->exists()) {
-				return $this->saveField('last_activity', date('Y-m-d H:i:s', time()));
-			}
-			return false;
+	public function updateLastActivity($userId = null) {
+		if (!empty($userId)) {
+			$this->id = $userId;
 		}
+		if ($this->exists()) {
+			return $this->saveField('last_activity', date('Y-m-d H:i:s', time()));
+		}
+		return false;
+	}
 
 	/**
 	 * Checks if an email is in the system, validated and if the user is active so that the user is allowed to reste his password
@@ -283,26 +287,26 @@ class User extends AppModel {
 	 * @param array $postData post data from controller
 	 * @return mixed False or user data as array on success
 	 */
-		public function passwordReset($postData = array()) {
-			$user = $this->find('first', array(
-				'conditions' => array(
-					$this->alias . '.active' => 1,
-					$this->alias . '.email' => $postData[$this->alias]['email'])));
+	public function passwordReset($postData = array()) {
+		$user = $this->find('first', array(
+			'conditions' => array(
+				$this->alias . '.active' => 1,
+				$this->alias . '.email' => $postData[$this->alias]['email'])));
 
-			if (!empty($user) && $user[$this->alias]['email_authenticated'] == 1) {
-				$sixtyMins = time() + 43000;
-				$token = $this->generateToken();
-				$user[$this->alias]['password_token'] = $token;
-				$user[$this->alias]['email_token_expires'] = date('Y-m-d H:i:s', $sixtyMins);
-				$user = $this->save($user, false);
-				return $user;
-			} elseif (!empty($user) && $user[$this->alias]['email_authenticated'] == 0){
-				$this->invalidate('email', __('This Email Address exists but was never validated.', true));
-			} else {
-				$this->invalidate('email', __('This Email Address does not exist in the system.', true));
-			}
-			return false;
+		if (!empty($user) && $user[$this->alias]['email_authenticated'] == 1) {
+			$sixtyMins = time() + 43000;
+			$token = $this->generateToken();
+			$user[$this->alias]['password_token'] = $token;
+			$user[$this->alias]['email_token_expires'] = date('Y-m-d H:i:s', $sixtyMins);
+			$user = $this->save($user, false);
+			return $user;
+		} elseif (!empty($user) && $user[$this->alias]['email_authenticated'] == 0){
+			$this->invalidate('email', __('This Email Address exists but was never validated.', true));
+		} else {
+			$this->invalidate('email', __('This Email Address does not exist in the system.', true));
 		}
+		return false;
+	}
 
 	/**
 	 * Checks the token for a password change
@@ -310,18 +314,18 @@ class User extends AppModel {
 	 * @param string $token Token
 	 * @return mixed False or user data as array
 	 */
-		public function checkPasswordToken($token = null) {
-			$user = $this->find('first', array(
-				'contain' => array(),
-				'conditions' => array(
-					$this->alias . '.active' => 1,
-					$this->alias . '.password_token' => $token,
-					$this->alias . '.email_token_expires >=' => date('Y-m-d H:i:s'))));
-			if (empty($user)) {
-				return false;
-			}
-			return $user;
+	public function checkPasswordToken($token = null) {
+		$user = $this->find('first', array(
+			'contain' => array(),
+			'conditions' => array(
+				$this->alias . '.active' => 1,
+				$this->alias . '.password_token' => $token,
+				$this->alias . '.email_token_expires >=' => date('Y-m-d H:i:s'))));
+		if (empty($user)) {
+			return false;
 		}
+		return $user;
+	}
 
 	/**
 	 * Resets the password
@@ -329,30 +333,29 @@ class User extends AppModel {
 	 * @param array $postData Post data from controller
 	 * @return boolean True on success
 	 */
-		public function resetPassword($postData = array()) {
-			$result = false;
-			$tmp = $this->validate;
-			$this->validate = array(
-				'new_password' => $this->validate['passwd'],
-				'confirm_password' => array(
-					'required' => array(
-						'rule' => array('compareFields', 'new_password', 'confirm_password'), 
-						'message' => __('The passwords are not equal.', true)
-						)
+	public function resetPassword($postData = array()) {
+		$result = false;
+		$tmp = $this->validate;
+		$this->validate = array(
+			'new_password' => $this->validate['passwd'],
+			'confirm_password' => array(
+				'required' => array(
+					'rule' => array('compareFields', 'new_password', 'confirm_password'), 
+					'message' => __('The passwords are not equal.', true)
 					)
-			);
+				)
+		);
 
-			$this->set($postData);
-			if ($this->validates()) {
-				//App::uses('Core', 'Security');
-				//$this->data[$this->alias]['passwd'] = Security::hash($this->data[$this->alias]['new_password'], null, true);
-				$this->data[$this->alias]['passwd'] = AuthComponent::password($this->data[$this->alias]['new_password']);
-				$this->data[$this->alias]['password_token'] = null;
-				$result = $this->save($this->data, false);
-			}
-			$this->validate = $tmp;
-			return $result;
+		$this->set($postData);
+		if ($this->validates()) {
+			//$this->data[$this->alias]['passwd'] = Security::hash($this->data[$this->alias]['new_password'], null, true);
+			$this->data[$this->alias]['passwd'] = AuthComponent::password($this->data[$this->alias]['new_password']);
+			$this->data[$this->alias]['password_token'] = null;
+			$result = $this->save($this->data, false);
 		}
+		$this->validate = $tmp;
+		return $result;
+	}
 
 	/**
 	 * Changes the password for a user
@@ -381,7 +384,6 @@ class User extends AppModel {
 									);
 				
 		if ($this->validates()) {
-			//App::uses('Core', 'Security');
 			//$this->data[$this->alias]['passwd'] = Security::hash($this->data[$this->alias]['new_password'], null, true);
 			$this->data[$this->alias]['passwd'] = AuthComponent::password($this->data[$this->alias]['new_password']);
 			$this->save($postData, array('validate' => false,'callbacks' => false));
@@ -415,7 +417,6 @@ class User extends AppModel {
 		//Set the user id so that we can update the account
 		$this->id = $this->data[$this->alias]['id'];
 		if ($this->validates()) {
-			//App::uses('Core', 'Security');
 			//$this->data[$this->alias]['passwd'] = Security::hash($this->data[$this->alias]['new_password'], null, true);
 			$this->data[$this->alias]['passwd'] = AuthComponent::password($this->data[$this->alias]['new_password']);
 			unset($this->data[$this->alias]['new_password']);
@@ -443,7 +444,6 @@ class User extends AppModel {
 		}
 
 		$passwd = $this->field('passwd', array($this->alias . '.id' => $this->data[$this->alias]['id']));
-		//App::uses('Core', 'Security');
 		//if ($passwd === Security::hash($password['old_password'], null, true)) {
 		if ($passwd === AuthComponent::password($password['old_password'], null, true)) {
 			return true;
@@ -502,15 +502,15 @@ class User extends AppModel {
 	 * @param boolean $useEmailVerification If set to true a token will be generated
 	 * @return mixed
 	 */
-	public function register($postData = array(), $useEmailVerification = true, $generatePassword = true) {
+	public function register($postData = array(), $useEmailVerification = true, $generatePassword = false) {
 		$postData = $this->_beforeRegistration($postData, $useEmailVerification);
 		$this->_removeExpiredRegistrations();
 
 		$this->set($postData);
 		if ($this->validates()) {
-			//App::uses('Core', 'Security');
 			if($generatePassword === false){
 				//Happens in beforeSave now
+				$postData[$this->alias]['passwd'] = AuthComponent::password($postData[$this->alias]['passwd']);
 				//$postData[$this->alias]['passwd'] = Security::hash($postData[$this->alias]['passwd'], 'sha1', true);
 			}else{
 				$postData[$this->alias]['passwd'] = $this->generatePassword();
@@ -536,7 +536,6 @@ class User extends AppModel {
 
 		//$this->set($postData);
 		//if ($this->validates()) {
-			//App::uses('Core', 'Security');
 			if($generatePassword === false){
 				//Happens in beforeSave now
 				//$postData[$this->alias]['passwd'] = Security::hash($postData[$this->alias]['passwd'], 'sha1', true);

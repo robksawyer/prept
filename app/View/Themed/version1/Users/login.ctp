@@ -11,14 +11,14 @@
 ?>
 <div class="users form">
 <?php 
-		echo $this->Session->flash('auth');
-		echo $this->Form->create('User');
+		//echo $this->Session->flash('auth');
+		echo $this->Form->create('User',array('action' => 'login'));
 	?>
 	<fieldset>
 		<legend><?php echo __('Log in to your account'); ?></legend>
 	<?php
 		echo $this->Form->input('email', array('label' => __('Email', true)));
-		echo $this->Form->input('password', array('label' => __('Password', true),
+		echo $this->Form->input('passwd', array('label' => __('Password', true),
 															'after'=>'<div>Forgot your password? Reset it '.$this->Html->link('here',array('admin'=>false,'controller'=>'users','action'=>'reset_password')
 															).'.</div>'
 														)

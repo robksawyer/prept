@@ -17,6 +17,14 @@ class UsersController extends AppController {
 		parent::beforeFilter();
 		$this->Auth->allow('logout','reset','reset_password','verify','signup');
 		
+		if ($this->action == 'register') {
+			$this->Auth->enabled = false;
+		}
+
+		if ($this->action == 'login') {
+			$this->Auth->autoRedirect = false;
+		}
+				
 		/*if (!Configure::read('App.defaultEmail')) {
 			Configure::write('App.defaultEmail', 'noreply@' . env('HTTP_HOST'));
 		}*/
@@ -30,11 +38,25 @@ class UsersController extends AppController {
 	 **/
 	public function login() {
 		//Automatically redirect the user if they've already logged in
+		$this->Auth->autoRedirect = false;
 		if($this->Auth->user()){
 			$this->redirect($this->Auth->redirect());
 		}
 		if ($this->request->is('post')) {
 			if ($this->Auth->login()) {
+				//Update lastLogin and currentLogin times
+				$user = $this->Auth->user();
+				$this->User->read(null,$user['id']);
+				if(empty($user['currentLogin'])){
+					$user['currentLogin'] = date('Y-m-d H:i:s');
+				}
+				$this->User->set(array(
+									'lastLogin' => $user['currentLogin'],
+									'currentLogin' => date('Y-m-d H:i:s')
+									));
+				if(!$this->User->save()){
+					//There was an error updating the login times.
+				}
 				$this->redirect($this->Auth->redirect());
 			} else {
 				$this->Session->setFlash(__('Invalid username or password, try again'));
@@ -73,6 +95,7 @@ class UsersController extends AppController {
 				$this->_sendEmail($user['User']['email'],$options,$viewVars);
 				$this->User->id = $user['User']['id'];
 				$this->request->data['User']['id'] = $this->User->id; 
+				$this->Auth->autoRedirect = false;
 				if($this->Auth->login($this->request->data['User'])){
 					//The login was a success
 					unset($this->request->data['User']);
@@ -95,7 +118,7 @@ class UsersController extends AppController {
 	 * @author Rob Sawyer
 	 **/
 	public function backpack() {
-	
+		debug($this->current_user);
 	}
 	
 	
@@ -295,6 +318,11 @@ class UsersController extends AppController {
 	 * @return void
 	 */
 	public function verify($type = 'email') {
+		if($this->logged_in === true){
+			//Log the user out
+			$this->Auth->logoutRedirect = '';
+			$this->Auth->logout();
+		}
 		if (isset($this->request->params['pass']['1'])){
 			$token = $this->request->params['pass']['1'];
 		} else {
@@ -317,15 +345,17 @@ class UsersController extends AppController {
 			if ($type === 'reset') {
 				$newPassword = $data['User']['passwd'];
 				$data['User']['passwd'] = AuthComponent::password($newPassword); //Hash the new password
+				//$data['User']['passwd'] = Security::hash($newPassword, null, true);
 			}
 
 			if ($type === 'email') {
 				$data['User']['active'] = 1;
+				//BUG FIX: Unset the passwd field or else when saved, it'll get hashed again.
+				unset($data['User']['passwd']);
 			}
-
+			
 			if ($this->User->save($data, false)) {
 				if ($type === 'reset') {
-					
 					$options = array(
 										'layout'=>'signup_activate',
 										'subject'=>__('Password Reset', true),
@@ -337,20 +367,19 @@ class UsersController extends AppController {
 					$this->Session->setFlash(__('Your password was sent to your registered email account', true));
 					$this->redirect(array('action' => 'login'));
 				} else {
-					//unset($data);
-					//$data['User']['active'] = 1;
 					$this->User->id = $data['User']['id'];
-					$this->User->save($data); //Save the data
+					//$this->User->save($data); //Save the data
 					//Log the user in with the auto generated password and then send them along to the create password page
 					//$loginData['User'] = array('email'=>$email,'passwd'=>$passwd);
-					$this->request->data['User']['id'] = $this->User->id; 
+					$this->request->data['User']['id'] = $this->User->id;
+					$this->Auth->autoRedirect = false;
 					if($this->Auth->login($this->request->data['User'])){
 						//The login was a success
 						$this->Session->setFlash(__('Your e-mail has been validated!', true));
-						$this->Auth->loginRedirect = array('admin'=>false,'controller'=>'users','action'=>'create_password','email'=>urlencode($email));
+						$this->Auth->loginRedirect = array('admin'=>false,'controller'=>'users','action'=>'backpack');
 						return $this->redirect($this->Auth->loginRedirect);
 					}else{
-						$this->Session->setFlash(__("There was an error logging you in. Try logging in with your email address and the password $passwd", true));
+						$this->Session->setFlash(__("There was an error logging you in."));
 						$this->redirect(array('action' => 'login'));
 					}
 				}

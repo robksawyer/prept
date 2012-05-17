@@ -42,7 +42,7 @@
 		</div>
 		<div style="width:100%;clear:both;"></div>
 		<div style="background:black;width:516px;margin:25px auto 25px;font-size:12px;text-align:center;overflow:auto;color:#ffffff;padding:15px 0px 15px 0px;">
-			Sent from <?php echo $this->Html->link("Trapped Tracks",'http://www.prept.com',array('target'=>'_blank','style'=>'color:#ffffff')); ?> | <?php echo $this->Html->link("Edit Email Notifications",Router::url(array('ajax'=>false,'controller'=>'settings','action'=>'notifications'),true),array('target'=>'_blank','style'=>'color:#ffffff')); ?>
+			Sent from <?php echo $this->Html->link("Prept",'http://www.prept.com',array('target'=>'_blank','style'=>'color:#ffffff')); ?> | <?php echo $this->Html->link("Edit Email Notifications",Router::url(array('ajax'=>false,'controller'=>'settings','action'=>'notifications'),true),array('target'=>'_blank','style'=>'color:#ffffff')); ?>
 		</div>
 		<div style="width:516px;background:white;margin:15px auto;overflow:auto;font-family:'helvetica'">
         <div style="width:440px;margin:0 auto"></div>

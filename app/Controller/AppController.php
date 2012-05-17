@@ -35,15 +35,20 @@ class AppController extends Controller {
 	
 	public $theme = 'version1';
 	public $components = array('Auth' => array(
-											'loginRedirect' => array('controller' => 'users', 'action' => 'backpack'),
-											'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),
 											'authenticate' => array('Form' => array(
-																				'fields' => array('username' => 'email',
-																										'password' => 'passwd'),
+																				'userModel' => 'User',
+																				'fields' => array(
+																										'username' => 'email',
+																										'password' => 'passwd'
+																										),
 																				'scope' => array('User.active' => 1)
 																				)
 																			),
+											'loginAction' => array('controller' => 'users', 'action' => 'login'),
+											'loginRedirect' => array('controller' => 'users', 'action' => 'backpack'),
+											'logoutRedirect' => array('controller' => 'users', 'action' => 'login')
 											),'Session', 'Email', 'Cookie','RequestHandler');
+											
 	public $helpers = array('Html', 'Form', 'Session','Number', 'Time', 'Text','Js' => array('Jquery'));
 	
 	public $logged_in = false;
