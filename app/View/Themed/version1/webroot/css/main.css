@@ -1,0 +1,48 @@
+#user-panel{
+	float: right;
+	width: 270px;
+	background: red;
+	padding: 10px 20px;
+	margin: -25px 0px 10px 0px;
+	text-align: right;
+	clear: none;
+}
+#user-panel a:link,
+#user-panel a:active,
+#user-panel a:visited{
+	color: #ffffff;
+	text-decoration: none;
+}
+#user-panel a:hover{
+	color: #ffff00;
+	text-decoration: underline;
+}
+ul.info{
+	list-style-type: none;
+	padding: 0;
+	margin: 20px 0 20px 0; 
+	font-size: 18px;
+}
+ul.info li{
+	display: inline;
+	padding: 0;
+	margin: 0 10px 5px 0;
+	color: #9c9c9c;
+}
+ul.info li span.value{
+	font-weight: bold;
+	color: #000000;
+}
+ul.info li span.count{
+}
+ul.info li span.price{
+	color: green;
+}
+.clear{
+	width: 100%;
+	clear: both;
+}
+.footnote{
+	font-size: 10px;
+	text-align: center;
+}
