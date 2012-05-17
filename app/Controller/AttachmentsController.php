@@ -1,12 +1,14 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('Vendor', 'Uploader.Uploader');
 /**
  * Attachments Controller
  *
  * @property Attachment $Attachment
  */
 class AttachmentsController extends AppController {
-
+	
+	
 
 /**
  * index method

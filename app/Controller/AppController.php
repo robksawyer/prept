@@ -32,4 +32,38 @@ App::uses('Controller', 'Controller');
  * @link http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+	
+	public $theme = 'version1';
+	public $components = array('Auth' => array(
+											'loginRedirect' => array('controller' => 'uploads', 'action' => 'index'),
+											'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),
+											'authenticate' => array('Form' => array(
+																				'fields' => array('username' => 'email',
+																										'password' => 'passwd'),
+																				'scope' => array('User.active' => 1)
+																				)
+																			),
+											),'Session', 'Email', 'Cookie','RequestHandler');
+	public $helpers = array('Html', 'Form', 'Session','Number', 'Time', 'Text','Js' => array('Jquery'));
+	
+	public $logged_in = false;
+	public $current_user = array();
+	
+	public function beforeFilter() {
+		$this->Auth->allow('index', 'view');
+		
+		$this->logged_in = $this->Auth->loggedIn();
+		$this->current_user = $this->Auth->user();
+		$logged_in = $this->logged_in;
+		$current_user = $this->current_user;
+		$this->set(compact('logged_in','current_user'));
+	}
+	
+	/**
+	 * Fires before the page is rendered
+	 */
+	public function beforeRender(){
+		
+	}
+	
 }

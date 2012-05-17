@@ -129,3 +129,15 @@ Cache::config('default', array('engine' => 'File'));
  * CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
  *
  */
+
+//Load plugins
+CakePlugin::load(array('Uploader','Utils'));
+
+// these IDs match the roles in the DB
+define('ROLE_SUPERADMIN', '1');
+define('ROLE_ADMIN', '2');
+define('ROLE_MOD', '3');
+define('ROLE_USER', '4');
+//The role column in the DB
+define('USER_ROLE_KEY', 'role_id');
+
