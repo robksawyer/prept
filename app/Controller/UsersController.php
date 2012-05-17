@@ -69,7 +69,7 @@ class UsersController extends AppController {
 									'subject'=>__('Activate your account at Prept!', true),
 									'view'=>'default'
 									);
-				$viewVars = array('data'=>$data,'newPassword'=>$newPassword);
+				$viewVars = array('user'=>$user,'token'=>$user['User']['email_token']);
 				$this->_sendEmail($user['User']['email'],$options,$viewVars);
 				$this->User->id = $user['User']['id'];
 				$this->request->data['User']['id'] = $this->User->id; 
@@ -77,7 +77,7 @@ class UsersController extends AppController {
 					//The login was a success
 					unset($this->request->data['User']);
 					$this->Session->setFlash(__('You have successfully created an account &mdash; now get to studying.', true));
-					$this->Auth->loginRedirect = array('admin'=>false,'controller'=>'users','action'=>'backpack','email'=>urlencode($email));
+					$this->Auth->loginRedirect = array('admin'=>false,'controller'=>'users','action'=>'backpack');
 					return $this->redirect($this->Auth->loginRedirect);
 				}else{
 					$this->Session->setFlash(__("There was an error logging you in.", true));

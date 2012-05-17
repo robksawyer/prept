@@ -35,7 +35,7 @@ class AppController extends Controller {
 	
 	public $theme = 'version1';
 	public $components = array('Auth' => array(
-											'loginRedirect' => array('controller' => 'uploads', 'action' => 'index'),
+											'loginRedirect' => array('controller' => 'users', 'action' => 'backpack'),
 											'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),
 											'authenticate' => array('Form' => array(
 																				'fields' => array('username' => 'email',
