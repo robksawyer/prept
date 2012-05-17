@@ -23,8 +23,8 @@
 															).'.</div>'
 														)
 													);
-		//echo __('Remember Me') . $this->Form->checkbox('remember_me');
-		//echo $this->Form->hidden('User.return_to', array('value' => $return_to));
+		echo "<p>".__('Remember Me') . $this->Form->checkbox('remember_me')."</p>";
+		echo $this->Form->hidden('User.return_to', array('value' => $return_to));
 	?>
 	</fieldset>
 	<?php echo $this->Form->end(__('Login', true)); ?>

@@ -45,12 +45,6 @@
 		<li><?php echo $this->Form->postLink(__('Delete Stack'), array('action' => 'delete', $stack['Stack']['id']), null, __('Are you sure you want to delete # %s?', $stack['Stack']['id'])); ?> </li>
 		<li><?php echo $this->Html->link(__('List Stacks'), array('action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Stack'), array('action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Colors'), array('controller' => 'colors', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Color'), array('controller' => 'colors', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New User'), array('controller' => 'users', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Cards'), array('controller' => 'cards', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Card'), array('controller' => 'cards', 'action' => 'add')); ?> </li>
 	</ul>
 </div>
 <div class="related">
@@ -92,7 +86,7 @@
 
 	<div class="actions">
 		<ul>
-			<li><?php echo $this->Html->link(__('New Card'), array('controller' => 'cards', 'action' => 'add'));?> </li>
+			<li><?php echo $this->Html->link(__('New Card'), array('controller' => 'cards', 'action' => 'add',$stack['Stack']['id']));?> </li>
 		</ul>
 	</div>
 </div>

@@ -41,7 +41,10 @@ class AppController extends Controller {
 																										'username' => 'email',
 																										'password' => 'passwd'
 																										),
-																				'scope' => array('User.active' => 1)
+																				'scope' => array(
+																									'User.active' => 1,
+																									'User.email_verified' => 1
+																									)
 																				)
 																			),
 											'loginAction' => array('controller' => 'users', 'action' => 'login'),

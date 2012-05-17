@@ -5,9 +5,9 @@
 	<?php
 		echo $this->Form->input('front');
 		echo $this->Form->input('back');
-		echo $this->Form->input('stack_id');
-		echo $this->Form->input('color_id');
-		echo $this->Form->input('user_id');
+		echo $this->Form->input('stack_id',array('type'=>'hidden','value'=>$stack['Stack']['id']));
+		echo $this->Form->input('color_id',array('type'=>'hidden'));
+		echo $this->Form->input('user_id',array('type'=>'hidden','value'=>$current_user['id']));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit'));?>
@@ -19,9 +19,5 @@
 		<li><?php echo $this->Html->link(__('List Cards'), array('action' => 'index'));?></li>
 		<li><?php echo $this->Html->link(__('List Stacks'), array('controller' => 'stacks', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Stack'), array('controller' => 'stacks', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Colors'), array('controller' => 'colors', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Color'), array('controller' => 'colors', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New User'), array('controller' => 'users', 'action' => 'add')); ?> </li>
 	</ul>
 </div>

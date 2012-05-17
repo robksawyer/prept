@@ -37,7 +37,16 @@ class CardsController extends AppController {
  *
  * @return void
  */
-	public function add() {
+	public function add($stack_id=null) {
+		if(!$stack_id){
+			$this->Session->setFlash(__('You must provide a stack id.'));
+			$this->redirect(array('controller'=>'users','action' => 'login'));
+		}
+		/*
+		TODO:
+			Check to make sure that the user can add a card to this stack. 
+			Check to see if they are the owner or a collaborator of the stack.
+		*/
 		if ($this->request->is('post')) {
 			$this->Card->create();
 			if ($this->Card->save($this->request->data)) {
@@ -47,10 +56,15 @@ class CardsController extends AppController {
 				$this->Session->setFlash(__('The card could not be saved. Please, try again.'));
 			}
 		}
-		$stacks = $this->Card->Stack->find('list');
+		$stack = $this->Card->Stack->read(null,$stack_id);
+		$user_id = $this->Auth->user('id');
+		//Only show stacks from the logged in user.
+		//TODO: If the user is collaborating with other stacks, show those as well
+		$stacks = $this->Card->Stack->find('list',array('conditions'=>array('Stack.user_id'=>$user_id)));
+		debug($stacks);
 		$colors = $this->Card->Color->find('list');
 		$users = $this->Card->User->find('list');
-		$this->set(compact('stacks', 'colors', 'users'));
+		$this->set(compact('stacks', 'colors', 'users','stack'));
 	}
 
 /**

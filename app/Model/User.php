@@ -80,6 +80,21 @@ class User extends AppModel {
 		'temppassword' => array(
 			'rule' => 'confirmPassword',
 			'message' => 'The passwords are not equal, please try again.'
+		),
+		//'new_password' => $this->validate['passwd'],
+		'confirm_password' => array(
+			'required' => array(
+				'rule' => array('compareFields', 'new_password', 'confirm_password'), 
+				'required' => true, 
+				'message' => 'The passwords are not equal.'
+			)
+		),
+		'old_password' => array(
+			'to_short' => array(
+				'rule' => 'validateOldPassword', 
+				'required' => true, 
+				'message' => 'Invalid password.'
+			)
 		)
 	);
 
@@ -245,6 +260,7 @@ class User extends AppModel {
 				$data[$this->alias]['id'] = $match[$this->alias]['id'];
 				$data[$this->alias]['email'] = $match[$this->alias]['email'];
 				$data[$this->alias]['email_authenticated'] = '1';
+				$data[$this->alias]['email_verified'] = '1';
 				$data[$this->alias]['role_id'] = $match[$this->alias]['role_id'];
 
 				if ($reset === true) {
@@ -288,23 +304,26 @@ class User extends AppModel {
 	 * @return mixed False or user data as array on success
 	 */
 	public function passwordReset($postData = array()) {
+		$this->recursive = -1;
 		$user = $this->find('first', array(
 			'conditions' => array(
 				$this->alias . '.active' => 1,
 				$this->alias . '.email' => $postData[$this->alias]['email'])));
 
-		if (!empty($user) && $user[$this->alias]['email_authenticated'] == 1) {
+		if (!empty($user) && $user[$this->alias]['email_verified'] == 1) {
 			$sixtyMins = time() + 43000;
 			$token = $this->generateToken();
 			$user[$this->alias]['password_token'] = $token;
 			$user[$this->alias]['email_token_expires'] = date('Y-m-d H:i:s', $sixtyMins);
 			$user = $this->save($user, false);
+			$this->data = $user;
 			return $user;
-		} elseif (!empty($user) && $user[$this->alias]['email_authenticated'] == 0){
-			$this->invalidate('email', __('This Email Address exists but was never validated.', true));
+		} elseif (!empty($user) && $user[$this->alias]['email_verified'] == 0){
+			$this->invalidate('email', __d('users', 'This Email Address exists but was never validated.'));
 		} else {
-			$this->invalidate('email', __('This Email Address does not exist in the system.', true));
+			$this->invalidate('email', __d('users', 'This Email Address does not exist in the system.'));
 		}
+
 		return false;
 	}
 
@@ -677,6 +696,43 @@ class User extends AppModel {
 			)
 		);
 	}
+	
+	/**
+	 * Verifies a users email by a token that was sent to him via email and flags the user record as active
+	 *
+	 * @param string $token The token that wa sent to the user
+	 * @return array On success it returns the user data record
+	 */
+	public function verifyEmail($token = null) {
+		$user = $this->find('first', array(
+			'contain' => array(),
+			'conditions' => array(
+				$this->alias . '.email_verified' => 0,
+				$this->alias . '.email_token' => $token),
+			'fields' => array(
+				'id', 'email', 'email_token_expires', 'role')));
+
+		if (empty($user)) {
+			throw new RuntimeException(__d('users', 'Invalid token, please check the email you were sent, and retry the verification link.'));
+		}
+
+		$expires = strtotime($user[$this->alias]['email_token_expires']);
+		if ($expires < time()) {
+			throw new RuntimeException(__d('users', 'The token has expired.'));
+		}
+
+		$data[$this->alias]['active'] = 1;
+		$user[$this->alias]['email_verified'] = 1;
+		$user[$this->alias]['email_token'] = null;
+		$user[$this->alias]['email_token_expires'] = null;
+
+		$user = $this->save($user, array(
+			'validate' => false,
+			'callbacks' => false));
+		$this->data = $user;
+		return $user;
+	}
+	
 	/**
 	 * This handles verifying that the key passed, matches the lo
 	 * @param Int username The username to verify against

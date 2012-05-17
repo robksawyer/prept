@@ -5,7 +5,7 @@
 	<?php
 		echo $this->Form->input('title');
 		echo $this->Form->input('description');
-		$attributes = array('legend' => false);
+		$attributes = array('legend' => 'Select a color');
 		echo "<div class='color-panel'>";
 		echo $this->Form->radio('color_id',$colors,$attributes);
 		echo "</div>";
@@ -22,7 +22,10 @@
 	</ul>
 </div>
 <script type="text/javascript">
-/* Custom Radio Button Magic Sauce */
+/* 
+	Custom Radio Button Magic Sauce 
+	Thanks: http://stackoverflow.com/questions/5112995/is-there-an-easy-way-to-replace-radio-button-with-images-and-a-colored-border-f
+*/
 $('.color-panel label').each(function(){
 	var hexVal = "#"+$(this).text();
 	var radioBtnID = $(this).attr('for');

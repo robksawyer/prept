@@ -38,8 +38,7 @@ class StacksController extends AppController {
  * @return void
  */
 	public function add() {
-		debug($this->request->data);
-		/*if ($this->request->is('post')) {
+		if ($this->request->is('post')) {
 			$this->Stack->create();
 			if ($this->Stack->save($this->request->data)) {
 				$this->Session->setFlash(__('The stack has been saved'));
@@ -47,7 +46,7 @@ class StacksController extends AppController {
 			} else {
 				$this->Session->setFlash(__('The stack could not be saved. Please, try again.'));
 			}
-		}*/
+		}
 		$colors = $this->Stack->Color->find('list');
 		$users = $this->Stack->User->find('list');
 		$this->set(compact('colors', 'users'));

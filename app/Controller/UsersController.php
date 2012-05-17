@@ -57,10 +57,30 @@ class UsersController extends AppController {
 				if(!$this->User->save()){
 					//There was an error updating the login times.
 				}
-				$this->redirect($this->Auth->redirect());
+				
+				if ($this->here == $this->Auth->loginRedirect) {
+					$this->Auth->loginRedirect = '/';
+				}
+
+				/*$this->Session->setFlash(sprintf(__d('users', '%s you have successfully logged in'), $this->Auth->user('username')));
+				if (!empty($this->request->data)) {
+					$data = $this->request->data[$this->modelClass];
+					$this->_setCookie();
+				}*/
+
+				if (empty($data['return_to'])) {
+					$data['return_to'] = null;
+				}
+				return $this->redirect($this->Auth->redirect($data['return_to']));
 			} else {
 				$this->Session->setFlash(__('Invalid username or password, try again'));
 			}
+		}
+		
+		if (isset($this->request->params['named']['return_to'])) {
+			$this->set('return_to', urldecode($this->request->params['named']['return_to']));
+		} else {
+			$this->set('return_to', false);
 		}
 	}
 	
@@ -129,6 +149,10 @@ class UsersController extends AppController {
 	 * @author Rob Sawyer
 	 **/
 	public function logout() {
+		$user = $this->Auth->user();
+		$this->Session->destroy();
+		$this->Cookie->destroy();
+		$this->Session->setFlash(sprintf(__('%s you have successfully logged out'), $user[$this->{$this->modelClass}->displayField]));
 		$this->redirect($this->Auth->logout());
 	}
 	
@@ -463,6 +487,37 @@ class UsersController extends AppController {
 		} else {
 			$this->__resetPassword($token); //Show the reset password form
 		}
+	}
+	
+	/**
+	 * Sets the cookie to remember the user
+	 *
+	 * @param array Cookie component properties as array, like array('domain' => 'yourdomain.com')
+	 * @param string Cookie data keyname for the userdata, its default is "User". This is set to User and NOT using the model alias to make sure it works with different apps with different user models across different (sub)domains.
+	 * @return void
+	 * @link http://book.cakephp.org/2.0/en/core-libraries/components/cookie.html
+	 */
+	protected function _setCookie($options = array(), $cookieKey = 'User') {
+		if (empty($this->request->data[$this->modelClass]['remember_me'])) {
+			$this->Cookie->delete($cookieKey);
+		} else {
+			$validProperties = array('domain', 'key', 'name', 'path', 'secure', 'time');
+			$defaults = array(
+				'name' => 'rememberMe');
+
+			$options = array_merge($defaults, $options);
+			foreach ($options as $key => $value) {
+				if (in_array($key, $validProperties)) {
+					$this->Cookie->{$key} = $value;
+				}
+			}
+
+			$cookieData = array(
+				'email' => $this->request->data[$this->modelClass]['email'],
+				'password' => $this->request->data[$this->modelClass]['password']);
+			$this->Cookie->write($cookieKey, $cookieData, true, '1 Month');
+		}
+		unset($this->request->data[$this->modelClass]['remember_me']);
 	}
 	
 	/**
