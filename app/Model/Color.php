@@ -12,7 +12,7 @@ class Color extends AppModel {
  *
  * @var string
  */
-	public $displayField = 'name';
+	public $displayField = 'hex';
 /**
  * Validation rules
  *

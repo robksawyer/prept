@@ -1,3 +1,8 @@
+/*
+Tips:
+
+1. Using a URL such as ../img/16x16/administrative-docs.png will get you to the base img directory 
+*/
 #user-panel{
 	float: right;
 	width: 270px;
@@ -45,4 +50,26 @@ ul.info li span.price{
 .footnote{
 	font-size: 10px;
 	text-align: center;
+}
+.radio{
+	background: url('../img/common/radio-button-killer.png') no-repeat;
+	width: 50px !important;
+	height: 20px !important;
+	float: left;
+	clear: none !important;
+	margin: 0px !important;
+	padding: 0px !important;
+	opacity:0.7;
+	filter:alpha(opacity=70); /* For IE8 and earlier */
+}
+.radio-checked{
+    background: url('../img/common/radio-button-killer.png') no-repeat;
+    width: 50px !important;
+	height: 20px !important;
+	float: left;
+	clear: none !important;
+	margin: 0px !important;
+	padding: 0px !important;
+	opacity:1;
+	filter:alpha(opacity=100); /* For IE8 and earlier */
 }

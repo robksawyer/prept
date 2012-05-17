@@ -118,7 +118,7 @@ class UsersController extends AppController {
 	 * @author Rob Sawyer
 	 **/
 	public function backpack() {
-		debug($this->current_user);
+		//debug($this->current_user);
 	}
 	
 	
