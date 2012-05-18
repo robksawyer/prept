@@ -10,7 +10,7 @@
 		echo "<div class='color-panel'>";
 		echo $this->Form->radio('color_id',$colors,$attributes);
 		echo "</div>";
-		echo $this->Form->input('tags');
+		echo $this->Form->input('tags',array('after'=>'Enter optional subjects (separated by a comma), <i>i.e.,</i> history, math, science.'));
 		echo $this->Form->input('user_id',array('type'=>'hidden','value'=>$current_user['id']));
 	?>
 	</fieldset>

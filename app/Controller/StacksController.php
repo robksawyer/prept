@@ -105,6 +105,27 @@ class StacksController extends AppController {
 		$this->set(compact('colors', 'users'));
 	}
 
+	/**
+	 * make method
+	 * This is the main interface for the user to create stacks and make study cards.
+	 * @return void
+	 */
+		public function make() {
+			if ($this->request->is('post')) {
+				/*$this->Stack->create();
+				if ($this->Stack->save($this->request->data)) {
+					$this->Session->setFlash(__('The stack has been saved'));
+					$this->redirect(array('action' => 'index'));
+				} else {
+					$this->Session->setFlash(__('The stack could not be saved. Please, try again.'));
+				}*/
+			}
+			$colors = $this->Stack->Color->find('list');
+			$users = $this->Stack->User->find('list');
+			$this->set(compact('colors', 'users'));
+		}
+
+
 /**
  * edit method
  *

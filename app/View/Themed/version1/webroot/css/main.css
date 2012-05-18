@@ -115,8 +115,8 @@ ul.info li span.price{
 }
 .radio{
 	background: url('../img/common/radio-button-killer.png') no-repeat;
-	width: 50px !important;
-	height: 20px !important;
+	width: 35px !important;
+	height: 15px !important;
 	float: left;
 	clear: none !important;
 	margin: 0px !important;
@@ -126,8 +126,8 @@ ul.info li span.price{
 }
 .radio-checked{
     background: url('../img/common/radio-button-killer.png') no-repeat;
-    width: 50px !important;
-	height: 20px !important;
+    width: 35px !important;
+	height: 15px !important;
 	float: left;
 	clear: none !important;
 	margin: 0px !important;
@@ -148,7 +148,6 @@ div.stacks.index tr td.card{
 	line-height: 178px;
 	margin: 15px 5px 5px 0 !important;
 	padding: 0px;
-	border: none;
 	cursor:pointer;
 	border: 1px solid #777777;
 }
@@ -199,4 +198,89 @@ ul#tagcloud li::after{
 }
 ul#tagcloud li:last-child::after{
 	content: '';
+}
+div.stacks.top .information{
+	float: left;
+	width: 290px;
+	color: #777777;
+	margin: 0 25px 0 0;
+}
+div.stacks.top .information p{
+	font-size: 10px;
+	font-family: "frutiger linotype", "lucida grande", "verdana", sans-serif;
+}
+div.stacks.top {
+	position: relative;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	background: green;
+	clear: both;
+}
+div.stacks.top .stacks.form{
+	padding: 0;
+	margin: 0;
+	width: 660px;
+	background: pink;
+	float: left;
+	border: none;
+}
+div.stacks.top .stacks.form fieldset textarea{
+	clear: none;
+}
+/*div.stacks.top .stacks.form div{ clear: none; }*/
+div.stacks.top .stacks.form fieldset{
+	padding: 0;
+	margin: 0 0 0 0;
+}
+div.stacks.top .stacks.form fieldset .title{
+	float: left;
+	width: 282px !important;
+	height: 178px !important;
+	line-height: 178px;
+	border: 1px solid #777777;
+	clear: none;
+	margin: 0 15px 0 0;
+}
+div.stacks.top .stacks.form fieldset .title input{
+	clear: none;
+	font-size: 24px;
+	margin: 50px 0 0 0;
+}
+div.stacks.top .stacks.form fieldset .title .color-panel{
+	position: relative;
+	clear: both;
+	margin: 50px 0 0 0;
+	padding: 0;
+	line-height: normal;
+}
+div.stacks.top .stacks.form fieldset .title .color-panel fieldset legend{
+	font-family: "frutiger linotype", "lucida grande", "verdana", sans-serif;
+	color: #535353;
+	font-size: 10px;
+	padding: 0 0 10px 0;
+}
+div.stacks.top .stacks.form fieldset .top.right {
+	float: left;
+	clear: none;
+	width: 275px;
+	line-height: normal;
+	background: green;
+}
+div.stacks.top .stacks.form fieldset .top.right .description,
+div.stacks.top .stacks.form fieldset .top.right .tags{
+	padding: 10px;
+	margin: 0 0 5px 0;
+	background: #ffffff;
+	line-height: normal;
+	clear: none;
+}
+div.stacks.top .stacks.form fieldset .top.right .description textarea,
+div.stacks.top .stacks.form fieldset .top.right .tags input{
+	font-size: 10px;
+	border: none;
+	resize: none;
+}
+div.stacks.top .stacks.form fieldset .top.right .tags .input.text{
+	font-size: 10px;
 }
