@@ -8,6 +8,7 @@
 		echo $this->Form->input('stack_id',array('type'=>'hidden','value'=>$stack['Stack']['id']));
 		echo $this->Form->input('color_id',array('type'=>'hidden'));
 		echo $this->Form->input('user_id',array('type'=>'hidden','value'=>$current_user['id']));
+		echo $this->Form->input('tags');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit'));?>

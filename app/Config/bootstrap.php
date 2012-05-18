@@ -131,7 +131,7 @@ Cache::config('default', array('engine' => 'File'));
  */
 
 //Load plugins
-CakePlugin::load(array('Uploader','Utils'));
+CakePlugin::load(array('Uploader','Utils','Tags','Search'));
 
 // these IDs match the roles in the DB
 define('ROLE_SUPERADMIN', '1');

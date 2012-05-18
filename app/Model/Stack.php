@@ -14,6 +14,19 @@ class Stack extends AppModel {
  * @var string
  */
 	public $displayField = 'title';
+	
+	//http://cakedc.com/eng/downloads/view/cakephp_tags_plugin
+	public $actsAs = array('Containable','Tags.Taggable','Search.Searchable');
+	
+	public $filterArgs = array(
+		array('name' => 'title', 'type' => 'like'),
+		array('name' => 'description', 'type' => 'like'),
+		array('name' => 'user_id', 'type' => 'value'),
+		array('name' => 'color_id', 'type' => 'checkbox'),
+		array('name' => 'tags', 'type' => 'subquery', 'method' => 'findByTags', 'field' => 'Stack.id'),
+		array('name' => 'filter', 'type' => 'query', 'method' => 'orConditions'),
+	);
+	
 /**
  * Validation rules
  *
@@ -23,9 +36,9 @@ class Stack extends AppModel {
 		'title' => array(
 			'notempty' => array(
 				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
+				'message' => 'You must enter a title.',
+				'allowEmpty' => false,
+				'required' => true
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
@@ -77,4 +90,24 @@ class Stack extends AppModel {
 		)
 	);
 
+	public function findByTags($data = array()) {
+		$this->Tagged->Behaviors->attach('Containable', array('autoFields' => false));
+		$this->Tagged->Behaviors->attach('Search.Searchable');
+		$query = $this->Tagged->getQuery('all', array(
+			'conditions' => array('Tag.name'  => $data['tags']),
+			'fields' => array('foreign_key'),
+			'contain' => array('Tag')
+		));
+		return $query;
+  }
+
+  public function orConditions($data = array()) {
+		$filter = $data['filter'];
+		$cond = array(
+			'OR' => array(
+				$this->alias . '.title LIKE' => '%' . $filter . '%',
+				$this->alias . '.description LIKE' => '%' . $filter . '%',
+			));
+		return $cond;
+  }
 }

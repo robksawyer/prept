@@ -1,5 +1,11 @@
 <div class="stacks index">
-	<h2><?php echo __('Stacks');?></h2>
+	<h2><?php 
+		if(!empty($this->request->params['named']['by'])){
+			echo __('Stacks tagged <i>'.$this->request->params['named']['by']."</i>");
+		}else{
+			echo __('Stacks');
+		}
+	?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>
@@ -14,14 +20,22 @@
 	<tr>
 	<?php
 	$counter = 0;
-	foreach ($stacks as $stack): ?>
-			<td class="card" id="card-<?php echo $counter; ?>">
+	foreach ($stacks as $stack): 
+	?>
+			<td class="card" id="card-<?php echo $counter; ?>" style="<?php echo "background: #".$stack['Color']['hex']; ?>">
 				<div class="card-data">
 					<?php
 						echo $this->Html->link(__($stack['Stack']['title']), array('action' => 'view', $stack['Stack']['id']),array('class'=>'title','id'=>'title-'.$counter))
 					?>
 					<!--<p class="description"><?php //echo $stack['Stack']['description']; ?></p>-->
-					<p class="tags"></p>
+					<ul id="tagcloud">
+						<?php 
+							foreach ($stack['Tag'] as $tag) {
+								//echo '<li class="tag">'.$this->Html->link($tag['name'],array('controller'=>'stacks','action'=>'index','by'=>$tag['keyname'])).'</li>';
+								echo '<li class="tag">'.$tag['name'].'</li>';
+							}
+						?>
+					</ul>
 				</div>
 			</td>
 	<!--<tr>

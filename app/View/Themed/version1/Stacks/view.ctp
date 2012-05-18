@@ -26,6 +26,20 @@
 			<?php echo $this->Html->link($stack['User']['fullname'], array('controller' => 'users', 'action' => 'view', $stack['User']['id'])); ?>
 			&nbsp;
 		</dd>
+		<dt><?php echo __('Tags'); ?></dt>
+		<dd>
+			<ul id="tagcloud">
+				<?php 
+					echo $this->TagCloud->display($tags, array(
+						'before' => '<li class="tag">',
+						'after' => '</li>',
+						'url' => array('controller'=>'stacks','action'=>'index')
+						)
+					);
+				?>
+			</ul>
+			&nbsp;
+		</dd>
 		<dt><?php echo __('Created'); ?></dt>
 		<dd>
 			<?php echo h($stack['Stack']['created']); ?>
@@ -58,6 +72,7 @@
 		<th><?php echo __('Stack Id'); ?></th>
 		<th><?php echo __('Color Id'); ?></th>
 		<th><?php echo __('User Id'); ?></th>
+		<th><?php echo __('Tags'); ?></th>
 		<th><?php echo __('Created'); ?></th>
 		<th><?php echo __('Modified'); ?></th>
 		<th class="actions"><?php echo __('Actions');?></th>

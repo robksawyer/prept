@@ -7,7 +7,18 @@ App::uses('AppController', 'Controller');
  */
 class StacksController extends AppController {
 
-
+	/**
+	 * Search stacks
+	 *	https://github.com/CakeDC/search
+	 * @return void
+	 * @author Rob Sawyer
+	 **/
+	public function find() {
+		$this->Prg->commonProcess();
+		$this->paginate['conditions'] = $this->Stack->parseCriteria($this->passedArgs);
+		$this->set('stacks', $this->paginate());
+	}
+	
 /**
  * index method
  *
@@ -15,7 +26,43 @@ class StacksController extends AppController {
  */
 	public function index() {
 		$this->Stack->recursive = 0;
-		$this->set('stacks', $this->paginate());
+		$this->Stack->contain('Tag','Color','User');
+		//Search by tag
+		if (isset($this->passedArgs['by'])) {
+			$this->paginate = array(
+				'Tagged' => array(
+					'tagged',
+					'model' => 'Stack',
+					'by' => $this->passedArgs['by'],
+					'limit' => 10
+				)
+			);
+			$stacks = $this->paginate('Tagged');
+			$counter = 0;
+			/*
+				Find more details. I haven't found an easier way. Recursive doesn't seem to work in the paginate. 
+				Maybe a condition function would work.
+			*/
+			foreach($stacks as $stack){
+				if(!empty($stack['Stack']['id'])){
+					$t_stack = $this->Stack->find('first',array('conditions'=>array(
+																										'Stack.id' => $stack['Stack']['id']
+																										),
+																				'contain' => array('User','Tag','Color')
+																				)
+																			);
+					$stacks[$counter] = $t_stack;
+					$counter++;
+				}else{
+					unset($stacks[$counter]);
+				}
+			}
+		} else {
+			$stacks = $this->paginate();
+		}
+		$this->set('tags', $this->Stack->Tagged->find('cloud', array('limit' => 10)));
+		//$this->set('stacks', $this->paginate());
+		$this->set(compact('stacks'));
 	}
 
 /**
@@ -29,6 +76,8 @@ class StacksController extends AppController {
 		if (!$this->Stack->exists()) {
 			throw new NotFoundException(__('Invalid stack'));
 		}
+		
+		$this->set('tags', $this->Stack->Tagged->find('cloud', array('limit' => 10)));
 		$this->set('stack', $this->Stack->read(null, $id));
 	}
 
@@ -73,6 +122,8 @@ class StacksController extends AppController {
 		} else {
 			$this->request->data = $this->Stack->read(null, $id);
 		}
+		
+		$this->set('tags', $this->Stack->Tagged->find('cloud', array('limit' => 10)));
 		$colors = $this->Stack->Color->find('list');
 		$users = $this->Stack->User->find('list');
 		$this->set(compact('colors', 'users'));

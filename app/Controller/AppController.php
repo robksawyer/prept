@@ -50,9 +50,9 @@ class AppController extends Controller {
 											'loginAction' => array('controller' => 'users', 'action' => 'login'),
 											'loginRedirect' => array('controller' => 'users', 'action' => 'backpack'),
 											'logoutRedirect' => array('controller' => 'users', 'action' => 'login')
-											),'Session', 'Email', 'Cookie','RequestHandler');
+											),'Session', 'Email', 'Cookie','RequestHandler','Search.Prg');
 											
-	public $helpers = array('Html', 'Form', 'Session','Number', 'Time', 'Text','Js' => array('Jquery'));
+	public $helpers = array('Html', 'Form', 'Session','Number', 'Time', 'Text','Js' => array('Jquery'),'Tags.TagCloud');
 	
 	public $logged_in = false;
 	public $current_user = array();

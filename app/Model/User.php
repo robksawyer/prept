@@ -17,6 +17,7 @@ class User extends AppModel {
  * @var string
  */
 	public $displayField = 'fullname';
+	
 /**
  * Validation rules
  *
@@ -108,8 +109,9 @@ class User extends AppModel {
 		'Utils.Sluggable' => array(
 			'label' => 'username',
 			'method' => 'multibyteSlug'
-		)
+		),'Containable','Search.Searchable'
 	);
+
 		
 	/**
 	 * belongsTo associations
