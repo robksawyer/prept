@@ -221,7 +221,7 @@ div.stacks.top .stacks.form{
 	padding: 0;
 	margin: 0;
 	width: 660px;
-	background: pink;
+	background: transparent;
 	float: left;
 	border: none;
 }
@@ -235,24 +235,33 @@ div.stacks.top .stacks.form fieldset{
 }
 div.stacks.top .stacks.form fieldset .title{
 	float: left;
-	width: 282px !important;
-	height: 178px !important;
+	width: 291px !important;
+	height: 188px !important;
 	line-height: 178px;
-	border: 1px solid #777777;
 	clear: none;
 	margin: 0 15px 0 0;
+	padding: 0;
+	text-align: center;
+	background: transparent url('../img/common/notecard-white-290x187.jpg') no-repeat top left;
 }
 div.stacks.top .stacks.form fieldset .title input{
 	clear: none;
+	color: #777777;
 	font-size: 24px;
-	margin: 50px 0 0 0;
+	padding: 0 0 0 0;
+	width: 228px;
+	margin: 50px auto 0 auto;
+	background: none;
+	border: 1px solid #f2f2f2;
 }
 div.stacks.top .stacks.form fieldset .title .color-panel{
 	position: relative;
 	clear: both;
-	margin: 50px 0 0 0;
+	width: 228px;
+	margin: 45px auto 0 auto;
 	padding: 0;
 	line-height: normal;
+	text-align: left;
 }
 div.stacks.top .stacks.form fieldset .title .color-panel fieldset legend{
 	font-family: "frutiger linotype", "lucida grande", "verdana", sans-serif;
@@ -265,7 +274,7 @@ div.stacks.top .stacks.form fieldset .top.right {
 	clear: none;
 	width: 275px;
 	line-height: normal;
-	background: green;
+	background: transparent;
 }
 div.stacks.top .stacks.form fieldset .top.right .description,
 div.stacks.top .stacks.form fieldset .top.right .tags{
@@ -278,6 +287,7 @@ div.stacks.top .stacks.form fieldset .top.right .tags{
 div.stacks.top .stacks.form fieldset .top.right .description textarea,
 div.stacks.top .stacks.form fieldset .top.right .tags input{
 	font-size: 10px;
+	color: #777777;
 	border: none;
 	resize: none;
 }
