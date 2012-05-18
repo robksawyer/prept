@@ -77,7 +77,11 @@ class StacksController extends AppController {
 			throw new NotFoundException(__('Invalid stack'));
 		}
 		
-		$this->set('tags', $this->Stack->Tagged->find('cloud', array('limit' => 10)));
+		//Find only tags for the specific item
+		$this->set('tags', $this->Stack->Tagged->find('cloud', array(
+																						'limit' => 10,
+																						'conditions'=>array('model'=>'Stack','foreign_key'=>$id)
+																						)));
 		$this->set('stack', $this->Stack->read(null, $id));
 	}
 
