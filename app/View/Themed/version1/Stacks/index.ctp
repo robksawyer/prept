@@ -67,12 +67,6 @@
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
 		<li><?php echo $this->Html->link(__('New Stack'), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Colors'), array('controller' => 'colors', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Color'), array('controller' => 'colors', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New User'), array('controller' => 'users', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Cards'), array('controller' => 'cards', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Card'), array('controller' => 'cards', 'action' => 'add')); ?> </li>
 	</ul>
 </div>
 <script type="text/javascript">
@@ -85,5 +79,25 @@
 				$(this).fitText(1.5, { minFontSize: '12px', maxFontSize: '24px' });
 			}
 		});
+		
+		//Make the full card clickable
+		$('td.card').each(function(){
+			//Set the initial opacity of the card
+			$(this).css({"opacity": .7});
+			
+			var stackURL = $(this).find('a').attr('href');
+			//Bind the click to the card
+			$(this).click(function(){
+				window.location.href = stackURL.toString();
+			});
+			
+			//Change opacity of card on hover
+			$(this).hover(function(){
+				$(this).stop().animate({"opacity": 1});
+			},function(){
+				$(this).stop().animate({"opacity": .7});
+			});
+		});
+		
 	});
 </script>

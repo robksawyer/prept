@@ -137,7 +137,6 @@ ul.info li span.price{
 }
 div.stacks.index tr{
 	width: 100%;
-	background: blue;
 	float: left;
 }
 div.stacks.index tr td.card{
@@ -151,6 +150,7 @@ div.stacks.index tr td.card{
 	margin: 15px 5px 5px 0 !important;
 	padding: 0px;
 	border: none;
+	cursor:pointer;
 }
 div.stacks.index tr td.card div.card-data{
 	padding: 55px 15px 15px 15px;
