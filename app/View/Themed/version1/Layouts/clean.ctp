@@ -30,6 +30,9 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 		echo $this->Html->meta('icon');
 
 		echo $this->Html->css(array('cake.generic','main'));
+		//Google Web Fonts
+		//http://www.google.com/webfonts (Avro is an alternative to Rockwell)
+		echo $this->Html->css('http://fonts.googleapis.com/css?family=Arvo:700,400');
 		
 		echo $this->fetch('meta');
 		echo $this->fetch('css');

@@ -3,24 +3,86 @@ Tips:
 
 1. Using a URL such as ../img/16x16/administrative-docs.png will get you to the base img directory 
 */
-#user-panel{
-	float: right;
-	width: 270px;
-	background: red;
-	padding: 10px 20px;
-	margin: -25px 0px 10px 0px;
-	text-align: right;
-	clear: none;
+#header {
+	color: #0080ce;
+	font-size: 12px;
+	font-weight: normal;
 }
-#user-panel a:link,
-#user-panel a:active,
-#user-panel a:visited{
-	color: #ffffff;
+#header div.main-nav{ width: 100%; }
+#header div.main-nav div.logo{
+	float: left;
+	display: block;
+	clear: none;
+	height: 81px;
+	width: 99px;
+}
+#header div.main-nav ul{ 
+	float: left;
+	clear: none;
+	margin: 0 0 0 21px;
+	padding: 30px 0 0 0;
+	width: 500px;
+}
+#header div.main-nav ul li,
+#header div.main-nav ul li a{
+	display: inline;
+	clear: none;
+	list-style-type: none;
+	font-size: 12px;
+}
+#header div.main-nav ul li a:link,
+#header div.main-nav ul li a:active,
+#header div.main-nav ul li a:visited{
 	text-decoration: none;
 }
-#user-panel a:hover{
-	color: #ffff00;
+#header div.main-nav ul li a:hover{
+	text-decoration: none;
+	border-bottom: 1px solid #0080ce;
+}
+#header div.user-panel{
+	float: right;
+	width: 270px;
+	padding: 30px 0 0 0;
+	margin: 0;
+	text-align: left;
+	clear: none;
+}
+#header div.user-panel a:link,
+#header div.user-panel a:active,
+#header div.user-panel a:visited{
 	text-decoration: underline;
+}
+#header div.user-panel a:hover{
+	text-decoration: none;
+}
+#header div.sub-nav {
+	position: relative;
+	text-align: left;
+	margin: 10px auto;
+	width: 917px;
+	height: 30px;
+	padding: 10px;
+	background: #f2f2f2;
+}
+#header div.sub-nav label{
+	float: left;
+	clear: none;
+	display: inline;
+	font-size: 18px;
+	color: #535353;
+	margin: 0 10px 0 0;
+	padding: 0;
+}
+#header div.sub-nav input[type="text"]{
+	color: #a9a9a9;
+	float: left;
+	clear: none;
+	width: 270px;
+	padding: 0 3px 0 3px;
+	margin: 0;
+	height: 18px !important;
+	font-size: 12px !important;
+	border: 0;
 }
 ul.info{
 	list-style-type: none;
@@ -72,4 +134,42 @@ ul.info li span.price{
 	padding: 0px !important;
 	opacity:1;
 	filter:alpha(opacity=100); /* For IE8 and earlier */
+}
+div.stacks.index tr{
+	width: 100%;
+	background: blue;
+	float: left;
+}
+div.stacks.index tr td.card{
+	position: relative;
+	float: left;
+	display: block;
+	background: #fff772;
+	width: 282px !important;
+	height: 178px !important;
+	line-height: 178px;
+	margin: 15px 5px 5px 0 !important;
+	padding: 0px;
+	border: none;
+}
+div.stacks.index tr td.card div.card-data{
+	padding: 55px 15px 15px 15px;
+}
+div.stacks.index tr td.card a{
+	display: block;
+	text-align: left;
+	padding: 0 !important;
+	text-indent: 0px;
+	font-size: 24px;
+	line-height: normal !important;
+	color: #535353;
+	text-decoration: none;
+	font-weight: normal;
+	border: none;
+	background: transparent;
+}
+div.stacks.index tr td.card p{
+	padding: 0;
+	margin: 0;
+	line-height: normal !important;
 }
