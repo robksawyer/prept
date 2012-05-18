@@ -62,7 +62,7 @@ $siteDescription = __('Prept: your web-based study app',true);
 				<ul>
 				<?php
 					echo "<li>".$this->Html->link('Search Studycards','#')."</li>";
-					echo "<li>".$this->Html->link('Make Studycards',array('controller'=>'stacks','action'=>'add'))."</li>";
+					echo "<li>".$this->Html->link('Make Studycards',array('controller'=>'stacks','action'=>'make'))."</li>";
 					echo "<li>".$this->Html->link('Features Tour','#')."</li>";
 				?>
 				</ul>

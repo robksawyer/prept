@@ -27,9 +27,9 @@ class Card extends AppModel {
 		'front' => array(
 			'notempty' => array(
 				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
+				'message' => 'You must enter some content for the front of your card.',
 				//'allowEmpty' => false,
-				//'required' => false,
+				//'required' => false
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),

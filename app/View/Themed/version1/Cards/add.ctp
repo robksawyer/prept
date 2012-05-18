@@ -3,12 +3,14 @@
 	<fieldset>
 		<legend><?php echo __('Add Card'); ?></legend>
 	<?php
-		echo $this->Form->input('front');
-		echo $this->Form->input('back');
+		echo $this->Form->input('Card.front',array('label'=>false,'value'=>'Enter the term here. Press tab to go to next input box.','class'=>'card-front'));
+		echo $this->Form->input('Card.back',array('label'=>false,'value'=>'Enter the definition here.','class'=>'card-back'));
 		echo $this->Form->input('stack_id',array('type'=>'hidden','value'=>$stack['Stack']['id']));
 		echo $this->Form->input('color_id',array('type'=>'hidden'));
 		echo $this->Form->input('user_id',array('type'=>'hidden','value'=>$current_user['id']));
-		echo $this->Form->input('tags');
+		echo "<div class='tags'>";
+		echo $this->Form->input('tags',array('label'=>false,'value'=>'Enter optional subjects, i.e., history, math.','div'=>false));
+		echo "</div>";
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit'));?>

@@ -84,6 +84,14 @@ Tips:
 	font-size: 12px !important;
 	border: 0;
 }
+/*
+* THE BACKPACK (User landing page after login)
+*/
+#backpack{ }
+#backpack .stacks.index{
+	width: 100%;
+	border: none;
+}
 ul.info{
 	list-style-type: none;
 	padding: 0;
@@ -199,31 +207,36 @@ ul#tagcloud li::after{
 ul#tagcloud li:last-child::after{
 	content: '';
 }
-div.stacks.top .information{
-	float: left;
-	width: 290px;
-	color: #777777;
-	margin: 0 25px 0 0;
-}
-div.stacks.top .information p{
-	font-size: 10px;
-	font-family: "frutiger linotype", "lucida grande", "verdana", sans-serif;
-}
 div.stacks.top {
 	position: relative;
 	width: 100%;
 	padding: 0;
 	margin: 0;
-	background: green;
 	clear: both;
 }
 div.stacks.top .stacks.form{
 	padding: 0;
 	margin: 0;
-	width: 660px;
-	background: transparent;
-	float: left;
+	width: 100%;
 	border: none;
+}
+div.stacks.top .stacks.form form{
+	clear: none;
+} 
+div.stacks.top .stacks.form .information{
+	float: left;
+	width: 290px;
+	color: #777777;
+	margin: 0 25px 0 0;
+}
+div.stacks.top .stacks.form .information p{
+	font-size: 10px;
+	font-family: "frutiger linotype", "lucida grande", "verdana", sans-serif;
+}
+div.stacks.top .stacks.form fieldset.stacks{
+	clear: none;
+	float: left;
+	width: 600px;
 }
 div.stacks.top .stacks.form fieldset textarea{
 	clear: none;
@@ -293,4 +306,53 @@ div.stacks.top .stacks.form fieldset .top.right .tags input{
 }
 div.stacks.top .stacks.form fieldset .top.right .tags .input.text{
 	font-size: 10px;
+}
+div.stacks.top .stacks.form fieldset.cards {
+	position: relative;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+}
+div.stacks.top .stacks.form fieldset.cards textarea{
+	color: #777777;
+	font-size: 10px;
+}
+div.stacks.top .stacks.form fieldset.cards div{
+	margin: 0;
+	padding: 0;
+}
+div.stacks.top .stacks.form fieldset.cards .input{
+	float: left;
+	clear: none;
+	padding: 0;
+	margin: 0;
+}
+div.stacks.top .stacks.form fieldset.cards .card-input-container{
+	height: 70px;
+	padding: 10px;
+	margin: 0 0 10px 0;
+	clear: both;
+}
+div.stacks.top .stacks.form fieldset.cards .card-input-container div.num{
+	float: left;
+	padding: 0;
+	font-size: 18px;
+	margin: 0 13px 0 0;
+}
+div.stacks.top .stacks.form fieldset.cards textarea.card-front{
+	width: 297px;
+	height: 60px;
+	clear: none;
+	resize: none;
+	margin: 0 15px 0 0;
+	border: none;
+	color: #777777;
+}
+div.stacks.top .stacks.form fieldset.cards textarea.card-back{
+	width: 547px;
+	height: 60px;
+	clear: none;
+	resize: none;
+	border: none;
+	color: #777777;
 }

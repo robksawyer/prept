@@ -139,6 +139,13 @@ class UsersController extends AppController {
 	 **/
 	public function backpack() {
 		//debug($this->current_user);
+		$this->paginate = array(
+			'Stack' => array(
+				'conditions'=>array('user_id' => $this->current_user['id'])
+			)
+		);
+		$user_stacks = $this->paginate('Stack');
+		$this->set(compact('user_stacks'));
 	}
 	
 	

@@ -112,13 +112,30 @@ class StacksController extends AppController {
 	 */
 		public function make() {
 			if ($this->request->is('post')) {
-				/*$this->Stack->create();
-				if ($this->Stack->save($this->request->data)) {
-					$this->Session->setFlash(__('The stack has been saved'));
+				//Clean up the card array
+				$frontValue = 'Enter the term here. Press tab to go to next input box.';
+				$backValue = 'Enter the definition here.';
+				for($i=0;$i<=count($this->request->data['Card']);$i++){
+					$this->request->data['Card'][$i]['front'] = trim($this->request->data['Card'][$i]['front']);
+					$this->request->data['Card'][$i]['back'] = trim($this->request->data['Card'][$i]['back']);
+					if($this->request->data['Card'][$i]['front'] == $frontValue){
+						//Unset this item
+						unset($this->request->data['Card'][$i]);
+					}
+					if(!empty($this->request->data['Card'][$i]['back'])){
+						if($this->request->data['Card'][$i]['back'] == $backValue){
+							$this->request->data['Card'][$i]['back'] = null;
+						}
+					}
+					
+				}
+				$this->Stack->create();
+				if ($this->Stack->saveAll($this->request->data,array('validate'=>false))) {
+					$this->Session->setFlash(__('Your stack has been saved – good luck with your studies.'));
 					$this->redirect(array('action' => 'index'));
 				} else {
 					$this->Session->setFlash(__('The stack could not be saved. Please, try again.'));
-				}*/
+				}
 			}
 			$colors = $this->Stack->Color->find('list');
 			$users = $this->Stack->User->find('list');

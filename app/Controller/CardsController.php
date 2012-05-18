@@ -61,7 +61,6 @@ class CardsController extends AppController {
 		//Only show stacks from the logged in user.
 		//TODO: If the user is collaborating with other stacks, show those as well
 		$stacks = $this->Card->Stack->find('list',array('conditions'=>array('Stack.user_id'=>$user_id)));
-		debug($stacks);
 		$colors = $this->Card->Color->find('list');
 		$users = $this->Card->User->find('list');
 		$this->set(compact('stacks', 'colors', 'users','stack'));
