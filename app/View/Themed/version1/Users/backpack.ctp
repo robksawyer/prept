@@ -24,9 +24,10 @@
 		foreach ($user_stacks as $stack): 
 		?>
 				<td class="card" id="card-<?php echo $counter; ?>" style="<?php echo "background: #".$stack['Color']['hex']; ?>">
+					<span class="card-overlay">&nbsp;</span>
 					<div class="card-data">
 						<?php
-							echo $this->Html->link(__($stack['Stack']['title']), array('action' => 'view', $stack['Stack']['id']),array('class'=>'title','id'=>'title-'.$counter))
+							echo $this->Html->link(__($stack['Stack']['title']), array('controller'=>'stacks','action' => 'view', $stack['Stack']['id']),array('class'=>'title','id'=>'title-'.$counter))
 						?>
 						<!--<p class="description"><?php //echo $stack['Stack']['description']; ?></p>-->
 						<ul id="tagcloud">

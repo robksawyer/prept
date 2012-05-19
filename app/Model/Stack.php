@@ -78,7 +78,7 @@ class Stack extends AppModel {
 		'Card' => array(
 			'className' => 'Card',
 			'foreignKey' => 'stack_id',
-			'dependent' => false,
+			'dependent' => true,
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',

@@ -113,28 +113,49 @@ class StacksController extends AppController {
 		public function make() {
 			if ($this->request->is('post')) {
 				//Clean up the card array
+				$titleValue = 'Title of Studycard';
+				if(trim($this->request->data['Stack']['title']) == $titleValue){
+					$this->request->data['Stack']['title'] = '';
+				}
+				$descriptionValue = 'Write a short description of your stack. This helps identify the stack for you and your friends.';
+				if(trim($this->request->data['Stack']['description']) == $descriptionValue){
+					$this->request->data['Stack']['description'] = '';
+				}
+				$tagValue = 'Enter optional subjects, i.e., history, math.';
+				if(trim($this->request->data['Stack']['tags']) == $tagValue){
+					$this->request->data['Stack']['tags'] = '';
+				}
 				$frontValue = 'Enter the term here. Press tab to go to next input box.';
 				$backValue = 'Enter the definition here.';
-				for($i=0;$i<=count($this->request->data['Card']);$i++){
-					$this->request->data['Card'][$i]['front'] = trim($this->request->data['Card'][$i]['front']);
-					$this->request->data['Card'][$i]['back'] = trim($this->request->data['Card'][$i]['back']);
-					if($this->request->data['Card'][$i]['front'] == $frontValue){
-						//Unset this item
-						unset($this->request->data['Card'][$i]);
-					}
-					if(!empty($this->request->data['Card'][$i]['back'])){
-						if($this->request->data['Card'][$i]['back'] == $backValue){
-							$this->request->data['Card'][$i]['back'] = null;
+				$totalCards = count($this->request->data['Card']);
+				for($i=0;$i<=$totalCards;$i++){
+					if(!empty($this->request->data['Card'][$i])){
+						$this->request->data['Card'][$i]['front'] = trim($this->request->data['Card'][$i]['front']);
+						$this->request->data['Card'][$i]['back'] = trim($this->request->data['Card'][$i]['back']);
+						if($this->request->data['Card'][$i]['front'] == $frontValue){
+							//Unset this item
+							unset($this->request->data['Card'][$i]);
+						}
+						if(!empty($this->request->data['Card'][$i])){
+							if($this->request->data['Card'][$i]['back'] == $backValue){
+								$this->request->data['Card'][$i]['back'] = null;
+							}
 						}
 					}
-					
 				}
-				$this->Stack->create();
-				if ($this->Stack->saveAll($this->request->data,array('validate'=>false))) {
-					$this->Session->setFlash(__('Your stack has been saved – good luck with your studies.'));
-					$this->redirect(array('action' => 'index'));
-				} else {
-					$this->Session->setFlash(__('The stack could not be saved. Please, try again.'));
+				
+				$this->Stack->set($this->request->data);
+				if($this->Stack->validates()){
+					$this->Stack->create();
+					if ($this->Stack->saveAll($this->request->data,array('validate'=>false))) {
+						$this->Session->setFlash(__('Your stack has been saved – good luck with your studies.'));
+						$this->redirect(array('action' => 'index'));
+					} else {
+						$this->Session->setFlash(__('The stack could not be saved. Please, try again.'));
+					}
+				}else{
+					// didn't validate logic
+					$errors = $this->Stack->validationErrors;
 				}
 			}
 			$colors = $this->Stack->Color->find('list');
