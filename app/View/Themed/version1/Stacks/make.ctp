@@ -59,7 +59,7 @@
 		</fieldset>
 		<?php
 			$newCardNum = $totalCardsToStart;
-			echo $this->Ajax->link('Add another card',array('controller'=>'ajax','action'=>'add_card','totalCardsToStart'=>$totalCardsToStart,'containsUserData'=>$containsUserData,'num'=>$newCardNum,'user_id'=>$current_user['id'],'showRemoveBtn'=>true),array('update'=>'cards','position' => 'append','complete'=>'updateCardFields()'));
+			echo $this->Ajax->link('Add another card',array('controller'=>'ajax','action'=>'add_card','totalCardsToStart'=>$totalCardsToStart,'containsUserData'=>$containsUserData,'num'=>$newCardNum,'user_id'=>$current_user['id'],'showRemoveBtn'=>true),array('update'=>'cards','position' => 'append','complete'=>'updateCardFields()','class'=>'add-card'));
 		?>
 	<?php echo $this->Form->end(__('SAVE & STUDY'));?>
 	</div>
@@ -68,7 +68,8 @@
 <?php echo $this->Html->script('colorBtnSelector'); ?>
 <script type="text/javascript">
 	var currentCardCount = <?php echo $totalCardsToStart; ?>;
-
+	var maxCards = 15; //The total number of cards that a user can add at one time.
+	
 	$(document).ready(function() {
 		//Shrink the titles
 		/*$('div.title > input').keyup(function(){
@@ -170,6 +171,9 @@
 	* Apply js methods to the card input fields
 	*/
 	function updateCardFields(){
+		if((currentCardCount+1) == maxCards){
+			$('.stacks.form form .add-card').fadeOut();
+		}
 		//Show the x on the card that was added and hide the one above.
 		$('div.stacks.top .stacks.form fieldset.cards div#card-input-container-'+(currentCardCount-1)+' .remove').fadeOut(300,function(){
 			$(this).addClass('hidden');

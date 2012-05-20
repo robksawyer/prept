@@ -113,13 +113,11 @@ class StacksController extends AppController {
 	 * @return void
 	 */
 		public function make() {
-			//Delete the card count variable on refresh. If you 
-			//don't do this, when the user goes to add a new card, the number will be off.
-			$this->Session->delete('Card.startingCardCount');
-			$this->Session->delete('Card.count');
+			
 			$totalCardsToStart = 5;
-			$this->Session->write('Card.startingCardCount',$totalCardsToStart);
-			$this->Session->write('Card.count',$totalCardsToStart);
+			if($this->Session->read('Card.count') > $totalCardsToStart){
+				$totalCardsToStart = $this->Session->read('Card.count');
+			}
 			
 			if ($this->request->is('post')) {
 				//Clean up the card array
@@ -167,7 +165,16 @@ class StacksController extends AppController {
 					// didn't validate logic
 					$errors = $this->Stack->validationErrors;
 				}
+			}else{
+				//Delete the card count variable on refresh. If you 
+				//don't do this, when the user goes to add a new card, the number will be off.
+				$this->Session->delete('Card.startingCardCount');
+				$this->Session->delete('Card.count');
+				
+				$this->Session->write('Card.startingCardCount',$totalCardsToStart);
+				$this->Session->write('Card.count',$totalCardsToStart);
 			}
+			
 			$colors = $this->Stack->Color->find('list');
 			$users = $this->Stack->User->find('list');
 			$this->set(compact('totalCardsToStart','colors', 'users'));
