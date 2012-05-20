@@ -364,7 +364,7 @@ div.stacks.top .stacks.form fieldset.cards textarea.card-front{
 	color: #777777;
 }
 div.stacks.top .stacks.form fieldset.cards textarea.card-back{
-	width: 537px;
+	width: 530px;
 	height: 60px;
 	clear: none;
 	resize: none;
@@ -377,11 +377,17 @@ div.stacks.top .stacks.form fieldset.cards .remove{
 	width: 16px;
 	height: 16px;
 	padding: 0;
-	margin: 0;
+	margin: 0 0 0 5px;
 	clear: none;
 }
 div.stacks.top .stacks.form fieldset.cards .remove.hidden{
-	display: none;
+	display: inline;
+	visibility:hidden;
+	width: 16px;
+	height: 16px;
+	padding: 0;
+	margin: 0 0 0 5px;
+	clear: none;
 }
 div.stacks.form div.submit {
 	text-align: right;

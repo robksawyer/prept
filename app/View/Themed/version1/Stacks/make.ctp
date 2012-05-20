@@ -49,13 +49,17 @@
 					}else{
 						$containsUserData = true;
 					}
-					echo $this->element('add-card',array('totalCardsToStart'=>$totalCardsToStart,'containsUserData'=>$containsUserData,'num'=>$i,'user_id'=>$current_user['id']));
+					if($i == ($totalCardsToStart-1)){
+						echo $this->element('add-card',array('totalCardsToStart'=>$totalCardsToStart,'containsUserData'=>$containsUserData,'num'=>$i,'user_id'=>$current_user['id'],'showRemoveBtn'=>true));
+					}else{
+						echo $this->element('add-card',array('totalCardsToStart'=>$totalCardsToStart,'containsUserData'=>$containsUserData,'num'=>$i,'user_id'=>$current_user['id']));
+					}
 				}
 			?>
 		</fieldset>
 		<?php
 			$newCardNum = $totalCardsToStart;
-			echo $this->Ajax->link('Add another card',array('controller'=>'ajax','action'=>'add_card','totalCardsToStart'=>$totalCardsToStart,'containsUserData'=>$containsUserData,'num'=>$newCardNum,'user_id'=>$current_user['id']),array('update'=>'cards','position' => 'append','complete'=>'updateCardFields()'));
+			echo $this->Ajax->link('Add another card',array('controller'=>'ajax','action'=>'add_card','totalCardsToStart'=>$totalCardsToStart,'containsUserData'=>$containsUserData,'num'=>$newCardNum,'user_id'=>$current_user['id'],'showRemoveBtn'=>true),array('update'=>'cards','position' => 'append','complete'=>'updateCardFields()'));
 		?>
 	<?php echo $this->Form->end(__('SAVE & STUDY'));?>
 	</div>
@@ -63,7 +67,7 @@
 <div class="clear"></div>
 <?php echo $this->Html->script('colorBtnSelector'); ?>
 <script type="text/javascript">
-	var currentCardCount = <?php echo ($totalCardsToStart + 1); ?>;
+	var currentCardCount = <?php echo $totalCardsToStart; ?>;
 
 	$(document).ready(function() {
 		//Shrink the titles
@@ -158,17 +162,25 @@
 		$('div.stacks.top .stacks.form fieldset.cards div#card-input-container-'+(id-1)+' .remove').hide().css({'display':'inline'}).fadeIn(300,function(){
 			$(this).removeClass('hidden');
 		});
+		
+		currentCardCount -= 1;
 	}
 	
 	/**
 	* Apply js methods to the card input fields
 	*/
 	function updateCardFields(){
+		//Show the x on the card that was added and hide the one above.
+		$('div.stacks.top .stacks.form fieldset.cards div#card-input-container-'+(currentCardCount-1)+' .remove').fadeOut(300,function(){
+			$(this).addClass('hidden');
+		});
 		
 		applyCardMethods();
 		//Update the alternating colors
 		$('div.stacks.top .stacks.form fieldset.cards div.card-input-container:nth-child(odd)').css('background', '#f2f2f2').addClass('odd');
-	
+		
+		currentCardCount += 1;
+		
 		return currentCardCount;
 	}
 </script>
