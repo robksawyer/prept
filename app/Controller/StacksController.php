@@ -6,7 +6,9 @@ App::uses('AppController', 'Controller');
  * @property Stack $Stack
  */
 class StacksController extends AppController {
-
+	
+	public $helpers = array('Javascript','Ajax');
+	
 	/**
 	 * Search stacks
 	 *	https://github.com/CakeDC/search
@@ -111,6 +113,14 @@ class StacksController extends AppController {
 	 * @return void
 	 */
 		public function make() {
+			//Delete the card count variable on refresh. If you 
+			//don't do this, when the user goes to add a new card, the number will be off.
+			$this->Session->delete('Card.startingCardCount');
+			$this->Session->delete('Card.count');
+			$totalCardsToStart = 5;
+			$this->Session->write('Card.startingCardCount',$totalCardsToStart);
+			$this->Session->write('Card.count',$totalCardsToStart);
+			
 			if ($this->request->is('post')) {
 				//Clean up the card array
 				$titleValue = 'Title of Studycard';
@@ -160,7 +170,7 @@ class StacksController extends AppController {
 			}
 			$colors = $this->Stack->Color->find('list');
 			$users = $this->Stack->User->find('list');
-			$this->set(compact('colors', 'users'));
+			$this->set(compact('totalCardsToStart','colors', 'users'));
 		}
 
 

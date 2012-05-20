@@ -41,31 +41,30 @@
 		?>
 		</fieldset>
 		<div class="clear"></div>
-		<fieldset class="cards">
+		<fieldset class="cards" id="cards">
 			<?php
-				$totalCardsToStart = 5;
 				for($i=0;$i<$totalCardsToStart;$i++){
-					echo "<div class='card-input-container' id='card-input-container-".$i."'>";
-					echo "<div class='num'>".($i+1).".</div>";
-					if(!empty($this->request->data['Card'][$i]['front'])){
-						echo $this->Form->input('Card.'.$i.'.front',array('label'=>false,'class'=>'card-front','id'=>'card-front-'.$i));
-						echo $this->Form->input('Card.'.$i.'.back',array('label'=>false,'class'=>'card-back','id'=>'card-back-'.$i));
+					if(empty($this->request->data['Card'][$i]['front'])){
+						$containsUserData = false;
 					}else{
-						echo $this->Form->input('Card.'.$i.'.front',array('label'=>false,'value'=>'Enter the term here. Press tab to go to next input box.','class'=>'card-front','id'=>'card-front-'.$i));
-						echo $this->Form->input('Card.'.$i.'.back',array('label'=>false,'value'=>'Enter the definition here.','class'=>'card-back','id'=>'card-back-'.$i));
+						$containsUserData = true;
 					}
-					echo $this->Form->input('Card.'.$i.'.user_id',array('type'=>'hidden','value'=>$current_user['id']));
-					echo "</div>";
-					//echo "<div class='clear'></div>";
+					echo $this->element('add-card',array('totalCardsToStart'=>$totalCardsToStart,'containsUserData'=>$containsUserData,'num'=>$i,'user_id'=>$current_user['id']));
 				}
 			?>
 		</fieldset>
+		<?php
+			$newCardNum = $totalCardsToStart;
+			echo $this->Ajax->link('Add another card',array('controller'=>'ajax','action'=>'add_card','totalCardsToStart'=>$totalCardsToStart,'containsUserData'=>$containsUserData,'num'=>$newCardNum,'user_id'=>$current_user['id']),array('update'=>'cards','position' => 'append','complete'=>'updateCardFields()'));
+		?>
 	<?php echo $this->Form->end(__('SAVE & STUDY'));?>
 	</div>
 </div>
 <div class="clear"></div>
 <?php echo $this->Html->script('colorBtnSelector'); ?>
 <script type="text/javascript">
+	var currentCardCount = <?php echo ($totalCardsToStart + 1); ?>;
+
 	$(document).ready(function() {
 		//Shrink the titles
 		/*$('div.title > input').keyup(function(){
@@ -83,8 +82,6 @@
 		var titleWidth = '228px';
 		var descriptionVal = $('.description > textarea').val();
 		var tagVal = $('.tags > input').val();
-		var cardFrontVal = $('textarea#card-front-1').val();
-		var cardBackVal = $('textarea#card-back-1').val();
 		$('div.title > input').focus(function(){
 			$(this).val('');
 			$(this).css({'color':newColor});
@@ -115,6 +112,16 @@
 			}
 		});
 		
+		applyCardMethods();
+		
+		$('div.stacks.top .stacks.form fieldset.cards div.card-input-container:nth-child(odd)').css('background', '#f2f2f2').addClass('odd');
+		
+	});
+	
+	function applyCardMethods(){
+		var cardFrontVal = $('textarea#card-front-1').val();
+		var cardBackVal = $('textarea#card-back-1').val();
+		
 		//Cards
 		$('fieldset.cards .card-input-container').each(function(){
 			$(this + '.textarea textarea.card-front').focus(function(){
@@ -138,8 +145,30 @@
 				}
 			});
 		});
+	}
+	
+	/**
+	* Remove one of the card fields. 
+	*/
+	function removeCardField(id){
+		$('div.stacks.top .stacks.form fieldset.cards div#card-input-container-'+id).fadeOut(300,function(){
+			$(this).remove();
+		});
+		//Show the x for the card that was above the card removed.
+		$('div.stacks.top .stacks.form fieldset.cards div#card-input-container-'+(id-1)+' .remove').hide().css({'display':'inline'}).fadeIn(300,function(){
+			$(this).removeClass('hidden');
+		});
+	}
+	
+	/**
+	* Apply js methods to the card input fields
+	*/
+	function updateCardFields(){
 		
+		applyCardMethods();
+		//Update the alternating colors
 		$('div.stacks.top .stacks.form fieldset.cards div.card-input-container:nth-child(odd)').css('background', '#f2f2f2').addClass('odd');
-
-	});
+	
+		return currentCardCount;
+	}
 </script>
