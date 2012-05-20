@@ -84,6 +84,15 @@ Tips:
 	font-size: 12px !important;
 	border: 0;
 }
+span.card-overlay{
+	position: absolute;
+	z-index: 10;
+	top: 0px;
+	left: 0px;
+	width: 282px;
+	height: 169px;
+	background: transparent url('../img/common/card-overlay-dark-282x169.png') no-repeat top left;
+}
 /*
 * THE BACKPACK (User landing page after login)
 */
@@ -91,13 +100,6 @@ Tips:
 #backpack .stacks.index{
 	width: 100%;
 	border: none;
-}
-#backpack .stacks.index td.card span.card-overlay{
-	z-index: 100;
-	position: absolute;
-	width: 282px;
-	height: 169px;
-	background: transparent url('../img/common/card-overlay-dark-282x169.png') no-repeat top left;
 }
 ul.info{
 	list-style-type: none;
@@ -150,11 +152,14 @@ ul.info li span.price{
 	opacity:1;
 	filter:alpha(opacity=100); /* For IE8 and earlier */
 }
+
+/* Index */
 div.stacks.index tr{
 	width: 100%;
 	float: left;
 }
 div.stacks.index tr td.card{
+	z-index: 10;
 	position: relative;
 	float: left;
 	display: block;
@@ -167,6 +172,7 @@ div.stacks.index tr td.card{
 	border: 1px solid #777777;
 }
 div.stacks.index tr td.card div.card-data{
+	z-index: 20;
 	padding: 55px 15px 15px 15px;
 }
 div.stacks.index tr td.card div.card-data ul#tagcloud{
@@ -198,6 +204,128 @@ div.stacks.index tr td.card p{
 	line-height: normal !important;
 }
 
+/* View */
+div.stacks.view {
+	width: 100%;
+}
+div.stacks.view div.card{
+	position: relative;
+	display: block;
+	width: 282px !important;
+	height: 169px !important;
+	margin: 15px 5px 5px 0 !important;
+	padding: 0px;
+	cursor: auto;
+	border: 1px solid #777777;
+}
+div.stacks.view div.card div.card-data{
+	z-index: 20;
+	padding: 55px 15px 15px 15px;
+}
+div.stacks.view div.card div.card-data .description{
+	font-size: 12px;
+	font-weight: normal;
+}
+div.stacks.view div.card div.card-data ul#tagcloud{
+	padding: 0;
+	margin: 0;
+	line-height: normal;
+	font-size: 12px;
+}
+div.stacks.view div.card div.card-data ul#tagcloud li{
+	list-style-type: none;
+	display: inline;
+	font-size: 12px !important;
+}
+div.stacks.view div.card div.card-data ul#tagcloud li a{
+	font-size: 12px;
+	line-height: normal;
+	clear: none;
+	display: inline;
+}
+div.stacks.view div.card div.card-data ul#tagcloud li a:hover{
+	text-decoration: underline;
+}
+div.stacks.view div.card a{
+	z-index: 20;
+	display: block;
+	text-align: left;
+	padding: 0 !important;
+	text-indent: 0px;
+	font-size: 24px;
+	line-height: normal !important;
+	color: #535353;
+	text-decoration: none;
+	font-weight: normal;
+	border: none;
+	background: transparent;
+}
+div.stacks.view div.card p{
+	padding: 0;
+	margin: 0;
+	line-height: normal !important;
+}
+
+/* Related cards */
+div.related td.card{
+	position: relative;
+	display: block;
+	width: 282px !important;
+	height: 169px !important;
+	margin: 15px 5px 5px 0 !important;
+	padding: 0px;
+	cursor: pointer;
+	border: 1px solid #777777;
+}
+div.related td.card div.card-data{
+	z-index: 20;
+	padding: 55px 15px 15px 15px;
+}
+div.related td.card div.card-data .description{
+	font-size: 12px;
+	font-weight: normal;
+}
+div.related td.card div.card-data ul#tagcloud{
+	padding: 0;
+	margin: 0;
+	line-height: normal;
+	font-size: 12px;
+}
+div.related td.card div.card-data ul#tagcloud li{
+	list-style-type: none;
+	display: inline;
+	font-size: 12px !important;
+}
+div.related td.card div.card-data ul#tagcloud li a{
+	font-size: 12px;
+	line-height: normal;
+	clear: none;
+	display: inline;
+}
+div.related td.card div.card-data ul#tagcloud li a:hover{
+	text-decoration: underline;
+}
+div.related td.card a{
+	z-index: 20;
+	display: block;
+	text-align: left;
+	padding: 0 !important;
+	text-indent: 0px;
+	font-size: 24px;
+	line-height: normal !important;
+	color: #535353;
+	text-decoration: none;
+	font-weight: normal;
+	border: none;
+	background: transparent;
+}
+div.related td.card p{
+	padding: 0;
+	margin: 0;
+	line-height: normal !important;
+}
+
+/* Tag Cloud */
 ul#tagcloud{ 
 	padding: 0;
 	margin: 0;

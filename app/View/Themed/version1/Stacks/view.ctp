@@ -1,58 +1,37 @@
+<?php
+//debug($stack);
+?>
 <div class="stacks view">
-<h2><?php  echo __('Stack');?></h2>
-	<dl>
-		<dt><?php echo __('Id'); ?></dt>
-		<dd>
-			<?php echo h($stack['Stack']['id']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Title'); ?></dt>
-		<dd>
-			<?php echo h($stack['Stack']['title']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Description'); ?></dt>
-		<dd>
-			<?php echo h($stack['Stack']['description']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Color'); ?></dt>
-		<dd>
-			<?php echo $this->Html->link($stack['Color']['name'], array('controller' => 'colors', 'action' => 'view', $stack['Color']['id'])); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('User'); ?></dt>
-		<dd>
-			<?php echo $this->Html->link($stack['User']['fullname'], array('controller' => 'users', 'action' => 'view', $stack['User']['id'])); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Tags'); ?></dt>
-		<dd>
-			<ul id="tagcloud">
-				<?php 
-					echo $this->TagCloud->display($tags, array(
-						'before' => '<li class="tag">',
-						'after' => '</li>',
-						'url' => array('controller'=>'stacks','action'=>'index')
-						)
-					);
-				?>
-			</ul>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Created'); ?></dt>
-		<dd>
-			<?php echo h($stack['Stack']['created']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Modified'); ?></dt>
-		<dd>
-			<?php echo h($stack['Stack']['modified']); ?>
-			&nbsp;
-		</dd>
-	</dl>
+	<div class="card" id="card-<?php echo $stack['Stack']['id']; ?>" style="background-color: #<?php echo $stack['Color']['hex']; ?>">
+		<span class="card-overlay">&nbsp;</span>
+		<div class="card-data">
+			<div class="title">
+				<?php echo h($stack['Stack']['title']); ?>
+			</div>
+			<div class="description">
+				<?php echo h($stack['Stack']['description']); ?>
+				&nbsp;
+			</div>
+			<div class="user" style="display:none">
+				<?php echo $this->Html->link($stack['User']['fullname'], array('controller' => 'users', 'action' => 'view', $stack['User']['id'])); ?>
+				&nbsp;
+			</div>
+			<div class="tags">
+				<ul id="tagcloud">
+					<?php 
+						echo $this->TagCloud->display($tags, array(
+							'before' => '<li class="tag">',
+							'after' => '</li>',
+							'url' => array('controller'=>'stacks','action'=>'index')
+							)
+						);
+					?>
+				</ul>
+			</div>
+		</div>
+	</div>
 </div>
-<div class="actions">
+<div class="actions" style="display: none">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
 		<li><?php echo $this->Html->link(__('Edit Stack'), array('action' => 'edit', $stack['Stack']['id'])); ?> </li>
@@ -79,23 +58,31 @@
 	</tr>
 	<?php
 		$i = 0;
+		$counter = 0;
 		foreach ($stack['Card'] as $card): ?>
 		<tr>
-			<td><?php echo $card['id'];?></td>
-			<td><?php echo $card['front'];?></td>
-			<td><?php echo $card['back'];?></td>
-			<td><?php echo $card['stack_id'];?></td>
-			<td><?php echo $card['color_id'];?></td>
-			<td><?php echo $card['user_id'];?></td>
-			<td><?php echo $card['created'];?></td>
-			<td><?php echo $card['modified'];?></td>
-			<td class="actions">
-				<?php echo $this->Html->link(__('View'), array('controller' => 'cards', 'action' => 'view', $card['id'])); ?>
-				<?php echo $this->Html->link(__('Edit'), array('controller' => 'cards', 'action' => 'edit', $card['id'])); ?>
-				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'cards', 'action' => 'delete', $card['id']), null, __('Are you sure you want to delete # %s?', $card['id'])); ?>
+			<td class="card" id="card-<?php echo $counter; ?>" style="<?php echo "background: #".$stack['Color']['hex']; ?>">
+				<span class="card-overlay">&nbsp;</span>
+				<div class="card-data">
+					<?php
+						echo $this->Html->link(__($stack['Stack']['title']), array('controller'=>'cards','action' => 'view', $stack['Stack']['id']),array('class'=>'title','id'=>'title-'.$counter))
+					?>
+					<!--<p class="description"><?php //echo $stack['Stack']['description']; ?></p>-->
+					<ul id="tagcloud">
+						<?php 
+							foreach ($stack['Tag'] as $tag) {
+								//echo '<li class="tag">'.$this->Html->link($tag['name'],array('controller'=>'stacks','action'=>'index','by'=>$tag['keyname'])).'</li>';
+								echo '<li class="tag">'.$tag['name'].'</li>';
+							}
+						?>
+					</ul>
+				</div>
 			</td>
 		</tr>
-	<?php endforeach; ?>
+	<?php 
+		$counter += 1;
+		endforeach; 
+	?>
 	</table>
 <?php endif; ?>
 
@@ -105,3 +92,42 @@
 		</ul>
 	</div>
 </div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		var maxFontSize = 24;
+		var theStackCard = $('div.card div.card-data div.title');
+		var widthToFit = theStackCard.width() - (15*4); //15 = padding around each side
+		if($(theStackCard).textWidth() > widthToFit){
+			$(theStackCard).fitText(1.5, { minFontSize: '12px', maxFontSize: '24px' });
+		}
+		
+		//Shrink the titles
+		$('div.card a.title').each(function(){
+			var maxFontSize = 24;
+			var widthToFit = $('div.card').width() - (15*4); //15 = padding around each side
+			if($(this).textWidth() > widthToFit){
+				$(this).fitText(1.5, { minFontSize: '12px', maxFontSize: '24px' });
+			}
+		});
+		
+		//Make the full card clickable
+		$('td.card').each(function(){
+			//Set the initial opacity of the card
+			$(this).css({"opacity": .7});
+			
+			var cardURL = $(this).find('a').attr('href');
+			//Bind the click to the card
+			$(this).click(function(){
+				window.location.href = cardURL.toString();
+			});
+			
+			//Change opacity of card on hover
+			$(this).hover(function(){
+				$(this).stop().animate({"opacity": 1});
+			},function(){
+				$(this).stop().animate({"opacity": .7});
+			});
+		});
+		
+	});
+</script>
