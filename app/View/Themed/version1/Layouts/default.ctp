@@ -51,6 +51,7 @@ $siteDescription = __('Prept: your web-based study app',true);
 		//Must be invoked after the jQuery libraries load
 		echo $this->Html->script('jquery.utils');
 		echo $this->Html->script('jquery.fittext');
+		echo $this->Html->script('jquery.quickflip.min.js'); //http://dev.jonraasch.com/quickflip/docs
 	?>
 </head>
 <body>
