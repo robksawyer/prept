@@ -67,19 +67,31 @@
 			});
 		});
 		
-		//Shrink the titles
-		$('.related div.card a.front').each(function(){
+		//Make the text fit
+		$('.related div.card div.card-data a.front').each(function(){
 			var maxFontSize = 24;
 			var widthToFit = $('.related div.card').width() - (15*4); //15 = padding around each side
-			if($(this).textWidth() > widthToFit){
-				$(this).fitText(1, { minFontSize: '12px', maxFontSize: '24px' });
+			var textWidth = 0;
+			//http://stackoverflow.com/questions/9404536/finding-text-width-in-jquery
+			$(this).clone().addClass("checkWidth")
+			.appendTo("body").css({"float": "left"});
+			textWidth = $(".checkWidth").width();
+			$('.checkWidth').remove();
+			if(textWidth > widthToFit){
+				$(this).fitText(1, { minFontSize: '10px', maxFontSize: '24px' });
 			}
 		});
-		$('.related div.card a.back').each(function(){
+		$('.related div.card div.card-data a.back').each(function(){
 			var maxFontSize = 24;
 			var widthToFit = $('.related div.card').width() - (15*4); //15 = padding around each side
-			if($(this).textWidth() > widthToFit){
-				$(this).fitText(1, { minFontSize: '12px', maxFontSize: '24px' });
+			var textWidth = 0;
+			//http://stackoverflow.com/questions/9404536/finding-text-width-in-jquery
+			$(this).clone().addClass("checkWidth")
+			.appendTo("body").css({"float": "left"});
+			textWidth = $(".checkWidth").width();
+			$('.checkWidth').remove();
+			if(textWidth > widthToFit){
+				$(this).fitText(1, { minFontSize: '10px', maxFontSize: '24px' });
 			}
 		});
 
