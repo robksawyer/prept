@@ -21,10 +21,10 @@ class Stack extends AppModel {
 	public $filterArgs = array(
 		array('name' => 'title', 'type' => 'like'),
 		array('name' => 'description', 'type' => 'like'),
-		array('name' => 'user_id', 'type' => 'value'),
-		array('name' => 'color_id', 'type' => 'checkbox'),
+		//array('name' => 'user_id', 'type' => 'value'),
+		array('name' => 'color_id', 'type' => 'value'),
 		array('name' => 'tags', 'type' => 'subquery', 'method' => 'findByTags', 'field' => 'Stack.id'),
-		array('name' => 'filter', 'type' => 'query', 'method' => 'orConditions'),
+		//array('name' => 'filter', 'type' => 'query', 'method' => 'orConditions'),
 	);
 	
 /**
@@ -99,9 +99,10 @@ class Stack extends AppModel {
 			'contain' => array('Tag')
 		));
 		return $query;
-  }
-
-  public function orConditions($data = array()) {
+	}
+	
+	/*
+	public function orConditions($data = array()) {
 		$filter = $data['filter'];
 		$cond = array(
 			'OR' => array(
@@ -109,5 +110,5 @@ class Stack extends AppModel {
 				$this->alias . '.description LIKE' => '%' . $filter . '%',
 			));
 		return $cond;
-  }
+	}*/
 }

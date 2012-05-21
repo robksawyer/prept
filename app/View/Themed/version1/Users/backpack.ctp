@@ -1,14 +1,14 @@
 <div id="backpack">
 	<div class="stacks index">
-		<h2><?php 
-			if(!empty($this->request->params['named']['by'])){
+		<!--<h2><?php 
+			/*if(!empty($this->request->params['named']['by'])){
 				echo __('Your Stacks tagged <i>'.$this->request->params['named']['by']."</i>");
 			}else{
 				echo __('Your Stacks');
-			}
-		?></h2>
+			}*/
+		?></h2>-->
 		<table cellpadding="0" cellspacing="0">
-		<tr>
+		<tr class="sort-bar">
 				<th><?php echo $this->Paginator->sort('id');?></th>
 				<th><?php echo $this->Paginator->sort('title');?></th>
 				<th><?php echo $this->Paginator->sort('description');?></th>
@@ -19,8 +19,23 @@
 				<th class="actions"><?php echo __('Actions');?></th>
 		</tr>
 		<tr>
+			<!-- MAKE A NEW STACK CARD -->
+			<td class="card" id="card-0" style="background: #ffffff">
+				<span class="card-overlay">&nbsp;</span>
+				<div class="card-data">
+					<?php
+						echo $this->Html->link(__('+ Make new stack'), array('controller'=>'stacks','action' => 'make'),array('class'=>'title','id'=>'title-0'));
+					?>
+					<!--<p class="description"><?php //echo $stack['Stack']['description']; ?></p>-->
+					<div class="tags">
+						<ul id="tagcloud">
+							<li class="tag">Double Integrals, Iterated Integrals, Limits, Continuity, Stoke’s Theorem</li>
+						</ul>
+					</div>
+				</div>
+			</td>
 		<?php
-		$counter = 0;
+		$counter = 1;
 		foreach ($user_stacks as $stack): 
 		?>
 				<td class="card" id="card-<?php echo $counter; ?>" style="<?php echo "background: #".$stack['Color']['hex']; ?>">
@@ -30,14 +45,16 @@
 							echo $this->Html->link(__($stack['Stack']['title']), array('controller'=>'stacks','action' => 'view', $stack['Stack']['id']),array('class'=>'title','id'=>'title-'.$counter))
 						?>
 						<!--<p class="description"><?php //echo $stack['Stack']['description']; ?></p>-->
-						<ul id="tagcloud">
-							<?php 
-								foreach ($stack['Tag'] as $tag) {
-									//echo '<li class="tag">'.$this->Html->link($tag['name'],array('controller'=>'stacks','action'=>'index','by'=>$tag['keyname'])).'</li>';
-									echo '<li class="tag">'.$tag['name'].'</li>';
-								}
-							?>
-						</ul>
+						<div class="tags">
+							<ul id="tagcloud">
+								<?php 
+									foreach ($stack['Tag'] as $tag) {
+										//echo '<li class="tag">'.$this->Html->link($tag['name'],array('controller'=>'stacks','action'=>'index','by'=>$tag['keyname'])).'</li>';
+										echo '<li class="tag">'.$tag['name'].'</li>';
+									}
+								?>
+							</ul>
+						</div>
 					</div>
 				</td>
 	<?php 
@@ -46,7 +63,7 @@
 	?>
 		</tr>
 		</table>
-		<p>
+		<p class="paging-details">
 		<?php
 		echo $this->Paginator->counter(array(
 		'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')

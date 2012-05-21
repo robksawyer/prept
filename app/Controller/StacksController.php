@@ -9,6 +9,19 @@ class StacksController extends AppController {
 	
 	public $helpers = array('Javascript','Ajax');
 	
+	public $presetVars = array(
+			array('field' => 'title', 'type' => 'value'),
+			array('field' => 'description', 'type' => 'value'),
+			array('field' => 'color_id', 'type' => 'value')
+			/*array(
+				'field' => 'tags',
+				'type' => 'lookup',
+				'formField' => 'blog_input',
+				'modelField' => 'title',
+				'model' => 'Blog'
+			)*/
+		);
+	
 	/**
 	 * Search stacks
 	 *	https://github.com/CakeDC/search
@@ -16,9 +29,35 @@ class StacksController extends AppController {
 	 * @author Rob Sawyer
 	 **/
 	public function find() {
-		$this->Prg->commonProcess();
-		$this->paginate['conditions'] = $this->Stack->parseCriteria($this->passedArgs);
-		$this->set('stacks', $this->paginate());
+		$this->Stack->recursive = -1;
+		$searched = false;
+		$titleVal = 'Search the title';
+		$descriptionVal = 'Search the description of the stack.';
+		$tagVal = 'Search the tags, i.e., history, math.';
+		
+		if ($this->request->is('post')) {
+			if($this->request->data['Stack']['title'] == $titleVal) $this->request->data['Stack']['title'] = null;
+			if($this->request->data['Stack']['description'] == $descriptionVal) $this->request->data['Stack']['description'] = null;
+			if($this->request->data['Stack']['tags'] == $tagVal) $this->request->data['Stack']['tags'] = null;
+			
+		}
+		
+		$this->Prg->commonProcess(); //Convert the passed args to params for the search
+		$this->paginate = array(
+			'Stack' => array(
+				'conditions' => $this->Stack->parseCriteria($this->passedArgs),
+				'contain' => array('Tag','Color')
+				//'recursive' => 1
+			)
+		);
+		if(!empty($this->passedArgs)){
+			$searched = true;
+		}
+		$stacks = $this->paginate('Stack');
+		$this->set(compact('stacks'));
+		$colors = $this->Stack->Color->find('list');
+		$users = $this->Stack->User->find('list');
+		$this->set(compact('colors', 'users','searched'));
 	}
 	
 /**

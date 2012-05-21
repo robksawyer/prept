@@ -3,10 +3,39 @@ Tips:
 
 1. Using a URL such as ../img/16x16/administrative-docs.png will get you to the base img directory 
 */
+
+/**
+* COMMON COLORS
+*
+* Background color: #f8f8f8
+* H1/title color: #0080ce
+* H1/title color:hover: #006cae
+* H2, H3, H4: #7b7b7b
+* Link color: #0080ce
+* Sub-menu background color: #f2f2f2
+* Dark grey: #535353
+* Light grey: #c9c9c9
+* Logo colors: 
+* 	Yellow: #ffcf0c
+* 	Blue: #0085cf
+*
+* Icon colors:
+* 	Grey: #474747
+* NEW! Icon color: #005aa3
+* Card colors:
+* 	Pink: #fabec3
+* 	Green: #daeac8
+* 	Orange: #ffa760
+* 	Yellow: #fff772
+* 	Blue: #cae9ee
+*/
+
 #header {
 	color: #0080ce;
 	font-size: 12px;
 	font-weight: normal;
+	margin: 10px 0 0 0;
+	padding: 0;
 }
 #header div.main-nav{ width: 100%; }
 #header div.main-nav div.logo{
@@ -58,10 +87,10 @@ Tips:
 #header div.sub-nav {
 	position: relative;
 	text-align: left;
-	margin: 10px auto;
+	margin: 15px 0 0 0;
 	width: 917px;
 	height: 30px;
-	padding: 10px;
+	padding: 0px;
 	background: #f2f2f2;
 }
 #header div.sub-nav label{
@@ -100,6 +129,14 @@ span.card-overlay{
 #backpack .stacks.index{
 	width: 100%;
 	border: none;
+}
+#backpack #card-0 a:link,
+#backpack #card-0 a:active,
+#backpack #card-0 a:visited{
+	color: #0080ce;
+}
+#backpack #card-0 a:hover{
+	color: #006cae;
 }
 ul.info{
 	list-style-type: none;
@@ -153,12 +190,29 @@ ul.info li span.price{
 	filter:alpha(opacity=100); /* For IE8 and earlier */
 }
 
-/* Index */
-div.stacks.index tr{
-	width: 100%;
-	float: left;
+.stacks.index table tr.sort-bar th,
+.stacks.index table tr.sort-bar th a:link,
+.stacks.index table tr.sort-bar th a:active,
+.stacks.index table tr.sort-bar th a:visited{
+	border: none;
+	color: #c9c9c9;
+	font-weight: normal;
+	text-decoration: none;
 }
-div.stacks.index tr td.card{
+
+table tr.sort-bar th a:hover{
+	text-decoration: underline;
+}
+
+p.paging-details {
+	color: #c9c9c9;
+	font-weight: normal;
+	font-size: 10px;
+	font-family: "frutiger linotype", "lucida grande", "verdana", sans-serif;
+}
+
+/* Card Styling */
+td.card{
 	z-index: 10;
 	position: relative;
 	float: left;
@@ -171,21 +225,36 @@ div.stacks.index tr td.card{
 	cursor:pointer;
 	border: 1px solid #777777;
 }
-div.stacks.index tr td.card div.card-data{
+div.card-data{
 	z-index: 20;
 	padding: 55px 15px 15px 15px;
 }
-div.stacks.index tr td.card div.card-data ul#tagcloud{
-	padding: 0;
-	margin: 0;
+div.tags ul#tagcloud{
+	position: absolute;
+	z-index: 200;
+	padding: 0 10px 0 0;
+	margin: 35px 0 0 0 !important;
 	line-height: normal;
-}
-div.stacks.index tr td.card div.card-data ul#tagcloud li{
+	display: block;
 	list-style-type: none;
-	display: inline;
-	font-size: 12px !important;
+	-webkit-margin-before: 0px;
+	-webkit-margin-after: 0px;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+	-webkit-padding-start: 0px;
 }
-div.stacks.index tr td.card a{
+div.tags ul#tagcloud li,
+div.tags ul#tagcloud li a{
+	list-style-type: none;
+	display: inline !important;
+	font-size: 10px !important;
+	color: #535353;
+	font-family: "frutiger linotype", "lucida grande", "verdana", sans-serif;
+}
+div.tags ul#tagcloud li a:hover{
+	text-decoration: underline;
+}
+td.card a{
 	display: block;
 	text-align: left;
 	padding: 0 !important;
@@ -198,10 +267,16 @@ div.stacks.index tr td.card a{
 	border: none;
 	background: transparent;
 }
-div.stacks.index tr td.card p{
+td.card p{
 	padding: 0;
 	margin: 0;
 	line-height: normal !important;
+}
+
+/* Index */
+div.stacks.index tr{
+	width: 100%;
+	float: left;
 }
 
 /* View */
@@ -211,6 +286,7 @@ div.stacks.view {
 div.stacks.view div.card{
 	position: relative;
 	display: block;
+	float: none;
 	width: 282px !important;
 	height: 169px !important;
 	margin: 15px 5px 5px 0 !important;
@@ -223,29 +299,11 @@ div.stacks.view div.card div.card-data{
 	padding: 55px 15px 15px 15px;
 }
 div.stacks.view div.card div.card-data .description{
-	font-size: 12px;
+	font-size: 11px;
 	font-weight: normal;
+	color: #535353;
 }
-div.stacks.view div.card div.card-data ul#tagcloud{
-	padding: 0;
-	margin: 0;
-	line-height: normal;
-	font-size: 12px;
-}
-div.stacks.view div.card div.card-data ul#tagcloud li{
-	list-style-type: none;
-	display: inline;
-	font-size: 12px !important;
-}
-div.stacks.view div.card div.card-data ul#tagcloud li a{
-	font-size: 12px;
-	line-height: normal;
-	clear: none;
-	display: inline;
-}
-div.stacks.view div.card div.card-data ul#tagcloud li a:hover{
-	text-decoration: underline;
-}
+
 div.stacks.view div.card a{
 	z-index: 20;
 	display: block;
@@ -432,16 +490,16 @@ div.stacks.top .stacks.form fieldset .top.right {
 	line-height: normal;
 	background: transparent;
 }
-div.stacks.top .stacks.form fieldset .top.right .description,
-div.stacks.top .stacks.form fieldset .top.right .tags{
+.description,
+.tags{
 	padding: 10px;
 	margin: 0 0 5px 0;
 	background: #ffffff;
 	line-height: normal;
 	clear: none;
 }
-div.stacks.top .stacks.form fieldset .top.right .description textarea,
-div.stacks.top .stacks.form fieldset .top.right .tags input{
+.description textarea,
+.tags input{
 	font-size: 10px;
 	color: #777777;
 	border: none;
@@ -532,4 +590,40 @@ div.stacks.form div.submit input[type="submit"]{
 	padding: 8px 10px;
 	font-family: 'Arvo', Rockwell, "Courier New", Courier, Georgia, Times, "Times New Roman", serif;
 	cursor: pointer;
+}
+
+/* Search View */
+div.stacks.find .color-panel{
+	position: relative;
+	clear: both;
+	width: 300px;
+	margin: 10px 0 0 0;
+	padding: 0;
+	line-height: normal;
+	text-align: left;
+}
+div.stacks.find .title {
+	margin: 0 0 5px 0;
+	padding: 0;
+}
+div.stacks.find .title input{
+	color: #777777;
+	font-size: 24px;
+	margin: 0;
+	background: #ffffff;
+	border: 1px solid #f2f2f2;
+}
+div.stacks.find .description {
+	padding: 0;
+	margin: 0;
+	background: none;
+}
+div.stacks.find .description textarea{
+	font-size: 12px;
+	border: 1px solid #f2f2f2;
+}
+div.stacks.find .tags{
+	padding: 0;
+	margin: 10px 0;
+	border: 1px solid #f2f2f2;
 }
