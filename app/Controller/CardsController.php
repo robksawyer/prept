@@ -80,7 +80,8 @@ class CardsController extends AppController {
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->Card->save($this->request->data)) {
 				$this->Session->setFlash(__('The card has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$card = $this->Card->read(null,$id);
+				$this->redirect(array('controller'=>'stacks','action' => 'view',$card['Card']['stack_id']));
 			} else {
 				$this->Session->setFlash(__('The card could not be saved. Please, try again.'));
 			}

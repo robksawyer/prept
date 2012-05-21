@@ -16,7 +16,6 @@
 				<th><?php echo $this->Paginator->sort('user_id');?></th>
 				<th><?php echo $this->Paginator->sort('created');?></th>
 				<th><?php echo $this->Paginator->sort('modified');?></th>
-				<th class="actions"><?php echo __('Actions');?></th>
 		</tr>
 		<tr>
 			<!-- MAKE A NEW STACK CARD -->

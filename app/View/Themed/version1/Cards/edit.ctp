@@ -4,26 +4,17 @@
 		<legend><?php echo __('Edit Card'); ?></legend>
 	<?php
 		echo $this->Form->input('id');
-		echo $this->Form->input('front');
-		echo $this->Form->input('back');
-		echo $this->Form->input('stack_id');
-		echo $this->Form->input('color_id');
-		echo $this->Form->input('user_id');
+		echo $this->Form->input('Card.front',array('label'=>'Term','class'=>'card-front'));
+		echo $this->Form->input('Card.back',array('label'=>'Definition','class'=>'card-back'));
+		echo "<div class='clear'>&nbsp;</div>";
+		echo $this->Form->input('stack_id',array('type'=>'hidden'));
+		echo $this->Form->input('color_id',array('type'=>'hidden'));
+		echo $this->Form->input('user_id',array('type'=>'hidden'));
+		//echo $this->Form->input('updated_user_id',array('type'=>'hidden','value'=>$current_user['id']));
+		echo "<div class='tags'>";
+		echo $this->Form->input('tags',array('label'=>'Add tags separated by a comma <i>i.e</i>, science, history, math .','div'=>false));
+		echo "</div>";
 	?>
 	</fieldset>
-<?php echo $this->Form->end(__('Submit'));?>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-
-		<li><?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $this->Form->value('Card.id')), null, __('Are you sure you want to delete # %s?', $this->Form->value('Card.id'))); ?></li>
-		<li><?php echo $this->Html->link(__('List Cards'), array('action' => 'index'));?></li>
-		<li><?php echo $this->Html->link(__('List Stacks'), array('controller' => 'stacks', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Stack'), array('controller' => 'stacks', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Colors'), array('controller' => 'colors', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Color'), array('controller' => 'colors', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New User'), array('controller' => 'users', 'action' => 'add')); ?> </li>
-	</ul>
+<?php echo $this->Form->end(__('Save'));?>
 </div>

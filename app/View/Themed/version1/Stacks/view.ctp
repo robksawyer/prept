@@ -69,7 +69,7 @@
 			$(theStackCard).fitText(.5, { minFontSize: '12px', maxFontSize: '24px' });
 		//}
 		
-		// for performance first init the quickFlip
+		//Card Flipping
 		//http://dev.jonraasch.com/quickflip/docs
 		$('div.related div.quickflip-wrapper').quickFlip();
 		$('div.related div.quickflip-wrapper').each(function(ev){

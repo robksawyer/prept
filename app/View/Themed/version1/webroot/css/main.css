@@ -372,15 +372,19 @@ div.stacks.view div.card p{
 }
 
 /* Stack Related cards */
-div.related{
+div.related,
+div.view{
 	position: relative;
 	margin: 25px 0 0 0;
 	padding: 0;
+	border: none;
 }
-div.related div.card-container{
+div.related div.card-container,
+div.view div.card-container{
 	background: none;
 }
-div.related div.quickflip-wrapper{
+div.related div.quickflip-wrapper,
+div.view div.quickflip-wrapper{
 	position: relative;
 	float: left;
 	width: 282px;
@@ -391,7 +395,8 @@ div.related div.quickflip-wrapper{
 	background: none;
 	cursor: pointer;
 }
-div.related div.quickflip-wrapper div.card{
+div.related div.quickflip-wrapper div.card,
+div.view div.quickflip-wrapper div.card{
 	display: block;
 	clear: none;
 	overflow: hidden;
@@ -407,20 +412,25 @@ div.related div.quickflip-wrapper div.card{
 	width: 282px;
 	height: 169px;
 }
-div.related div.quickflip-wrapper div.card a{
+div.related div.quickflip-wrapper div.card a,
+div.view div.quickflip-wrapper div.card a{
 	text-decoration: none;
 	color: #535353;
 }
 div.related div.quickflip-wrapper div.card.panel1,
-div.related div.quickflip-wrapper div.card.panel2{
+div.related div.quickflip-wrapper div.card.panel2,
+div.view div.quickflip-wrapper div.card.panel1,
+div.view div.quickflip-wrapper div.card.panel2{
 	margin: 0; padding: 0;
 	clear: none;
 }
 
-div.related div.quickflip-wrapper div.card.panel1 {
+div.related div.quickflip-wrapper div.card.panel1,
+div.view div.quickflip-wrapper div.card.panel1 {
 	z-index: 10;
 }
-div.related div.quickflip-wrapper div.card.panel2 {
+div.related div.quickflip-wrapper div.card.panel2,
+div.view div.quickflip-wrapper div.card.panel2 {
 	display: none;
 }
 
@@ -737,6 +747,7 @@ div.stacks.results h2{
 	margin: 0 10px 0 0;
 	width: 43%;
 	height: 150px;
+	background: transparent;
 }
 .cards.form textarea{
 	float: inline;
@@ -745,8 +756,17 @@ div.stacks.results h2{
 	resize: none;
 	font-weight: normal;
 }
-.cards.form .input.textarea,
 .cards.form .tags{
+	background: transparent;
+	margin: 0;
+	padding: 0;
+}
+.cards.form .tags label{
+	font-size: 12px;
+}
+.cards.form .input.textarea textarea,
+.cards.form .tags input{
+	margin-top: 5px;
 	padding: 7px;
 	background: #ffffff;
 	border: 1px solid #f2f2f2;
