@@ -73,6 +73,12 @@
 		//http://dev.jonraasch.com/quickflip/docs
 		$('div.related div.quickflip-wrapper').quickFlip();
 		$('div.related div.quickflip-wrapper').each(function(ev){
+			var cardURL = $(this).find('a.front').attr('href');
+			//Bind the click to the card
+			$(this).click(function(){
+				window.location.href = cardURL.toString();
+			});
+			
 			$(this).hover(function(){
 				//on
 				$(this).quickFlipper();
@@ -96,29 +102,6 @@
 			if($(this).textWidth() > widthToFit){
 				$(this).fitText(1, { minFontSize: '12px', maxFontSize: '24px' });
 			}
-		});
-		
-		//Make the full card clickable
-		$('.related  div.card').each(function(){
-			//Set the initial opacity of the card
-			//$(this).css({"opacity": .7});
-			
-			var cardURL = $(this).find('a').attr('href');
-			//Bind the click to the card
-			$(this).click(function(){
-				window.location.href = cardURL.toString();
-			});
-			
-			//Change opacity of card on hover
-			/*$(this).hover(function(){
-				$(this).stop().animate({"opacity": 1});
-				$(this).find('div.card-data-front').fadeOut();
-				$(this).find('div.card-data-back').fadeIn();
-			},function(){
-				$(this).stop().animate({"opacity": .7});
-				$(this).find('div.card-data-back').fadeOut();
-				$(this).find('div.card-data-front').fadeIn();
-			});*/
 		});
 	
 	});

@@ -389,10 +389,12 @@ div.related div.quickflip-wrapper{
 	margin: 0 15px 0 0;
 	padding: 0;
 	background: none;
+	cursor: pointer;
 }
 div.related div.quickflip-wrapper div.card{
 	display: block;
 	clear: none;
+	overflow: hidden;
 	text-align: left;
 	padding: 0 !important;
 	text-indent: 0px;
