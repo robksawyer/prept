@@ -16,7 +16,7 @@ class Card extends AppModel {
 	public $displayField = 'front';
 	
 	//http://cakedc.com/eng/downloads/view/cakephp_tags_plugin
-	public $actsAs = array('Tags.Taggable','Search.Searchable');
+	public $actsAs = array('Containable','Tags.Taggable','Search.Searchable');
 	
 /**
  * Validation rules

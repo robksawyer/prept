@@ -113,6 +113,7 @@ class StacksController extends AppController {
  * @return void
  */
 	public function view($id = null) {
+		$this->Stack->recursive = 1;
 		$this->Stack->id = $id;
 		if (!$this->Stack->exists()) {
 			throw new NotFoundException(__('Invalid stack'));
@@ -123,7 +124,9 @@ class StacksController extends AppController {
 																						'limit' => 10,
 																						'conditions'=>array('model'=>'Stack','foreign_key'=>$id)
 																						)));
-		$this->set('stack', $this->Stack->read(null, $id));
+		$this->Stack->contain(array('Card'=>array('Tag','Color'),'Tag','User'));
+		$stack = $this->Stack->read(null, $id);
+		$this->set('stack', $stack);
 	}
 
 /**

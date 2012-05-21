@@ -61,14 +61,16 @@ if($searched):
 						echo $this->Html->link(__($stack['Stack']['title']), array('action' => 'view', $stack['Stack']['id']),array('class'=>'title','id'=>'title-'.$counter))
 					?>
 					<!--<p class="description"><?php //echo $stack['Stack']['description']; ?></p>-->
-					<ul id="tagcloud">
-						<?php 
-							foreach ($stack['Tag'] as $tag) {
-								//echo '<li class="tag">'.$this->Html->link($tag['name'],array('controller'=>'stacks','action'=>'index','by'=>$tag['keyname'])).'</li>';
-								echo '<li class="tag">'.$tag['name'].'</li>';
-							}
-						?>
-					</ul>
+					<div class="tags">
+						<ul id="tagcloud">
+							<?php 
+								foreach ($stack['Tag'] as $tag) {
+									//echo '<li class="tag">'.$this->Html->link($tag['name'],array('controller'=>'stacks','action'=>'index','by'=>$tag['keyname'])).'</li>';
+									echo '<li class="tag">'.$tag['name'].'</li>';
+								}
+							?>
+						</ul>
+					</div>
 				</div>
 			</td>
 <?php 
@@ -137,6 +139,34 @@ endif;
 				$(this).val(tagVal);
 				$(this).css({'color':origColor});
 			}
+		});
+		
+		//Shrink the titles
+		$('.stacks.results td.card a.title').each(function(){
+			var maxFontSize = 24;
+			//var widthToFit = $('td.card').width() - (15*4); //15 = padding around each side
+			//if($(this).textWidth() > widthToFit){
+				$(this).fitText(.5, { minFontSize: '9px', maxFontSize: '20px' });
+			//}
+		});
+		
+		//Make the full card clickable
+		$('td.card').each(function(){
+			//Set the initial opacity of the card
+			$(this).css({"opacity": .7});
+			
+			var stackURL = $(this).find('a').attr('href');
+			//Bind the click to the card
+			$(this).click(function(){
+				window.location.href = stackURL.toString();
+			});
+			
+			//Change opacity of card on hover
+			$(this).hover(function(){
+				$(this).stop().animate({"opacity": 1});
+			},function(){
+				$(this).stop().animate({"opacity": .7});
+			});
 		});
 	});
 </script>

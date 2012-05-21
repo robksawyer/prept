@@ -37,27 +37,7 @@
 		<?php
 		$counter = 1;
 		foreach ($user_stacks as $stack): 
-		?>
-				<td class="card" id="card-<?php echo $counter; ?>" style="<?php echo "background: #".$stack['Color']['hex']; ?>">
-					<span class="card-overlay">&nbsp;</span>
-					<div class="card-data">
-						<?php
-							echo $this->Html->link(__($stack['Stack']['title']), array('controller'=>'stacks','action' => 'view', $stack['Stack']['id']),array('class'=>'title','id'=>'title-'.$counter))
-						?>
-						<!--<p class="description"><?php //echo $stack['Stack']['description']; ?></p>-->
-						<div class="tags">
-							<ul id="tagcloud">
-								<?php 
-									foreach ($stack['Tag'] as $tag) {
-										//echo '<li class="tag">'.$this->Html->link($tag['name'],array('controller'=>'stacks','action'=>'index','by'=>$tag['keyname'])).'</li>';
-										echo '<li class="tag">'.$tag['name'].'</li>';
-									}
-								?>
-							</ul>
-						</div>
-					</div>
-				</td>
-	<?php 
+			echo $this->element('card',array('cache'=>false,'counter'=>$counter,'data'=>$stack));
 		$counter += 1; //Increment the counter
 		endforeach; 
 	?>
@@ -86,7 +66,7 @@
 				var maxFontSize = 24;
 				var widthToFit = $('td.card').width() - (15*4); //15 = padding around each side
 				if($(this).textWidth() > widthToFit){
-					$(this).fitText(1.5, { minFontSize: '12px', maxFontSize: '24px' });
+					$(this).fitText(1.3, { minFontSize: '12px', maxFontSize: '24px' });
 				}
 			});
 
@@ -103,8 +83,12 @@
 
 				//Change opacity of card on hover
 				$(this).hover(function(){
+					var id = $(this).attr('id').substring($(this).attr('id').length,$(this).attr('id').length-1);
+					$(this).find('#card-detail-'+id).fadeIn();
 					$(this).stop().animate({"opacity": 1});
 				},function(){
+					var id = $(this).attr('id').substring($(this).attr('id').length,$(this).attr('id').length-1);
+					$(this).find('#card-detail-'+id).fadeOut();
 					$(this).stop().animate({"opacity": .7});
 				});
 			});
