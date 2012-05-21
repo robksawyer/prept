@@ -1,6 +1,6 @@
 <div class="cards view">
 	<div class="stacks view" title="The card you are viewing is in the stack <?php echo $card['Stack']['title']; ?>">
-		<span class="stack-title">Stack</span>
+		<div class="stack-title">Stack</div>
 		<?php
 			$stack = $card['Stack'];
 			//Set defaults
@@ -30,9 +30,11 @@
 		<li><?php echo $this->Form->postLink(__('Delete Card'), array('action' => 'delete', $card['Card']['id']), null, __('Are you sure you want to delete # %s?', $card['Card']['id'])); ?> </li>
 	</ul>
 </div>
+<?php
+	echo $this->Html->script('jquery.quickflip.min.js'); //http://dev.jonraasch.com/quickflip/docs
+?>
 <script type="text/javascript">
 	$(document).ready(function() {
-		
 		//Card Flipping
 		//http://dev.jonraasch.com/quickflip/docs
 		$('div.view div.quickflip-wrapper').quickFlip();

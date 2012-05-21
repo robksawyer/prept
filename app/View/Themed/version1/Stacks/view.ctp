@@ -41,6 +41,9 @@
 		<li><?php echo $this->Html->link(__('New Stack'), array('action' => 'add')); ?> </li>
 	</ul>
 </div>
+<?php
+	echo $this->Html->script('jquery.quickflip.min.js'); //http://dev.jonraasch.com/quickflip/docs
+?>
 <script type="text/javascript">
 	$(document).ready(function() {
 		var maxFontSize = 24;

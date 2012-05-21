@@ -66,5 +66,16 @@ class Color extends AppModel {
 			'counterQuery' => ''
 		)
 	);
-
+	
+	
+	/**
+	 * Returns a list of colors
+	 *
+	 * @return void
+	 * @author Rob Sawyer
+	 **/
+	public function getList(){
+		$colors = $this->find('list');
+		return $colors;
+	}
 }

@@ -51,7 +51,6 @@ $siteDescription = __('Prept: your web-based study app',true);
 		//Must be invoked after the jQuery libraries load
 		echo $this->Html->script('jquery.utils');
 		echo $this->Html->script('jquery.fittext');
-		echo $this->Html->script('jquery.quickflip.min.js'); //http://dev.jonraasch.com/quickflip/docs
 	?>
 </head>
 <body>
@@ -63,9 +62,15 @@ $siteDescription = __('Prept: your web-based study app',true);
 			<!-- Subnav -->
 			<div class="sub-nav">
 				<?php 
-					//echo $this->Form->create('Search'); 
-					//echo $this->Form->input('query',array('label'=>'Search'));
-					//echo $this->Form->end(__('Search'));
+					$ignoredPages = array('findQuery','find', 'make','add','login','signup');
+					$hideSearch = false;
+					foreach($ignoredPages as $action){
+						if($this->request->params['action'] == $action){
+							$hideSearch = true;
+							break;
+						}
+					}
+					if(!$hideSearch) echo $this->element('search-form',array('cache'=>false));
 				?>
 			</div>
 		</div>

@@ -60,6 +60,74 @@ class StacksController extends AppController {
 		$this->set(compact('colors', 'users','searched'));
 	}
 	
+	/**
+	 * Search stacks
+	 *	https://github.com/CakeDC/search
+	 * @return void
+	 * @author Rob Sawyer
+	 **/
+	public function findQuery() {
+		$this->Stack->recursive = -1;
+		$searched = false;
+		
+		$filterVal = 'Search for titles OR tags';
+		
+		if ($this->request->is('post')) {
+			$searchQuery = $this->request->data['Stack']['filter'];
+			//Split the results at the AND and the OR. If the split contains a , consider it a search for tags
+			$words = preg_split("/[\s,]*\\\"([^\\\"]+)\\\"[\s,]*|" . "[\s,]*'([^']+)'[\s,]*|" . "[\s,]+/", $searchQuery, 0, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+			
+			if(empty($words)){
+				$this->request->data['Stack']['filter'] = null;
+			}
+			if(empty($this->request->data['Stack']['color_id'])){
+				$this->redirect($this->referer());
+			}
+			
+			if(!empty($words)){
+				for($i=0;$i<count($words);$i++){
+					if($words[$i] == 'OR'){
+						unset($words[$i]);
+						$words = array_merge($words);
+						//$titles = implode(" OR ",$words);
+						$this->request->data['Stack']['filter_or'] = $words;
+					}else if($words[$i] == 'AND'){
+						unset($words[$i]);
+						$words = array_merge($words);
+						//$titles = implode(" AND ",$words);
+						$this->request->data['Stack']['filter_and'] = $words;
+					}
+				}
+				//Make a tag query
+				$tags = implode(", ",$words);
+				//Set the data for the search
+				unset($this->request->data['Stack']['filter']);
+				$this->request->data['Stack']['tags'] = $tags;
+			}
+			
+			
+			$this->Prg->commonProcess(); //Convert the passed args to params for the search
+			$this->paginate = array(
+				'Stack' => array(
+					'conditions' => $this->Stack->parseCriteria($this->passedArgs),
+					'contain' => array('Tag','Color')
+					//'recursive' => 1
+				)
+			);
+		}
+	
+		if(!empty($this->passedArgs)){
+			$searched = true;
+		}
+		$this->Stack->contain('User','Tag','Color');
+		$stacks = $this->paginate('Stack');
+		$colors = $this->Stack->Color->find('list');
+		$users = $this->Stack->User->find('list');
+		$this->set(compact('colors', 'users','searched','stacks'));
+		
+		$this->render('find');
+	}
+	
 /**
  * index method
  *

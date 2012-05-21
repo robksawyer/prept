@@ -24,7 +24,8 @@ class Stack extends AppModel {
 		//array('name' => 'user_id', 'type' => 'value'),
 		array('name' => 'color_id', 'type' => 'value'),
 		array('name' => 'tags', 'type' => 'subquery', 'method' => 'findByTags', 'field' => 'Stack.id'),
-		//array('name' => 'filter', 'type' => 'query', 'method' => 'orConditions'),
+		array('name' => 'filter_and', 'type' => 'query', 'method' => 'andConditions'),
+		array('name' => 'filter_or', 'type' => 'query', 'method' => 'orConditions')
 	);
 	
 /**
@@ -101,14 +102,29 @@ class Stack extends AppModel {
 		return $query;
 	}
 	
-	/*
 	public function orConditions($data = array()) {
-		$filter = $data['filter'];
+		if(empty($data['filter_or'])) return array();
+		$orQuery = array();
+		foreach($data['filter_or'] as $searchString){
+			$tempString = array($this->alias.'.title LIKE' => '%'.$searchString.'%');
+			array_push($orQuery,$tempString);
+		}
 		$cond = array(
-			'OR' => array(
-				$this->alias . '.title LIKE' => '%' . $filter . '%',
-				$this->alias . '.description LIKE' => '%' . $filter . '%',
-			));
+			'OR' => $orQuery
+			);
 		return $cond;
-	}*/
+	}
+	
+	public function andConditions($data = array()) {
+		if(empty($data['filter_and'])) return array();
+		$andQuery = array();
+		foreach($data['filter_and'] as $searchString){
+			$tempString = array($this->alias.'.title LIKE' => '%'.$searchString.'%');
+			array_push($andQuery,$tempString);
+		}
+		$cond = array(
+			'AND' => $andQuery
+			);
+		return $cond;
+	}
 }

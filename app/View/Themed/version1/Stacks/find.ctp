@@ -55,7 +55,7 @@ if($searched):
 	$counter = 0;
 	foreach ($stacks as $stack): 
 	?>
-			<td class="card" id="card-<?php echo $counter; ?>" style="<?php echo "background: #".$stack['Color']['hex']; ?>">
+			<td class="card shadow" id="card-<?php echo $counter; ?>" style="<?php echo "background: #".$stack['Color']['hex']; ?>">
 				<span class="card-overlay">&nbsp;</span>
 				<div class="card-data">
 					<?php
@@ -145,10 +145,16 @@ endif;
 		//Shrink the titles
 		$('.stacks.results td.card a.title').each(function(){
 			var maxFontSize = 24;
-			//var widthToFit = $('td.card').width() - (15*4); //15 = padding around each side
-			//if($(this).textWidth() > widthToFit){
-				$(this).fitText(.5, { minFontSize: '9px', maxFontSize: '20px' });
-			//}
+			var widthToFit = $('td.card').width() - (15*4); //15 = padding around each side
+			var textWidth = 0;
+			//http://stackoverflow.com/questions/9404536/finding-text-width-in-jquery
+			$(this).clone().addClass("checkWidth")
+			.appendTo("body").css({"float": "left"});
+			textWidth = $(".checkWidth").width();
+			$('.checkWidth').remove();
+			if(textWidth > widthToFit){
+				$(this).fitText(1, { minFontSize: '9px', maxFontSize: '15px' });
+			}
 		});
 		
 		//Make the full card clickable

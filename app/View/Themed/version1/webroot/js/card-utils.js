@@ -4,8 +4,14 @@ $(document).ready(function() {
 	$('div.card a.title').each(function(){
 		var maxFontSize = 24;
 		var widthToFit = $('div.card').width() - (15*4); //15 = padding around each side
-		if($(this).textWidth() > widthToFit){
-			$(this).fitText(1.3, { minFontSize: '12px', maxFontSize: '24px' });
+		var textWidth = 0;
+		//http://stackoverflow.com/questions/9404536/finding-text-width-in-jquery
+		$(this).clone().addClass("checkWidth")
+		.appendTo("body").css({"float": "left"});
+		textWidth = $(".checkWidth").width();
+		$('.checkWidth').remove();
+		if(textWidth > widthToFit){
+			$(this).fitText(1, { minFontSize: '12px', maxFontSize: '24px' });
 		}
 	});
 

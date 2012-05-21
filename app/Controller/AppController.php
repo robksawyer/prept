@@ -64,7 +64,11 @@ class AppController extends Controller {
 		$this->current_user = $this->Auth->user();
 		$logged_in = $this->logged_in;
 		$current_user = $this->current_user;
-		$this->set(compact('logged_in','current_user'));
+		App::uses('Color','Model');
+		$this->Color = new Color();
+		$colors = $this->Color->getList();
+		
+		$this->set(compact('logged_in','current_user','colors'));
 	}
 	
 	/**
