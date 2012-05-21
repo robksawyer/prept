@@ -122,6 +122,20 @@ span.card-overlay{
 	height: 169px;
 	background: transparent url('../img/common/card-overlay-dark-282x169.png') no-repeat top left;
 }
+.shadow {
+	-moz-box-shadow: 0px 2px 3px #949494;
+	-webkit-box-shadow: 0px 2px 3px #949494;
+	box-shadow: 0px 2px 3px #949494;
+	/* For IE 8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=0, Color='#949494')";
+	/* For IE 5.5 - 7 */
+	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=0, Color='#949494');
+}
+
+textarea.card-front,
+textarea.card-back{ 
+	color: #777777;
+}
 /*
 * THE BACKPACK (User landing page after login)
 */
@@ -267,15 +281,18 @@ td.card p{
 	margin: 0;
 	line-height: normal !important;
 }
-div.card-detail{
+div.card-links{
 	position: absolute;
 	text-align: right;
 	margin: 7px;
 	display: none;
 	width: 96%;
+	height: 40px;
+	background: transparent;
+	z-index: 10;
 }
-div.card-detail a,
-div.card-detail img{
+div.card-links a,
+div.card-links img{
 	padding: 0;
 	margin: -5px 0 0 2px;
 	clear: none;
@@ -565,6 +582,7 @@ div.stacks.top .stacks.form fieldset.cards .remove.hidden{
 div.stacks.form div.submit {
 	text-align: right;
 }
+div.cards.form div.submit input[type="submit"],
 div.stacks.form div.submit input[type="submit"]{
 	background: #0080ce;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#0089d0), to(#0053c2));
@@ -661,4 +679,29 @@ div.stacks.results h2{
 	border-top: 1px solid #e7e7e7;
 	margin: 25px 0 0 0;
 	padding: 15px 0 0 0;
+}
+/** Cards Add **/
+.cards.form {
+	width: 100%;
+	border: none;
+}
+.cards.form .input.textarea{
+	float: left;
+	clear: none;
+	margin: 0 10px 0 0;
+	width: 43%;
+	height: 150px;
+}
+.cards.form textarea{
+	float: inline;
+	border: none;
+	clear: none;
+	resize: none;
+	font-weight: normal;
+}
+.cards.form .input.textarea,
+.cards.form .tags{
+	padding: 7px;
+	background: #ffffff;
+	border: 1px solid #f2f2f2;
 }

@@ -48,35 +48,6 @@
 		<li><?php echo $this->Html->link(__('New Stack'), array('action' => 'add')); ?></li>
 	</ul>
 </div>
-<script type="text/javascript">
-	$(document).ready(function() {
-		//Shrink the titles
-		$('td.card a.title').each(function(){
-			var maxFontSize = 24;
-			var widthToFit = $('td.card').width() - (15*4); //15 = padding around each side
-			if($(this).textWidth() > widthToFit){
-				$(this).fitText(1.5, { minFontSize: '12px', maxFontSize: '24px' });
-			}
-		});
-		
-		//Make the full card clickable
-		$('td.card').each(function(){
-			//Set the initial opacity of the card
-			$(this).css({"opacity": .7});
-			
-			var stackURL = $(this).find('a').attr('href');
-			//Bind the click to the card
-			$(this).click(function(){
-				window.location.href = stackURL.toString();
-			});
-			
-			//Change opacity of card on hover
-			$(this).hover(function(){
-				$(this).stop().animate({"opacity": 1});
-			},function(){
-				$(this).stop().animate({"opacity": .7});
-			});
-		});
-		
-	});
-</script>
+<?php
+	echo $this->Html->script('card-utils');
+?>

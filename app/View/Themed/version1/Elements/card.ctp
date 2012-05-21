@@ -1,5 +1,5 @@
-<td class="card" id="card-<?php echo $counter; ?>" style="<?php echo "background: #".$data['Color']['hex']; ?>">
-	<div class="card-detail" id="card-detail-<?php echo $counter; ?>">
+<td class="card shadow" id="card-<?php echo $counter; ?>" style="<?php echo "background: #".$data['Color']['hex']; ?>">
+	<div class="card-links" id="card-links-<?php echo $counter; ?>">
 		<?php
 		if(!empty($data['Card'])){
 			$cardCount = count($data['Card']);

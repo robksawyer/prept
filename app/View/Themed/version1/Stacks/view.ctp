@@ -79,7 +79,7 @@
 
 	<div class="actions">
 		<ul>
-			<li><?php echo $this->Html->link(__('New Card'), array('controller' => 'cards', 'action' => 'add',$stack['Stack']['id']));?> </li>
+			<li><?php echo $this->Html->link(__('Add A Card'), array('controller' => 'cards', 'action' => 'add',$stack['Stack']['id']));?> </li>
 		</ul>
 	</div>
 </div>
