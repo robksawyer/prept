@@ -1,11 +1,14 @@
 <div class="cards form">
-<?php echo $this->Form->create('Card');?>
+<?php 
+	echo $this->Html->link('&laquo; Back',array('controller'=>'cards','action'=>'view',$this->request->data['Card']['id']),array('escape'=>false));
+	echo $this->Form->create('Card');
+?>
 	<fieldset>
 		<legend><?php echo __('Edit Card'); ?></legend>
 	<?php
 		echo $this->Form->input('id');
-		echo $this->Form->input('Card.front',array('label'=>'Term','class'=>'card-front'));
-		echo $this->Form->input('Card.back',array('label'=>'Definition','class'=>'card-back'));
+		echo $this->Form->input('Card.front',array('label'=>'Term (front)','class'=>'card-front'));
+		echo $this->Form->input('Card.back',array('label'=>'Definition (back)','class'=>'card-back'));
 		echo "<div class='clear'>&nbsp;</div>";
 		echo $this->Form->input('stack_id',array('type'=>'hidden'));
 		echo $this->Form->input('color_id',array('type'=>'hidden'));

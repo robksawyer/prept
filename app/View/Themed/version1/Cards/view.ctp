@@ -1,4 +1,20 @@
 <div class="cards view">
+	<div class="stacks view" title="The card you are viewing is in the stack <?php echo $card['Stack']['title']; ?>">
+		<span class="stack-title">Stack</span>
+		<?php
+			$stack = $card['Stack'];
+			//Set defaults
+			if(empty($stack['Color'])) $stack['Color']['hex'] = "ffffff";
+		?>
+		<div class="card" id="stack-card-<?php echo $stack['id']; ?>" style="background-color: #<?php echo $stack['Color']['hex']; ?>">
+			<span class="card-overlay">&nbsp;</span>
+			<div class="card-data">
+				<div class="title" id="stack-title-<?php echo $stack['id']; ?>"><?php echo $this->Html->link($stack['title'],array('controller'=>'stacks','action'=>'view',$stack['id']),array('class'=>'stack-title')); ?></div>
+				<div class="description"><?php echo $stack['description']; ?>&nbsp;</div>
+				<div class="user" style="display:none"><?php echo $this->Html->link($stack['User']['fullname'], array('controller' => 'users', 'action' => 'view', $stack['User']['id'])); ?>&nbsp;</div>
+			</div>
+		</div>
+	</div>
 	<?php
 		//Set defaults
 		if(empty($card['Color'])) $card['Color']['hex'] = "ffffff";
@@ -36,21 +52,29 @@
 			});
 		});
 		
+		var maxFontSize = 24;
+		var widthToFit = $('div.cards.view div.card').width() - (15*4); //15 = padding around each side
 		//Shrink the titles
-		$('div.cards.view div.card a.front').each(function(){
-			var maxFontSize = 24;
-			var widthToFit = $('div.cards.view div.card').width() - (15*4); //15 = padding around each side
-			if($(this).textWidth() > widthToFit){
-				$(this).fitText(1, { minFontSize: '12px', maxFontSize: '24px' });
-			}
+		$('div.stacks.view div.card a.stack-title').fitText(1, { minFontSize: '9px', maxFontSize: '14px' });
+		if($('div.cards.view div.card a.front').textWidth() > widthToFit){
+			$('div.cards.view div.card a.front').fitText(1,{minFontSize: '12px', maxFontSize: '24px'});
+		}
+		if($('div.cards.view div.card a.back').textWidth() > widthToFit){
+			$('div.cards.view div.card a.back').fitText(1,{minFontSize: '12px', maxFontSize: '24px'});
+		}
+		
+		//Make the full card clickable
+		var stackURL = $('div.stacks.view div.card').find('a.stack-title').attr('href');
+		//Bind the click to the card
+		$('div.stacks.view div.card').click(function(){
+			window.location.href = stackURL.toString();
 		});
-		$('div.cards.view div.card a.back').each(function(){
-			var maxFontSize = 24;
-			var widthToFit = $('div.cards.view div.card').width() - (15*4); //15 = padding around each side
-			if($(this).textWidth() > widthToFit){
-				$(this).fitText(1, { minFontSize: '12px', maxFontSize: '24px' });
-			}
+		
+		//Change opacity of card on hover
+		$('div.stacks.view div.card').hover(function(){
+			$('div.stacks.view div.card').stop().animate({"opacity": 1});
+		},function(){
+			$('div.stacks.view div.card').stop().animate({"opacity": .4});
 		});
-	
 	});
 </script>

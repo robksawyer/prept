@@ -124,7 +124,7 @@ class StacksController extends AppController {
 																						'limit' => 10,
 																						'conditions'=>array('model'=>'Stack','foreign_key'=>$id)
 																						)));
-		$this->Stack->contain(array('Card'=>array('Tag','Color'),'Tag','User'));
+		$this->Stack->contain(array('Card'=>array('Tag','Color'),'Tag','User','Color'));
 		$stack = $this->Stack->read(null, $id);
 		$this->set('stack', $stack);
 	}

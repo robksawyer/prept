@@ -29,6 +29,7 @@ class CardsController extends AppController {
 		if (!$this->Card->exists()) {
 			throw new NotFoundException(__('Invalid card'));
 		}
+		$this->Card->contain(array('Stack'=>array('Tag','Color','User'),'Tag','Color','User'));
 		$this->set('card', $this->Card->read(null, $id));
 	}
 

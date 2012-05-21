@@ -19,6 +19,7 @@
 	</div>
 	<div class="card shadow panel2" id="card-<?php echo $counter; ?>" style="<?php echo "background: #".$data['Color']['hex']; ?>">
 		<span class="card-overlay">&nbsp;</span>
+		<div class="flipped-icon">&#x21BA;</div>
 		<div class="card-data" id="card-data-back-<?php echo $counter; ?>">
 			<?php
 				echo $this->Html->link(__($data['back']), array('controller'=>'cards','action' => 'view', $data['id']),array('class'=>'back','id'=>'back-'.$counter))

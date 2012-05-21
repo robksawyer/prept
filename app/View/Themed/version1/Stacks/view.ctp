@@ -5,27 +5,8 @@
 	<?php
 		//Set defaults
 		if(empty($stack['Color'])) $stack['Color']['hex'] = "ffffff";
+		echo $this->element('single-card',array('cache'=>false,'data'=>$stack));
 	?>
-	<div class="card" id="card-<?php echo $stack['Stack']['id']; ?>" style="background-color: #<?php echo $stack['Color']['hex']; ?>">
-		<span class="card-overlay">&nbsp;</span>
-		<div class="card-data">
-			<div class="title" id="title-<?php echo $stack['Stack']['id']; ?>"><?php echo $stack['Stack']['title']; ?></div>
-			<div class="description"><?php echo $stack['Stack']['description']; ?>&nbsp;</div>
-			<div class="user" style="display:none"><?php echo $this->Html->link($stack['User']['fullname'], array('controller' => 'users', 'action' => 'view', $stack['User']['id'])); ?>&nbsp;</div>
-			<div class="tags">
-				<ul id="tagcloud">
-					<?php 
-						echo $this->TagCloud->display($tags, array(
-							'before' => '<li class="tag">',
-							'after' => '</li>',
-							'url' => array('controller'=>'stacks','action'=>'index')
-							)
-						);
-					?>
-				</ul>
-			</div>
-		</div>
-	</div>
 </div>
 <div class="clear"></div>
 <div class="related" id="related-cards">
@@ -63,11 +44,9 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		var maxFontSize = 24;
-		var theStackCard = $('.stacks.view div.card div.card-data div#title-<?php echo $stack['Stack']['id']; ?>');
-		//var widthToFit = theStackCard.width() - (15*4); //15 = padding around each side
-		//if($(theStackCard).textWidth() > widthToFit){
-			$(theStackCard).fitText(.5, { minFontSize: '12px', maxFontSize: '24px' });
-		//}
+		var theStackCard = $('.stacks.view div.card div.card-data div.title');
+		$(theStackCard).fitText(1, { minFontSize: '12px', maxFontSize: '24px' });
+		$('div.stacks.view div.card').find('.card-links').fadeTo('slow',.5);
 		
 		//Card Flipping
 		//http://dev.jonraasch.com/quickflip/docs
@@ -103,6 +82,16 @@
 				$(this).fitText(1, { minFontSize: '12px', maxFontSize: '24px' });
 			}
 		});
-	
+
+		//Make the full card clickable
+		//Change opacity of card on hover
+		$('div.stacks.view div.card').hover(function(){
+			var id = $(this).attr('id').substring($(this).attr('id').length,$(this).attr('id').length-1);
+			$(this).find('#card-links-'+id).fadeTo('fast',1);
+		},function(){
+			var id = $(this).attr('id').substring($(this).attr('id').length,$(this).attr('id').length-1);
+			$(this).find('#card-links-'+id).fadeTo('fast',.5);
+		});
+		
 	});
 </script>

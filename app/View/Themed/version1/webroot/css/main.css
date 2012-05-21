@@ -133,7 +133,9 @@ span.card-overlay{
 }
 
 textarea.card-front,
-textarea.card-back{ 
+textarea.card-back{
+	margin: 0;
+	padding: 0;
 	color: #777777;
 }
 /*
@@ -231,9 +233,9 @@ td.card{
 	position: relative;
 	float: left;
 	display: block;
-	width: 282px !important;
-	height: 178px !important;
-	margin: 15px 5px 5px 0 !important;
+	width: 282px;
+	height: 178px;
+	margin: 15px 5px 5px 0;
 	padding: 0px;
 	cursor:pointer;
 	border: 1px solid #777777;
@@ -288,8 +290,7 @@ div.card-links{
 	display: none;
 	width: 96%;
 	height: 40px;
-	background: transparent;
-	z-index: 10;
+	z-index: 300;
 }
 div.card-links a,
 div.card-links img{
@@ -298,6 +299,7 @@ div.card-links img{
 	clear: none;
 	display: inline;
 	vertical-align: middle;
+	cursor: pointer;
 }
 /* Stack Index */
 div.stacks.index tr{
@@ -320,17 +322,15 @@ div.stacks.view {
 }
 div.stacks.view div.card{
 	position: relative;
-	display: block;
-	float: none;
-	width: 282px !important;
-	height: 169px !important;
-	margin: 15px 5px 5px 0 !important;
-	padding: 0px;
+	width: 282px;
+	height: 169px;
+	margin: 0;
+	padding: 0;
 	cursor: auto;
 	border: 1px solid #777777;
-	background: green;
 }
-div.stacks.view div.card div.card-data{
+div.stacks.view div.card div.card-data,
+div.related div.card div.card-data{
 	z-index: 20;
 	padding: 55px 15px 15px 15px;
 }
@@ -342,7 +342,8 @@ div.stacks.view div.card div.card-data .description{
 	color: #535353;
 	background: none;
 }
-div.stacks.view div.card div.card-data .tags{
+div.stacks.view div.card div.card-data .tags,
+div.related div.card div.card-data .tags{
 	position: absolute;
 	top: 110px;
 	padding: 0;
@@ -351,7 +352,7 @@ div.stacks.view div.card div.card-data .tags{
 	background: none;
 }
 
-div.stacks.view div.card a{
+div.stacks.view div.card div.card-data a{
 	z-index: 20;
 	display: block;
 	text-align: left;
@@ -372,6 +373,12 @@ div.stacks.view div.card p{
 }
 
 /* Stack Related cards */
+div.flipped-icon{
+	position: absolute;
+	font-size: 13px;
+	left: 265px;
+	padding: 2px;
+}
 div.related,
 div.view{
 	position: relative;
@@ -502,7 +509,6 @@ div.stacks.top .stacks.form fieldset .title{
 	float: left;
 	width: 291px !important;
 	height: 188px !important;
-	line-height: 178px;
 	clear: none;
 	margin: 0 15px 0 0;
 	padding: 0;
@@ -697,11 +703,14 @@ div.stacks.results table td.card{
 	display: block;
 	width: 183px !important;
 	height: 116px !important;
-	line-height: 78px;
 	margin: 5px 5px 5px 0 !important;
 	padding: 0px;
 	cursor:pointer;
 	border: 1px solid #777777;
+}
+div.stacks.results table td.card span.card-overlay{
+	width: 183px !important;
+	height: 116px !important;
 }
 div.stacks.results table td.card div.card-data{
 	z-index: 20;
@@ -770,4 +779,31 @@ div.stacks.results h2{
 	padding: 7px;
 	background: #ffffff;
 	border: 1px solid #f2f2f2;
+}
+/** Cards View **/
+/* The stack card inside of the card view */
+div.cards.view div.stacks.view{
+	width: auto;
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+div.cards.view div.stacks.view div.card{
+	padding: 0;
+	width: 183px !important;
+	height: 116px !important;
+	margin: 5px 10px 5px 0 !important;
+	opacity:0.4;
+	filter:alpha(opacity=40); /* For IE8 and earlier */
+	cursor: pointer;
+}
+div.cards.view div.stacks.view div.card div.card-data{
+	padding: 35px 0 0 10px;
+}
+div.cards.view div.stacks.view div{
+	line-height: normal;
+}
+div.cards.view div.stacks.view div.card span.card-overlay{
+	width: 183px !important;
+	height: 116px !important;
 }
