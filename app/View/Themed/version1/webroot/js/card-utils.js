@@ -1,16 +1,16 @@
 //STACK RELATED SCRIPTS
 $(document).ready(function() {
 	//Shrink the titles
-	$('td.card a.title').each(function(){
+	$('div.card a.title').each(function(){
 		var maxFontSize = 24;
-		var widthToFit = $('td.card').width() - (15*4); //15 = padding around each side
+		var widthToFit = $('div.card').width() - (15*4); //15 = padding around each side
 		if($(this).textWidth() > widthToFit){
 			$(this).fitText(1.3, { minFontSize: '12px', maxFontSize: '24px' });
 		}
 	});
 
 	//Make the full card clickable
-	$('td.card').each(function(){
+	$('div.card').each(function(){
 		//Set the initial opacity of the card
 		$(this).css({"opacity": .7});
 

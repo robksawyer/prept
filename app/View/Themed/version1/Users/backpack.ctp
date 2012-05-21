@@ -17,19 +17,21 @@
 				<th><?php echo $this->Paginator->sort('created');?></th>
 				<th><?php echo $this->Paginator->sort('modified');?></th>
 		</tr>
-		<tr>
+		<tr class="the-cards">
 			<!-- MAKE A NEW STACK CARD -->
-			<td class="card shadow" id="card-0" style="background: #ffffff">
-				<span class="card-overlay">&nbsp;</span>
-				<div class="card-data">
-					<?php
-						echo $this->Html->link(__('+ Make new stack'), array('controller'=>'stacks','action' => 'make'),array('class'=>'title','id'=>'title-0'));
-					?>
-					<!--<p class="description"><?php //echo $stack['Stack']['description']; ?></p>-->
-					<div class="tags">
-						<ul id="tagcloud">
-							<li class="tag">Double Integrals, Iterated Integrals, Limits, Continuity, Stoke’s Theorem</li>
-						</ul>
+			<td>
+				<div class="card shadow" id="card-0" style="background: #ffffff">
+					<span class="card-overlay">&nbsp;</span>
+					<div class="card-data">
+						<?php
+							echo $this->Html->link(__('+ Make new stack'), array('controller'=>'stacks','action' => 'make'),array('class'=>'title','id'=>'title-0'));
+						?>
+						<!--<p class="description"><?php //echo $stack['Stack']['description']; ?></p>-->
+						<div class="tags">
+							<ul id="tagcloud">
+								<li class="tag">Double Integrals, Iterated Integrals, Limits, Continuity, Stoke’s Theorem</li>
+							</ul>
+						</div>
 					</div>
 				</div>
 			</td>
@@ -42,6 +44,7 @@
 	?>
 		</tr>
 		</table>
+		<div class="clear"></div>
 		<p class="paging-details">
 		<?php
 		echo $this->Paginator->counter(array(

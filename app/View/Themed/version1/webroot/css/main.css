@@ -115,7 +115,7 @@ Tips:
 }
 span.card-overlay{
 	position: absolute;
-	z-index: 10;
+	z-index: 1;
 	top: 0px;
 	left: 0px;
 	width: 282px;
@@ -131,7 +131,48 @@ span.card-overlay{
 	/* For IE 5.5 - 7 */
 	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=0, Color='#949494');
 }
+.rotate{
+	/*-webkit-transform-origin: 141px 89px;*/
+	-webkit-transform: rotate(4.5deg);  /* Saf3.1+, Chrome */
+	-moz-transform: rotate(4.5deg);  /* FF3.5+ */
+	-ms-transform: rotate(4.5deg);	 /* IE9 */
+	-o-transform: rotate(4.5deg);	 /* Opera 10.5 */
+	transform: rotate(4.5deg);
+	/* IE6–IE9 */
+	/*filter: progid:DXImageTransform.Microsoft.Matrix(
+	M11=0.9914448613738104, M12=-0.13052619222005157,M21=0.13052619222005157, M22=0.9914448613738104, sizingMethod='auto expand');*/
+}
+.rotate-more{
+	/*-webkit-transform-origin: 141px 89px;*/
+	-webkit-transform: rotate(-4.5deg);  /* Saf3.1+, Chrome */
+	-moz-transform: rotate(-4.5deg);  /* FF3.5+ */
+	-ms-transform: rotate(-4.5deg);	 /* IE9 */
+	-o-transform: rotate(-4.5deg);	 /* Opera 10.5 */
+	transform: rotate(-4.5deg);
+	/* IE6–IE9 */
+	/*filter: progid:DXImageTransform.Microsoft.Matrix(
+	M11=0.9914448613738104, M12=-0.13052619222005157,M21=0.13052619222005157, M22=0.9914448613738104, sizingMethod='auto expand');*/
+}
+.card-stack {
+	position: absolute;
+	width: 282px;
+	height: 178px;
+	margin: 12px 0 0 15px;
+	padding: 0;
+	border: 1px solid #777777;
+	z-index: 0;
+	opacity:0.8;
+	filter:alpha(opacity=80); /* For IE8 and earlier */
+}
 
+.card-container{
+	position: relative;
+	z-index: 2 !important;
+}
+.card-container:hover{
+	position: relative;
+	z-index: 2 !important;
+}
 textarea.card-front,
 textarea.card-back{
 	margin: 0;
@@ -228,20 +269,20 @@ p.paging-details {
 }
 
 /* Card Styling */
-td.card{
-	z-index: 10;
+tr.the-cards{ }
+td.card,
+div.card{
 	position: relative;
-	float: left;
-	display: block;
+	display: inline-block;
+	clear: none;
 	width: 282px;
 	height: 178px;
-	margin: 15px 5px 5px 0;
+	margin: 15px 20px 5px 15px;
 	padding: 0px;
 	cursor:pointer;
 	border: 1px solid #777777;
 }
 div.card-data{
-	z-index: 20;
 	padding: 55px 15px 15px 15px;
 }
 div.tags {
@@ -265,8 +306,8 @@ div.tags ul#tagcloud li a{
 div.tags ul#tagcloud li a:hover{
 	text-decoration: underline;
 }
-td.card a{
-	display: block;
+td.card a,
+div.card a{
 	text-align: left;
 	padding: 0 !important;
 	text-indent: 0px;
@@ -278,7 +319,8 @@ td.card a{
 	border: none;
 	background: transparent;
 }
-td.card p{
+td.card p,
+div.card p{
 	padding: 0;
 	margin: 0;
 	line-height: normal !important;
@@ -290,7 +332,7 @@ div.card-links{
 	display: none;
 	width: 96%;
 	height: 40px;
-	z-index: 300;
+	z-index: 3;
 }
 div.card-links a,
 div.card-links img{
@@ -306,8 +348,16 @@ div.stacks.index tr{
 	width: 100%;
 	float: left;
 }
-
-div.stacks.index td.card div.card-data div.tags ul#tagcloud{
+.stacks.index table tr td{
+	display: inline;
+	float: left;
+	width: 282px;
+	height: 178px;
+	margin: 12px 15px;
+	border: none;
+}
+div.stacks.index td.card div.card-data div.tags ul#tagcloud,
+div.stacks.index div.card div.card-data div.tags ul#tagcloud{
 	margin: 60px 0 0 0 !important;
 	width: 220px;
 }
@@ -331,7 +381,6 @@ div.stacks.view div.card{
 }
 div.stacks.view div.card div.card-data,
 div.related div.card div.card-data{
-	z-index: 20;
 	padding: 55px 15px 15px 15px;
 }
 div.stacks.view div.card div.card-data .description{
@@ -353,7 +402,6 @@ div.related div.card div.card-data .tags{
 }
 
 div.stacks.view div.card div.card-data a{
-	z-index: 20;
 	display: block;
 	text-align: left;
 	padding: 0 !important;
@@ -434,7 +482,7 @@ div.view div.quickflip-wrapper div.card.panel2{
 
 div.related div.quickflip-wrapper div.card.panel1,
 div.view div.quickflip-wrapper div.card.panel1 {
-	z-index: 10;
+	z-index: 1;
 }
 div.related div.quickflip-wrapper div.card.panel2,
 div.view div.quickflip-wrapper div.card.panel2 {
@@ -444,7 +492,7 @@ div.view div.quickflip-wrapper div.card.panel2 {
 /* Tag Cloud */
 ul#tagcloud{ 
 	position: absolute;
-	z-index: 200;
+	z-index: 2;
 	line-height: normal;
 	display: block;
 	list-style-type: none;
@@ -696,11 +744,11 @@ div.stacks.find .tags{
 }
 
 /* Search results */
-div.stacks.results table td.card{
-	z-index: 10;
+div.stacks.results table td.card,
+div.stacks.results table div.card{
 	position: relative;
-	float: left;
-	display: block;
+	clear: none;
+	display: inline-block;
 	width: 183px !important;
 	height: 116px !important;
 	margin: 5px 5px 5px 0 !important;
@@ -708,15 +756,17 @@ div.stacks.results table td.card{
 	cursor:pointer;
 	border: 1px solid #777777;
 }
-div.stacks.results table td.card span.card-overlay{
+div.stacks.results table td.card span.card-overlay,
+div.stacks.results table div.card span.card-overlay{
 	width: 183px !important;
 	height: 116px !important;
 }
-div.stacks.results table td.card div.card-data{
-	z-index: 20;
+div.stacks.results table td.card div.card-data,
+div.stacks.results table div.card div.card-data{
 	padding: 35px 10px 10px 10px;
 }
-div.stacks.results table td.card div.tags {
+div.stacks.results table td.card div.tags,
+div.stacks.results table div.card div.tags {
 	position: absolute;
 	top: 70px;
 	padding: 0;
@@ -724,20 +774,24 @@ div.stacks.results table td.card div.tags {
 	margin: 0;
 	background: none;
 }
-div.stacks.results table td.card div.tags ul#tagcloud{
+div.stacks.results table td.card div.tags ul#tagcloud,
+div.stacks.results table div.card div.tags ul#tagcloud{
 	width: 150px;
 	padding: 0 10px 0 0;
 	margin: 15px 0 0 0 !important;
 }
 div.stacks.results table td.card div.tags ul#tagcloud li,
-div.stacks.results table td.card div.tags ul#tagcloud li a{
+div.stacks.results table div.card div.tags ul#tagcloud li,
+div.stacks.results table td.card div.tags ul#tagcloud li a,
+div.stacks.results table div.card div.tags ul#tagcloud li a{
 	list-style-type: none;
 	display: inline !important;
 	font-size: 9px !important;
 	color: #535353;
 	font-family: "frutiger linotype", "lucida grande", "verdana", sans-serif;
 }
-div.stacks.results table td.card div.tags ul#tagcloud li a:hover{
+div.stacks.results table td.card div.tags ul#tagcloud li a:hover,
+div.stacks.results table div.card div.tags ul#tagcloud li a:hover{
 	text-decoration: underline;
 }
 div.stacks.results h2{
