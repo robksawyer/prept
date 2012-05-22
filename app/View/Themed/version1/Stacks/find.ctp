@@ -1,3 +1,4 @@
+<?php if(empty($finderQuery)): ?>
 <div class="stacks find">
 <?php
 	echo $this->Form->create('Stack', array(
@@ -33,6 +34,7 @@
 	echo $this->Form->end();
 ?>
 </div>
+<?php endif; ?>
 <div class="stacks results">
 <?php
 if($searched):	
@@ -40,7 +42,7 @@ if($searched):
 ?>
 	<h2><?php echo __('Stack results'); ?></h2>
 	<table cellpadding="0" cellspacing="0">
-	<tr>
+	<tr class="sort-bar">
 			<th><?php echo $this->Paginator->sort('id');?></th>
 			<th><?php echo $this->Paginator->sort('title');?></th>
 			<th><?php echo $this->Paginator->sort('description');?></th>
@@ -48,29 +50,30 @@ if($searched):
 			<th><?php echo $this->Paginator->sort('user_id');?></th>
 			<th><?php echo $this->Paginator->sort('created');?></th>
 			<th><?php echo $this->Paginator->sort('modified');?></th>
-			<th class="actions"><?php echo __('Actions');?></th>
 	</tr>
 	<tr>
 	<?php
 	$counter = 0;
 	foreach ($stacks as $stack): 
 	?>
-			<td class="card shadow" id="card-<?php echo $counter; ?>" style="<?php echo "background: #".$stack['Color']['hex']; ?>">
-				<span class="card-overlay">&nbsp;</span>
-				<div class="card-data">
-					<?php
-						echo $this->Html->link(__($stack['Stack']['title']), array('action' => 'view', $stack['Stack']['id']),array('class'=>'title','id'=>'title-'.$counter))
-					?>
-					<!--<p class="description"><?php //echo $stack['Stack']['description']; ?></p>-->
-					<div class="tags">
-						<ul id="tagcloud">
-							<?php 
-								foreach ($stack['Tag'] as $tag) {
-									//echo '<li class="tag">'.$this->Html->link($tag['name'],array('controller'=>'stacks','action'=>'index','by'=>$tag['keyname'])).'</li>';
-									echo '<li class="tag">'.$tag['name'].'</li>';
-								}
-							?>
-						</ul>
+			<td>
+				<div class="card shadow" id="card-<?php echo $counter; ?>" style="<?php echo "background: #".$stack['Color']['hex']; ?>">
+					<span class="card-overlay">&nbsp;</span>
+					<div class="card-data">
+						<?php
+							echo $this->Html->link(__($stack['Stack']['title']), array('action' => 'view', $stack['Stack']['id']),array('class'=>'title','id'=>'title-'.$counter))
+						?>
+						<!--<p class="description"><?php //echo $stack['Stack']['description']; ?></p>-->
+						<div class="tags">
+							<ul id="tagcloud">
+								<?php 
+									foreach ($stack['Tag'] as $tag) {
+										//echo '<li class="tag">'.$this->Html->link($tag['name'],array('controller'=>'stacks','action'=>'index','by'=>$tag['keyname'])).'</li>';
+										echo '<li class="tag">'.$tag['name'].'</li>';
+									}
+								?>
+							</ul>
+						</div>
 					</div>
 				</div>
 			</td>
@@ -102,7 +105,10 @@ if($searched):
 	endif; 
 endif;
 ?>
-<?php echo $this->Html->script('colorBtnSelector'); ?>
+<?php 
+	echo $this->Html->script('colorBtnSelector'); 
+	echo $this->Html->script('small-card-utils'); 
+?>
 <script type="text/javascript">
 
 	$(document).ready(function() {
@@ -140,40 +146,6 @@ endif;
 				$(this).val(tagVal);
 				$(this).css({'color':origColor});
 			}
-		});
-		
-		//Shrink the titles
-		$('.stacks.results td.card a.title').each(function(){
-			var maxFontSize = 24;
-			var widthToFit = $('td.card').width() - (15*4); //15 = padding around each side
-			var textWidth = 0;
-			//http://stackoverflow.com/questions/9404536/finding-text-width-in-jquery
-			$(this).clone().addClass("checkWidth")
-			.appendTo("body").css({"float": "left"});
-			textWidth = $(".checkWidth").width();
-			$('.checkWidth').remove();
-			if(textWidth > widthToFit){
-				$(this).fitText(1, { minFontSize: '9px', maxFontSize: '15px' });
-			}
-		});
-		
-		//Make the full card clickable
-		$('td.card').each(function(){
-			//Set the initial opacity of the card
-			$(this).css({"opacity": .7});
-			
-			var stackURL = $(this).find('a').attr('href');
-			//Bind the click to the card
-			$(this).click(function(){
-				window.location.href = stackURL.toString();
-			});
-			
-			//Change opacity of card on hover
-			$(this).hover(function(){
-				$(this).stop().animate({"opacity": 1});
-			},function(){
-				$(this).stop().animate({"opacity": .7});
-			});
 		});
 	});
 </script>

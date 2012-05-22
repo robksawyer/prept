@@ -11,13 +11,14 @@
 		<?php
 			echo "<div class='title'>";
 				//echo $this->Form->input('title',array('value'=>'Title of Studycard','label'=>false,'div'=>false,'onkeypress'=>'this.style.width = ((this.value.length + 1) * 11) + "px";','maxlength'=>'50'));
+				echo "<div class='title-holder' style='display:none'>&nbsp;</div>";
 				if(!empty($this->request->data['Stack']['title'])){
-					echo $this->Form->input('title',array('label'=>false,'div'=>false,'maxlength'=>'50'));
+					echo $this->Form->input('title',array('label'=>false,'div'=>false,'maxlength'=>'35'));
 				}else{
-					echo $this->Form->input('title',array('value'=>'Title of Studycard','label'=>false,'div'=>false,'maxlength'=>'50'));
+					echo $this->Form->input('title',array('value'=>'Title of Studycard','label'=>false,'div'=>false,'maxlength'=>'35'));
 				}
-				$attributes = array('legend' => 'Choose a stack color');
 				echo "<div class='color-panel'>";
+				$attributes = array('legend'=>'Choose a stack color','value'=>7);
 				echo $this->Form->radio('color_id',$colors,$attributes);
 				echo "</div>";
 			echo "</div>";
@@ -69,36 +70,38 @@
 <script type="text/javascript">
 	var currentCardCount = <?php echo $totalCardsToStart; ?>;
 	var maxCards = 15; //The total number of cards that a user can add at one time.
+	//Clear fields on click
+	var origColor = "#777777";
+	var newColor = "#000000";
+	var titleVal = $('.title > input').val();
+	var titleWidth = '228px';
+	var descriptionVal = $('.description > textarea').val();
+	var tagVal = $('.tags > input').val();
 	
 	$(document).ready(function() {
 		//Shrink the titles
-		/*$('div.title > input').keyup(function(){
-			var maxFontSize = 24;
-			var widthToFit = $(this).width(); //15 = padding around each side
-			if($(this).width() > widthToFit){
-				$('div.title').fitText(1);
-			}
-		});*/
-		
-		//Clear fields on click
-		var origColor = "#777777";
-		var newColor = "#000000";
-		var titleVal = $('.title > input').val();
-		var titleWidth = '228px';
-		var descriptionVal = $('.description > textarea').val();
-		var tagVal = $('.tags > input').val();
+		$('div.title div.title-holder').click(function(){
+			$(this).hide();
+			$('div.title > input').show();
+		});
+	
 		$('div.title > input').focus(function(){
-			$(this).val('');
+			if($(this).val() == titleVal) $(this).val('');
 			$(this).css({'color':newColor});
 		}).blur(function(){
-			if($(this).val() == '' || $(this).val() == ' '){
+			if($(this).val() == ''){
 				$(this).val(titleVal);
 				$(this).css({'color':origColor,'width':titleWidth});
+			}else{
+				$('div.title div.title-holder').text($(this).val());
+				$('div.title div.title-holder').fitText(1);
+				$(this).hide();
+				$('div.title div.title-holder').show();
 			}
 		});
 		//Description
 		$('div.description > textarea').focus(function(){
-			$(this).val('');
+			if($(this).val() == descriptionVal) $(this).val('');
 			$(this).css({'color':newColor});
 		}).blur(function(){
 			if($(this).val() == '' || $(this).val() == ' '){
@@ -108,7 +111,7 @@
 		});
 		//Tags
 		$('div.tags > input').focus(function(){
-			$(this).val('');
+			if($(this).val() == tagVal) $(this).val('');
 			$(this).css({'color':newColor});
 		}).blur(function(){
 			if($(this).val() == '' || $(this).val() == ' '){

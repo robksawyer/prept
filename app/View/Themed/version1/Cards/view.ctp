@@ -58,12 +58,23 @@
 		var widthToFit = $('div.cards.view div.card').width() - (15*4); //15 = padding around each side
 		//Shrink the titles
 		$('div.stacks.view div.card a.stack-title').fitText(1, { minFontSize: '9px', maxFontSize: '14px' });
-		if($('div.cards.view div.card a.front').textWidth() > widthToFit){
-			$('div.cards.view div.card a.front').fitText(1,{minFontSize: '12px', maxFontSize: '24px'});
+		
+		var textWidthFront = 0;
+		var textWidthBack = 0;
+		//http://stackoverflow.com/questions/9404536/finding-text-width-in-jquery
+		$('div.cards.view div.card a.front').clone().addClass("checkWidth").appendTo("body").css({"float": "left"});
+		textWidthFront = $(".checkWidth").width();
+		$('.checkWidth').remove();
+		if(textWidthFront > widthToFit){
+			$('div.cards.view div.card a.front').fitText(1, { minFontSize: '10px', maxFontSize: '24px' });
 		}
-		if($('div.cards.view div.card a.back').textWidth() > widthToFit){
-			$('div.cards.view div.card a.back').fitText(1,{minFontSize: '12px', maxFontSize: '24px'});
+		$('div.cards.view div.card a.back').clone().addClass("checkWidth").appendTo("body").css({"float": "left"});
+		textWidthBack = $(".checkWidth").width();
+		$('.checkWidth').remove();
+		if(textWidthBack > widthToFit){
+			$('div.cards.view div.card a.back').fitText(1, { minFontSize: '10px', maxFontSize: '24px' });
 		}
+		
 		
 		//Make the full card clickable
 		var stackURL = $('div.stacks.view div.card').find('a.stack-title').attr('href');

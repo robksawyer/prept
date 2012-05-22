@@ -7,7 +7,7 @@
 		echo $this->Form->input('Card.back',array('label'=>false,'value'=>'Enter the definition here.','class'=>'card-back'));
 		echo "<div class='clear'>&nbsp;</div>";
 		echo $this->Form->input('stack_id',array('type'=>'hidden','value'=>$stack['Stack']['id']));
-		echo $this->Form->input('color_id',array('type'=>'hidden'));
+		echo $this->Form->input('color_id',array('type'=>'hidden','value'=>7));
 		echo $this->Form->input('user_id',array('type'=>'hidden','value'=>$current_user['id']));
 		echo "<div class='tags'>";
 		echo $this->Form->input('tags',array('label'=>false,'value'=>'Enter optional subjects, i.e., history, math.','div'=>false));

@@ -70,42 +70,25 @@ class StacksController extends AppController {
 		$this->Stack->recursive = -1;
 		$searched = false;
 		
-		$filterVal = 'Search for titles OR tags';
-		
-		if ($this->request->is('post')) {
-			$searchQuery = $this->request->data['Stack']['filter'];
-			//Split the results at the AND and the OR. If the split contains a , consider it a search for tags
-			$words = preg_split("/[\s,]*\\\"([^\\\"]+)\\\"[\s,]*|" . "[\s,]*'([^']+)'[\s,]*|" . "[\s,]+/", $searchQuery, 0, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
-			
-			if(empty($words)){
+		if($this->request->is('post')) {
+			$filterVal='Search for titles OR tags';
+			if($this->request->data['Stack']['filter'] == $filterVal){
 				$this->request->data['Stack']['filter'] = null;
 			}
-			if(empty($this->request->data['Stack']['color_id'])){
-				$this->redirect($this->referer());
-			}
+			if(empty($this->request->data['Stack']['color_id'])) unset($this->request->data['Stack']['color_id']);
 			
-			if(!empty($words)){
-				for($i=0;$i<count($words);$i++){
-					if($words[$i] == 'OR'){
-						unset($words[$i]);
-						$words = array_merge($words);
-						//$titles = implode(" OR ",$words);
-						$this->request->data['Stack']['filter_or'] = $words;
-					}else if($words[$i] == 'AND'){
-						unset($words[$i]);
-						$words = array_merge($words);
-						//$titles = implode(" AND ",$words);
-						$this->request->data['Stack']['filter_and'] = $words;
-					}
+			if(!empty($this->request->data['Stack']['filter'])){
+				$searchQuery = $this->request->data['Stack']['filter'];
+				$stacks = $this->searchByTitle($searchQuery);
+				if(empty($stacks)){
+					unset($this->request->data['Stack']['title']);
+					$stacks = $this->searchByTags($searchQuery);
 				}
-				//Make a tag query
-				$tags = implode(", ",$words);
-				//Set the data for the search
-				unset($this->request->data['Stack']['filter']);
-				$this->request->data['Stack']['tags'] = $tags;
+			}else{
+				$stacks = $this->searchByColor();
 			}
-			
-			
+		}else{
+			unset($this->request->data['Stack']['filter']);
 			$this->Prg->commonProcess(); //Convert the passed args to params for the search
 			$this->paginate = array(
 				'Stack' => array(
@@ -114,18 +97,117 @@ class StacksController extends AppController {
 					//'recursive' => 1
 				)
 			);
+			$this->Stack->contain('User','Tag','Color');
+			$stacks = $this->paginate('Stack');
 		}
-	
+		
 		if(!empty($this->passedArgs)){
 			$searched = true;
 		}
-		$this->Stack->contain('User','Tag','Color');
-		$stacks = $this->paginate('Stack');
 		$colors = $this->Stack->Color->find('list');
 		$users = $this->Stack->User->find('list');
-		$this->set(compact('colors', 'users','searched','stacks'));
-		
+		$finderQuery = true;
+		$this->set(compact('colors', 'users','searched','stacks','finderQuery'));
 		$this->render('find');
+	}
+	
+	/**
+	 * Uses the search string and searches the title field
+	 *
+	 * @param string searchQuery The string to search
+	 * @return void
+	 * @author Rob Sawyer
+	 **/
+	public function searchByTitle($searchQuery=''){
+		//Split the results at the AND and the OR. If the split contains a , consider it a search for tags
+		$words = preg_split("/[\s,]*\\\"([^\\\"]+)\\\"[\s,]*|" . "[\s,]*'([^']+)'[\s,]*|" . "[\s,]+/", $searchQuery, 0, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+		if(!empty($words)){
+			$foundComparison = false;
+			for($i=0;$i<count($words);$i++){
+				if($words[$i] == 'OR'){
+					unset($words[$i]);
+					$words = array_merge($words);
+					//$titles = implode(" OR ",$words);
+					$this->request->data['Stack']['filter_or'] = $words;
+					$foundComparison = true;
+				}else if($words[$i] == 'AND'){
+					unset($words[$i]);
+					$words = array_merge($words);
+					//$titles = implode(" AND ",$words);
+					$this->request->data['Stack']['filter_and'] = $words;
+					$foundComparison = true;
+				}
+			}
+			if(!$foundComparison){
+				$this->request->data['Stack']['title'] = $searchQuery;
+			}
+		}
+		unset($this->request->data['Stack']['filter']);
+		$this->Prg->commonProcess(); //Convert the passed args to params for the search
+		$this->paginate = array(
+			'Stack' => array(
+				'conditions' => $this->Stack->parseCriteria($this->passedArgs),
+				'contain' => array('Tag','Color')
+				//'recursive' => 1
+			)
+		);
+		$this->Stack->contain('User','Tag','Color');
+		$stacks = $this->paginate('Stack');
+		unset($this->request->data['Stack']['title']);
+		return $stacks;
+	}
+	
+	/**
+	 * Uses the search string and searches the tags
+	 *
+	 * @param string searchQuery The string to search
+	 * @return void
+	 * @author Rob Sawyer
+	 **/
+	public function searchByTags($searchQuery=''){
+		
+		//Split the results at the AND and the OR. If the split contains a , consider it a search for tags
+		$words = preg_split("/[\s,]*\\\"([^\\\"]+)\\\"[\s,]*|" . "[\s,]*'([^']+)'[\s,]*|" . "[\s,]+/", $searchQuery, 0, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+		
+		//Search Tags when using commas and Titles when using AND/OR
+		if(strpos($searchQuery,",")){
+			//Make a tag query
+			$tags = implode(", ",$words);
+			//Set the data for the search
+			$this->request->data['Stack']['tags'] = $tags;
+		}
+		unset($this->request->data['Stack']['filter']);
+		$this->Prg->commonProcess(); //Convert the passed args to params for the search
+		$this->paginate = array(
+			'Stack' => array(
+				'conditions' => $this->Stack->parseCriteria($this->passedArgs),
+				'contain' => array('Tag','Color')
+				//'recursive' => 1
+			)
+		);
+		$this->Stack->contain('User','Tag','Color');
+		$stacks = $this->paginate('Stack');
+		unset($this->request->data['Stack']['tags']);
+		return $stacks;
+	}
+	
+	public function searchByColor(){
+		unset($this->request->data['Stack']['filter']);
+		if(empty($this->request->data['Stack']['color_id'])){
+			$this->redirect($this->referer());
+		}
+		
+		$this->Prg->commonProcess(); //Convert the passed args to params for the search
+		$this->paginate = array(
+			'Stack' => array(
+				'conditions' => $this->Stack->parseCriteria($this->passedArgs),
+				'contain' => array('Tag','Color')
+				//'recursive' => 1
+			)
+		);
+		$this->Stack->contain('User','Tag','Color');
+		$stacks = $this->paginate('Stack');
+		return $stacks;
 	}
 	
 /**
@@ -134,8 +216,8 @@ class StacksController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Stack->recursive = 0;
-		$this->Stack->contain('Tag','Color','User');
+		$this->Stack->recursive = -1;
+		$this->Stack->contain('Tag','Color','User','Card');
 		//Search by tag
 		if (isset($this->passedArgs['by'])) {
 			$this->paginate = array(
@@ -170,7 +252,6 @@ class StacksController extends AppController {
 			$stacks = $this->paginate();
 		}
 		$this->set('tags', $this->Stack->Tagged->find('cloud', array('limit' => 10)));
-		//$this->set('stacks', $this->paginate());
 		$this->set(compact('stacks'));
 	}
 
@@ -223,7 +304,6 @@ class StacksController extends AppController {
 	 * @return void
 	 */
 		public function make() {
-			
 			$totalCardsToStart = 5;
 			if($this->Session->read('Card.count') > $totalCardsToStart){
 				$totalCardsToStart = $this->Session->read('Card.count');
@@ -267,7 +347,7 @@ class StacksController extends AppController {
 					$this->Stack->create();
 					if ($this->Stack->saveAll($this->request->data,array('validate'=>false))) {
 						$this->Session->setFlash(__('Your stack has been saved – good luck with your studies.'));
-						$this->redirect(array('action' => 'index'));
+						$this->redirect(array('controller'=>'users','action' => 'backpack'));
 					} else {
 						$this->Session->setFlash(__('The stack could not be saved. Please, try again.'));
 					}

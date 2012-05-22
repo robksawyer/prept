@@ -226,7 +226,7 @@ ul.info li span.price{
 }
 .radio{
 	background: url('../img/common/radio-button-killer.png') no-repeat;
-	width: 35px !important;
+	width: 30px !important;
 	height: 15px !important;
 	float: left;
 	clear: none !important;
@@ -234,10 +234,11 @@ ul.info li span.price{
 	padding: 0px !important;
 	opacity:0.5;
 	filter:alpha(opacity=50); /* For IE8 and earlier */
+	border: 1px solid #d9d9d9 !important;
 }
 .radio-checked{
     background: url('../img/common/radio-button-killer.png') no-repeat;
-    width: 35px !important;
+    width: 30px !important;
 	height: 15px !important;
 	float: left;
 	clear: none !important;
@@ -245,12 +246,13 @@ ul.info li span.price{
 	padding: 0px !important;
 	opacity:1;
 	filter:alpha(opacity=100); /* For IE8 and earlier */
+	border: 1px solid #d9d9d9 !important;
 }
 
-.stacks.index table tr.sort-bar th,
-.stacks.index table tr.sort-bar th a:link,
-.stacks.index table tr.sort-bar th a:active,
-.stacks.index table tr.sort-bar th a:visited{
+table tr.sort-bar th,
+table tr.sort-bar th a:link,
+table tr.sort-bar th a:active,
+table tr.sort-bar th a:visited{
 	border: none;
 	color: #c9c9c9;
 	font-weight: normal;
@@ -401,7 +403,7 @@ div.related div.card div.card-data .tags{
 	background: none;
 }
 
-div.stacks.view div.card div.card-data a{
+div.card div.card-data a.title{
 	display: block;
 	text-align: left;
 	padding: 0 !important;
@@ -554,6 +556,7 @@ div.stacks.top .stacks.form fieldset{
 	margin: 0 0 0 0;
 }
 div.stacks.top .stacks.form fieldset .title{
+	position: relative;
 	float: left;
 	width: 291px !important;
 	height: 188px !important;
@@ -571,7 +574,8 @@ div.stacks.top .stacks.form .error-message{
 	width: 75%;
 	font-size: 12px;
 }
-div.stacks.top .stacks.form fieldset .title input{
+div.stacks.top .stacks.form fieldset .title input,
+div.stacks.top .stacks.form fieldset .title .title-holder{
 	clear: none;
 	color: #777777;
 	font-size: 24px;
@@ -582,13 +586,16 @@ div.stacks.top .stacks.form fieldset .title input{
 	border: 1px solid #f2f2f2;
 }
 div.stacks.top .stacks.form fieldset .title .color-panel{
-	position: relative;
+	position: absolute;
+	top: 130px;
+	left: 20px;
 	clear: both;
-	width: 228px;
-	margin: 45px auto 0 auto;
+	width: 250px;
+	margin: 0;
 	padding: 0;
 	line-height: normal;
 	text-align: left;
+	
 }
 div.stacks.top .stacks.form fieldset .title .color-panel fieldset legend{
 	font-family: "frutiger linotype", "lucida grande", "verdana", sans-serif;
@@ -779,13 +786,22 @@ div.sub-nav div.stacks.find input[type='image']{
 }
 
 /* Search results */
+div.stacks.results table tr{
+	position: relative;
+	display: block;
+	float: none;
+	border: none;
+}
+div.stacks.results table td{
+	border: none;
+}
 div.stacks.results table td.card,
 div.stacks.results table div.card{
 	position: relative;
 	clear: none;
 	width: 183px;
 	height: 116px;
-	margin: 5px 5px 5px 0 !important;
+	margin: 5px 5px 5px 0;
 	padding: 0px;
 	cursor:pointer;
 	border: 1px solid #777777;

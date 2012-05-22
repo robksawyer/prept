@@ -69,6 +69,7 @@
 				$(this).quickFlipper();
 			});
 		});
+	
 		
 		//Make the text fit
 		$('.related div.card div.card-data a.front').each(function(){
@@ -76,8 +77,7 @@
 			var widthToFit = $('.related div.card').width() - (15*4); //15 = padding around each side
 			var textWidth = 0;
 			//http://stackoverflow.com/questions/9404536/finding-text-width-in-jquery
-			$(this).clone().addClass("checkWidth")
-			.appendTo("body").css({"float": "left"});
+			$(this).clone().addClass("checkWidth").appendTo("body").css({"float": "left"});
 			textWidth = $(".checkWidth").width();
 			$('.checkWidth').remove();
 			if(textWidth > widthToFit){
@@ -89,8 +89,7 @@
 			var widthToFit = $('.related div.card').width() - (15*4); //15 = padding around each side
 			var textWidth = 0;
 			//http://stackoverflow.com/questions/9404536/finding-text-width-in-jquery
-			$(this).clone().addClass("checkWidth")
-			.appendTo("body").css({"float": "left"});
+			$(this).clone().addClass("checkWidth").appendTo("body").css({"float": "left"});
 			textWidth = $(".checkWidth").width();
 			$('.checkWidth').remove();
 			if(textWidth > widthToFit){

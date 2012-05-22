@@ -62,7 +62,7 @@ $siteDescription = __('Prept: your web-based study app',true);
 			<!-- Subnav -->
 			<div class="sub-nav">
 				<?php 
-					$ignoredPages = array('findQuery','find', 'make','add','login','signup');
+					$ignoredPages = array('find', 'make','add','login','signup');
 					$hideSearch = false;
 					foreach($ignoredPages as $action){
 						if($this->request->params['action'] == $action){

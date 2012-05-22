@@ -24,6 +24,7 @@ class Stack extends AppModel {
 		//array('name' => 'user_id', 'type' => 'value'),
 		array('name' => 'color_id', 'type' => 'value'),
 		array('name' => 'tags', 'type' => 'subquery', 'method' => 'findByTags', 'field' => 'Stack.id'),
+		array('name' => 'filter', 'type' => 'value'),
 		array('name' => 'filter_and', 'type' => 'query', 'method' => 'andConditions'),
 		array('name' => 'filter_or', 'type' => 'query', 'method' => 'orConditions')
 	);

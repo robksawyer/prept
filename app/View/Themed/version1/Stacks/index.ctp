@@ -7,7 +7,7 @@
 		}
 	?></h2>
 	<table cellpadding="0" cellspacing="0">
-	<tr>
+	<tr class="sort-bar">
 			<th><?php echo $this->Paginator->sort('id');?></th>
 			<th><?php echo $this->Paginator->sort('title');?></th>
 			<th><?php echo $this->Paginator->sort('description');?></th>
