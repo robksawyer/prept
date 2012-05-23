@@ -1,6 +1,6 @@
 <div class="card shadow" id="card-<?php echo $stack['Stack']['id']; ?>" style="background-color: #<?php echo $stack['Color']['hex']; ?>">
 	<div class="card-links" id="card-links-<?php echo $stack['Stack']['id']; ?>">
-		<?php echo $this->element('card-links',array('cache'=>false)); ?>
+		<?php echo $this->element('card-links',array('cache'=>false,'data'=>$stack,'hideCardCount'=>true)); ?>
 	</div>
 	<span class="card-overlay">&nbsp;</span>
 	<div class="card-data">

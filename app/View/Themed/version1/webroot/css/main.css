@@ -911,3 +911,116 @@ div.cards.view div.stacks.view div.card span.card-overlay{
 	width: 183px !important;
 	height: 116px !important;
 }
+/** Stack Test Page **/
+div.card-container{ 
+	position: relative;
+	margin: 0 0 0 -25px;
+	padding: 0;
+	width: 100%;
+	height: 500px;
+	overflow: hidden;
+	background: red;
+}
+div.card-container div.slides_container{
+	position: relative;
+	width: 9999px;
+}
+div.card-container div.slides_container ul.test-card-actions{
+	list-style-type: none;
+	margin: 0 5px;
+	padding: 0;
+	clear: none;
+	float: left;
+}
+div.card-container div.slides_container ul.test-card-actions li{
+	list-style-type: none;
+	margin: 0px 1px 0 1px 0;
+	padding: 0;
+	clear: none;
+}
+div.card-container .slide-navigation{
+	position: relative;
+	width: 600px;
+	height: 100%;
+	margin: 0 auto;
+	background: green;
+}
+div.card-container .slide-navigation .left-arrow {
+	position: relative;
+	float: left;
+	background: yellow;
+}
+div.card-container .slide-navigation .left-arrow img{
+	clear: none;
+	height: 30px;
+	width: auto;
+}
+div.card-container .slide-navigation .right-arrow {
+	position: relative;
+	float: right;
+	background: pink;
+}
+div.card-container .slide-navigation .right-arrow img{
+	clear: none;
+	height: 30px;
+	width: auto;
+}
+div.card-container .slide-navigation .right-arrow.disabled img,
+div.card-container .slide-navigation .left-arrow.disabled img{
+	opacity:0.5;
+	filter:alpha(opacity=50); /* For IE8 and earlier */
+}
+
+/* The next card in the stack */
+div.slides_container div.test-card.next{
+	opacity:0.5;
+	filter:alpha(opacity=50); /* For IE8 and earlier */
+}
+
+div.slides_container div.test-card{
+	float: left;
+	position: relative;
+	clear: none;
+	width: 598px;
+	height: 352px;
+	margin: 0;
+	padding: 0;
+	font-size: 24px;
+	cursor:pointer;
+	text-align: center;
+	border: 31px solid #ffffff;
+}
+div.slides_container div.test-card div.stack-name{
+	position: absolute;
+	font-family: "frutiger linotype", "lucida grande", "verdana", sans-serif;
+	font-weight: normal;
+	top: 0;
+	left: 0;
+	padding: 0;
+	margin: -27px 0 0 0;
+	font-size: 13px;
+	color: #b2b2b2;
+	text-align: left;
+}
+div.slides_container div.test-card.shadow{
+	-moz-box-shadow: 0px -10px 30px #dadada;
+	-webkit-box-shadow: 0px -10px 30px #dadada;
+	box-shadow: 0px -0px 30px #dadada;
+	/* For IE 8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=0, Color='#dadada')";
+	/* For IE 5.5 - 7 */
+	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=0, Color='#dadada');
+}
+div.slides_container div.test-card div.card-data{
+	padding: 140px 0 0 0;
+}
+div.slides_container div.test-card span.card-overlay{
+	position: absolute;
+	z-index: 1;
+	top: 0px;
+	left: 0px;
+	width: 598px;
+	height: 352px;
+	background: transparent url('../img/common/card-overlay-598x352.png') no-repeat top left;
+	border: 1px solid #dadada;
+}

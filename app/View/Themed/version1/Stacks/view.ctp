@@ -5,7 +5,7 @@
 	<?php
 		//Set defaults
 		if(empty($stack['Color'])) $stack['Color']['hex'] = "ffffff";
-		echo $this->element('single-card',array('cache'=>false,'data'=>$stack));
+		echo $this->element('stack-single-card',array('cache'=>false,'data'=>$stack));
 	?>
 </div>
 <div class="clear"></div>

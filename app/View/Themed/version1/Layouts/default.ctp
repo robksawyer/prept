@@ -31,13 +31,10 @@ $siteDescription = __('Prept: your web-based study app',true);
 		echo $this->Html->meta('icon');
 
 		echo $this->Html->css(array('cake.generic','main'));
+		echo $this->fetch('css');
 		//Google Web Fonts
 		//http://www.google.com/webfonts (Avro is an alternative to Rockwell)
 		echo $this->Html->css('http://fonts.googleapis.com/css?family=Arvo:700,400');
-		
-		echo $this->fetch('meta');
-		echo $this->fetch('css');
-		echo $this->fetch('script');
 		
 		//Google libraries
 		echo $this->Html->script('https://www.google.com/jsapi');
@@ -51,6 +48,9 @@ $siteDescription = __('Prept: your web-based study app',true);
 		//Must be invoked after the jQuery libraries load
 		echo $this->Html->script('jquery.utils');
 		echo $this->Html->script('jquery.fittext');
+		echo $this->fetch('script');
+		
+		echo $this->fetch('meta');
 	?>
 </head>
 <body>
@@ -59,20 +59,24 @@ $siteDescription = __('Prept: your web-based study app',true);
 			<?php
 				echo $this->element('main-nav',array('cache'=>false,'siteDescription'=>$siteDescription));
 			?>
+			<?php 
+				$ignoredPages = array('find', 'make','add','login','signup');
+				$hideSearch = false;
+				foreach($ignoredPages as $action){
+					if($this->request->params['action'] == $action){
+						$hideSearch = true;
+						break;
+					}
+				}
+				if(!$hideSearch): 
+			?>
 			<!-- Subnav -->
 			<div class="sub-nav">
 				<?php 
-					$ignoredPages = array('find', 'make','add','login','signup');
-					$hideSearch = false;
-					foreach($ignoredPages as $action){
-						if($this->request->params['action'] == $action){
-							$hideSearch = true;
-							break;
-						}
-					}
-					if(!$hideSearch) echo $this->element('search-form',array('cache'=>false));
+					echo $this->element('search-form',array('cache'=>false));
 				?>
 			</div>
+			<?php endif; ?>
 		</div>
 		<div id="content">
 

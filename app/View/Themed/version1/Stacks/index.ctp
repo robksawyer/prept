@@ -20,7 +20,7 @@
 	<?php
 	$counter = 0;
 	foreach ($stacks as $stack): 
-		echo $this->element('card',array('cache'=>false,'counter'=>$counter,'data'=>$stack));
+		echo $this->element('stack-card',array('cache'=>false,'counter'=>$counter,'data'=>$stack));
 	$counter += 1; //Increment the counter
 	endforeach; 
 ?>
