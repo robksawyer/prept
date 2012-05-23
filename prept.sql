@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 17, 2012 at 08:42 AM
+-- Generation Time: May 23, 2012 at 01:28 AM
 -- Server version: 5.5.9
 -- PHP Version: 5.3.6
 
@@ -63,12 +63,12 @@ CREATE TABLE `cards` (
   `front` text NOT NULL,
   `back` text,
   `stack_id` int(11) NOT NULL,
-  `color_id` int(11) DEFAULT NULL COMMENT 'If the user wanted to change the color of the individual card.',
+  `color_id` int(11) DEFAULT '7' COMMENT 'If the user wanted to change the color of the individual card.',
   `user_id` int(11) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 -- --------------------------------------------------------
 
@@ -79,11 +79,11 @@ CREATE TABLE `cards` (
 CREATE TABLE `colors` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
-  `hex` varchar(255) NOT NULL,
+  `hex` varchar(255) NOT NULL DEFAULT 'ffffff',
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 -- --------------------------------------------------------
 
@@ -117,6 +117,24 @@ CREATE TABLE `comments` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `questions`
+--
+
+CREATE TABLE `questions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `card_id` int(11) NOT NULL,
+  `time_elapsed` float NOT NULL DEFAULT '0',
+  `correct` smallint(1) NOT NULL,
+  `test_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `stacks`
 --
 
@@ -124,12 +142,12 @@ CREATE TABLE `stacks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) CHARACTER SET utf8 NOT NULL,
   `description` text CHARACTER SET utf8,
-  `color_id` int(11) DEFAULT NULL,
+  `color_id` int(11) DEFAULT '7',
   `user_id` int(11) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 -- --------------------------------------------------------
 
@@ -168,6 +186,23 @@ CREATE TABLE `tags` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQUE_TAG` (`identifier`,`keyname`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tests`
+--
+
+CREATE TABLE `tests` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `test_type` varchar(255) DEFAULT NULL COMMENT 'front vs. back (term vs. definitions)',
+  `stack_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 

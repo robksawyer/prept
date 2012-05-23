@@ -23,20 +23,6 @@ class StacksController extends AppController {
 		);
 	
 	/**
-	 * This method handles testing the user's skills
-	 *
-	 * @param $id The stack to test
-	 * @param $test_type [terms,definitions] Whether or not the user wants to start the test with terms or definitions 
-	 * @return void
-	 * @author Rob Sawyer
-	 **/
-	public function test($id=null,$test_type='') {
-		$this->Stack->contain(array('Card'=>array('Tag','Color'),'Tag','User','Color'));
-		$stack = $this->Stack->read(null, $id);
-		$this->set('stack', $stack);
-	}
-	
-	/**
 	 * Search stacks
 	 *	https://github.com/CakeDC/search
 	 * @return void

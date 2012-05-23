@@ -34,9 +34,9 @@ echo $this->Html->script('jquery.quickflip.min.js',array('inline'=>false)); //ht
 					echo $this->element('test-card',array('cache'=>false,'data'=>$card,'counter'=>$counter,'test_type'=>$test_type,'next'=>$next));
 					echo "<ul class='test-card-actions'>";
 					echo "<li>".$this->Html->link($this->Html->image('../img/slide-show/icons/question-icon-52x52_off.png',array('border'=>false)),'#',array('escape'=>false,'title'=>'Question?'))."</li>";
-					echo "<li>".$this->Html->link($this->Html->image('../img/slide-show/icons/add-card-icon-52x52_off.png',array('border'=>false)),'#',array('escape'=>false,'title'=>'Add a Card'))."</li>";
-					echo "<li>".$this->Html->link($this->Html->image('../img/slide-show/icons/delete-card-icon-52x52_off.png',array('border'=>false)),'#',array('escape'=>false,'title'=>'Delete a Card'))."</li>";
-					echo "<li>".$this->Html->link($this->Html->image('../img/slide-show/icons/shuffle-icon-52x52_off.png',array('border'=>false)),'#',array('escape'=>false,'title'=>'Shuffle Cards'))."</li>";
+					echo "<li>".$this->Html->link($this->Html->image('../img/slide-show/icons/add-card-icon-52x52_off.png',array('border'=>false)),array('controller'=>'cards','action'=>'add',$stack['Stack']['id']),array('escape'=>false,'title'=>'Add a Card'))."</li>";
+					echo "<li>".$this->Html->link($this->Html->image('../img/slide-show/icons/delete-card-icon-52x52_off.png',array('border'=>false)),array('controller'=>'cards','action'=>'add',$stack['Stack']['id'],null,__('Are you sure you want to delete # %s?', $card['id'])),array('escape'=>false,'title'=>'Delete a Card'))."</li>";
+					echo "<li>".$this->Html->link($this->Html->image('../img/slide-show/icons/shuffle-icon-52x52_off.png',array('border'=>false)),'javascript:shuffleCards();',array('escape'=>false,'title'=>'Shuffle Cards'))."</li>";
 					echo "<li>".$this->Html->link($this->Html->image('../img/slide-show/icons/share-icon-52x52_off.png',array('border'=>false)),'#',array('escape'=>false,'title'=>'Share'))."</li>";
 					echo "<li>".$this->Html->link($this->Html->image('../img/slide-show/icons/take-test-icon-52x52_off.png',array('border'=>false)),'#',array('escape'=>false,'title'=>'Take Test'))."</li>";
 					echo "</ul>";
@@ -88,6 +88,10 @@ echo $this->Html->script('jquery.quickflip.min.js',array('inline'=>false)); //ht
 			$('.card-container .slides_container').animate({'marginLeft':'+='+cardWidth+"px"});
 		});
 		
+		//TODO: 
+		//Generate a form of checkboxes that track the user right and wrong answers
+		//Generate a hidden input named time_elapsed to track the time on each card
+		
 		//Card Flipping
 		//http://dev.jonraasch.com/quickflip/docs
 		/*$('div.stacks.test div.quickflip-wrapper').quickFlip();
@@ -133,4 +137,8 @@ echo $this->Html->script('jquery.quickflip.min.js',array('inline'=>false)); //ht
 			}
 		});*/
 	});
+	
+	function shuffleCards(){
+		alert("Shuffling cards...");
+	}
 </script>
