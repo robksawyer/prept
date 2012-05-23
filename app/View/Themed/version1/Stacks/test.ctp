@@ -33,12 +33,12 @@ echo $this->Html->script('jquery.quickflip.min.js',array('inline'=>false)); //ht
 					if($counter > 0) $next = true;
 					echo $this->element('test-card',array('cache'=>false,'data'=>$card,'counter'=>$counter,'test_type'=>$test_type,'next'=>$next));
 					echo "<ul class='test-card-actions'>";
-					echo "<li>".$this->Html->link($this->Html->image('../img/slide-show/icons/question-icon-52x52.png',array('border'=>false)),'#',array('escape'=>false))."</li>";
-					echo "<li>".$this->Html->link($this->Html->image('../img/slide-show/icons/add-card-icon-52x52.png',array('border'=>false)),'#',array('escape'=>false))."</li>";
-					echo "<li>".$this->Html->link($this->Html->image('../img/slide-show/icons/delete-card-icon-52x52.png',array('border'=>false)),'#',array('escape'=>false))."</li>";
-					echo "<li>".$this->Html->link($this->Html->image('../img/slide-show/icons/shuffle-icon-52x52.png',array('border'=>false)),'#',array('escape'=>false))."</li>";
-					echo "<li>".$this->Html->link($this->Html->image('../img/slide-show/icons/share-icon-52x52.png',array('border'=>false)),'#',array('escape'=>false))."</li>";
-					echo "<li>".$this->Html->link($this->Html->image('../img/slide-show/icons/take-test-icon-52x52.png',array('border'=>false)),'#',array('escape'=>false))."</li>";
+					echo "<li>".$this->Html->link($this->Html->image('../img/slide-show/icons/question-icon-52x52_off.png',array('border'=>false)),'#',array('escape'=>false,'title'=>'Question?'))."</li>";
+					echo "<li>".$this->Html->link($this->Html->image('../img/slide-show/icons/add-card-icon-52x52_off.png',array('border'=>false)),'#',array('escape'=>false,'title'=>'Add a Card'))."</li>";
+					echo "<li>".$this->Html->link($this->Html->image('../img/slide-show/icons/delete-card-icon-52x52_off.png',array('border'=>false)),'#',array('escape'=>false,'title'=>'Delete a Card'))."</li>";
+					echo "<li>".$this->Html->link($this->Html->image('../img/slide-show/icons/shuffle-icon-52x52_off.png',array('border'=>false)),'#',array('escape'=>false,'title'=>'Shuffle Cards'))."</li>";
+					echo "<li>".$this->Html->link($this->Html->image('../img/slide-show/icons/share-icon-52x52_off.png',array('border'=>false)),'#',array('escape'=>false,'title'=>'Share'))."</li>";
+					echo "<li>".$this->Html->link($this->Html->image('../img/slide-show/icons/take-test-icon-52x52_off.png',array('border'=>false)),'#',array('escape'=>false,'title'=>'Take Test'))."</li>";
 					echo "</ul>";
 					$counter++;
 				}
@@ -60,7 +60,14 @@ echo $this->Html->script('jquery.quickflip.min.js',array('inline'=>false)); //ht
 </div>
 <script type="text/javascript">
 	$(document).ready(function() {
-		var cardWidth = $('.card-container .slides_container .test-card').width();
+		//Activate card action rollovers
+		$(".test-card-actions img").hover(function() { 
+			this.src = this.src.replace("_off", "_on");
+		},function() { 
+			this.src = this.src.replace("_on", "_off");
+		});
+		
+		var cardWidth = $('.card-container .slides_container .test-card').width() + ($("ul.test-card-actions").width()*2);
 		var curCard = 0;
 		
 		$('.card-container .slide-navigation .right-arrow').click(function(event){

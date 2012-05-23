@@ -927,14 +927,16 @@ div.card-container div.slides_container{
 }
 div.card-container div.slides_container ul.test-card-actions{
 	list-style-type: none;
-	margin: 0 5px;
+	margin: 0;
 	padding: 0;
+	width: 65px;
 	clear: none;
 	float: left;
 }
 div.card-container div.slides_container ul.test-card-actions li{
 	list-style-type: none;
-	margin: 0px 1px 0 1px 0;
+	width: 52px;
+	margin: 0 auto;
 	padding: 0;
 	clear: none;
 }
