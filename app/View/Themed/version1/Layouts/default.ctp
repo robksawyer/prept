@@ -41,8 +41,8 @@ $siteDescription = __('Prept: your web-based study app',true);
 	?>
 	<script type="text/javascript">
 	  google.load("search", "1");
-	  google.load("jquery", "1.4.2");
-	  google.load("jqueryui", "1.7.2");
+	  google.load("jquery", "1");
+	  google.load("jqueryui", "1");
 	</script>
 	<?php
 		//Must be invoked after the jQuery libraries load

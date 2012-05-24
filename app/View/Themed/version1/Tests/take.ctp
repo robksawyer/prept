@@ -2,7 +2,9 @@
 //http://slidesjs.com/
 //echo $this->Html->css('testing-page');
 //echo $this->Html->script('slides.min.jquery',array('inline'=>false));
-echo $this->Html->script('jquery.quickflip.min.js',array('inline'=>false)); //http://dev.jonraasch.com/quickflip/docs
+echo $this->Html->script('jquery.quickflip.min',array('inline'=>false)); //http://dev.jonraasch.com/quickflip/docs
+//echo $this->Html->script('jquery.ba-hashchange.min',array('inline'=>false)); //http://benalman.com/projects/jquery-hashchange-plugin/
+echo $this->Html->script('jquery.ba-bbq.min',array('inline'=>false)); //https://github.com/cowboy/jquery-bbq/
 ?>
 <div class="stacks test">
 	<?php
@@ -21,25 +23,24 @@ echo $this->Html->script('jquery.quickflip.min.js',array('inline'=>false)); //ht
 	?>
 		<div class="panel1">
 			<p>Do you want to start your test with the terms or the definitions?</p>
-			<?php echo $this->Html->link('Terms',array('action'=>'test',$stack['Stack']['id'],'terms'),array()).' or '.$this->Html->link('Definitions',array('action'=>'test',$stack['Stack']['id'],'definitions'),array()); ?>
+			<?php echo $this->Html->link('Terms',array('action'=>'take',$stack['Stack']['id'],'terms'),array()).' or '.$this->Html->link('Definitions',array('action'=>'take',$stack['Stack']['id'],'definitions'),array()); ?>
 		</div>
 <?php else: ?>
 	<div class="card-container" id="card-container-0">
-		<div class="slides_container">
+		<div class="slides-container">
 			<?php 
 				$counter = 0;
 				$next = false;
 				foreach($stack['Card'] as $card){
 					if($counter > 0) $next = true;
-					echo $this->element('test-card',array('cache'=>false,'data'=>$card,'counter'=>$counter,'test_type'=>$test_type,'next'=>$next));
-					echo "<ul class='test-card-actions'>";
-					echo "<li>".$this->Html->link($this->Html->image('../img/slide-show/icons/question-icon-52x52_off.png',array('border'=>false)),'#',array('escape'=>false,'title'=>'Question?'))."</li>";
-					echo "<li>".$this->Html->link($this->Html->image('../img/slide-show/icons/add-card-icon-52x52_off.png',array('border'=>false)),array('controller'=>'cards','action'=>'add',$stack['Stack']['id']),array('escape'=>false,'title'=>'Add a Card'))."</li>";
-					echo "<li>".$this->Html->link($this->Html->image('../img/slide-show/icons/delete-card-icon-52x52_off.png',array('border'=>false)),array('controller'=>'cards','action'=>'add',$stack['Stack']['id'],null,__('Are you sure you want to delete # %s?', $card['id'])),array('escape'=>false,'title'=>'Delete a Card'))."</li>";
-					echo "<li>".$this->Html->link($this->Html->image('../img/slide-show/icons/shuffle-icon-52x52_off.png',array('border'=>false)),'javascript:shuffleCards();',array('escape'=>false,'title'=>'Shuffle Cards'))."</li>";
-					echo "<li>".$this->Html->link($this->Html->image('../img/slide-show/icons/share-icon-52x52_off.png',array('border'=>false)),'#',array('escape'=>false,'title'=>'Share'))."</li>";
-					echo "<li>".$this->Html->link($this->Html->image('../img/slide-show/icons/take-test-icon-52x52_off.png',array('border'=>false)),'#',array('escape'=>false,'title'=>'Take Test'))."</li>";
-					echo "</ul>";
+					echo $this->element('test-card',array('cache'=>false,
+																		'data'=>$card,
+																		'stack'=>$stack,
+																		'counter'=>$counter,
+																		'test_type'=>$test_type,
+																		'next'=>$next
+																		)
+																	);
 					$counter++;
 				}
 			?>
@@ -59,6 +60,12 @@ echo $this->Html->script('jquery.quickflip.min.js',array('inline'=>false)); //ht
 	endif; ?>
 </div>
 <script type="text/javascript">
+	var maxCards = <?php echo count($stack['Card'])-1; ?>;
+	var curCard = 0;
+	var cardWidth = 0;
+	var rightArrowActivated = false;
+	var leftArrowActivated = false;
+	
 	$(document).ready(function() {
 		//Activate card action rollovers
 		$(".test-card-actions img").hover(function() { 
@@ -67,26 +74,10 @@ echo $this->Html->script('jquery.quickflip.min.js',array('inline'=>false)); //ht
 			this.src = this.src.replace("_on", "_off");
 		});
 		
-		var cardWidth = $('.card-container .slides_container .test-card').width() + ($("ul.test-card-actions").width()*2);
-		var curCard = 0;
-		
-		$('.card-container .slide-navigation .right-arrow').click(function(event){
-			event.preventDefault();
-			$('.card-container .slides_container #test-card-'+curCard).fadeTo(300,0.5); //Fade out previous card
-			curCard += 1;
-			$('.card-container .slides_container #test-card-'+curCard).fadeTo (300,1); //Fade in new card
-			//Move the slides_container left an amount based on the card width
-			$('.card-container .slides_container').animate({'marginLeft':'-='+cardWidth+"px"});
-		});
-		
-		$('.card-container .slide-navigation .left-arrow').click(function(event){
-			event.preventDefault();
-			$('.card-container .slides_container #test-card-'+curCard).fadeTo(300,0.5); //Fade out previous card
-			curCard -= 1;
-			$('.card-container .slides_container #test-card-'+curCard).fadeTo(300,1); //Fade in new card
-			//Move the slides_container left an amount based on the card width
-			$('.card-container .slides_container').animate({'marginLeft':'+='+cardWidth+"px"});
-		});
+		cardWidth = $('.card-container .slides-container .test-card').width();
+		//Deactivate left arrow
+		deactivateLeftArrow();
+		activateRightArrow();
 		
 		//TODO: 
 		//Generate a form of checkboxes that track the user right and wrong answers
@@ -94,27 +85,28 @@ echo $this->Html->script('jquery.quickflip.min.js',array('inline'=>false)); //ht
 		
 		//Card Flipping
 		//http://dev.jonraasch.com/quickflip/docs
-		/*$('div.stacks.test div.quickflip-wrapper').quickFlip();
-		$('div.stacks.test div.quickflip-wrapper').each(function(ev){
+		$('div.slides-container div.test-card div.quickflip-wrapper').quickFlip();
+		
+		/*$('div.stacks.test div.quickflip-wrapper').each(function(ev){
 			var cardURL = $(this).find('a.front').attr('href');
 			//Bind the click to the card
 			$(this).click(function(){
 				window.location.href = cardURL.toString();
 			});
 			
-			$(this).hover(function(){
+			$(this).click(function(){
 				//on
 				$(this).quickFlipper();
 			},function(){
 				//off
 				$(this).quickFlipper();
 			});
-		});
+		});*/
 		
 		//Make the text fit
-		$('div.stacks.test div.test-card div.test-card-data a.front').each(function(){
+		$('div.slides-container div.test-card .card-data').each(function(){
 			var maxFontSize = 24;
-			var widthToFit = $('div.stacks.test div.test-card').width() - (15*4); //15 = padding around each side
+			var widthToFit = $('div.slides-container div.test-card').width() - (15*4); //15 = padding around each side
 			var textWidth = 0;
 			//http://stackoverflow.com/questions/9404536/finding-text-width-in-jquery
 			$(this).clone().addClass("checkWidth").appendTo("body").css({"float": "left"});
@@ -124,7 +116,7 @@ echo $this->Html->script('jquery.quickflip.min.js',array('inline'=>false)); //ht
 				$(this).fitText(1, { minFontSize: '10px', maxFontSize: '24px' });
 			}
 		});
-		$('div.stacks.test div.test-card div.test-card-data a.back').each(function(){
+		/*$('div.stacks.test div.test-card div.test-card-data a.back').each(function(){
 			var maxFontSize = 24;
 			var widthToFit = $('div.stacks.test div.test-card').width() - (15*4); //15 = padding around each side
 			var textWidth = 0;
@@ -138,7 +130,122 @@ echo $this->Html->script('jquery.quickflip.min.js',array('inline'=>false)); //ht
 		});*/
 	});
 	
-	function shuffleCards(){
-		alert("Shuffling cards...");
+	function deactivateLeftArrow(){
+		leftArrowActivated = false;
+		$('.card-container .slide-navigation .left-arrow').addClass('disabled');
+		$('.card-container .slide-navigation .left-arrow').off("click",left_arrow_click);
 	}
+	
+	function activateLeftArrow(){
+		leftArrowActivated = true;
+		$('.card-container .slide-navigation .left-arrow').on('click',left_arrow_click);
+		if($('.card-container .slide-navigation .left-arrow').hasClass('disabled')){
+			$('.card-container .slide-navigation .left-arrow').removeClass('disabled');
+		}
+	}
+	
+	function deactivateRightArrow(){
+		rightArrowActivated = false;
+		$('.card-container .slide-navigation .right-arrow').addClass('disabled');
+		$('.card-container .slide-navigation .right-arrow').off('click',right_arrow_click);
+	}
+	
+	function activateRightArrow(){
+		rightArrowActivated = true;
+		$('.card-container .slide-navigation .right-arrow').on('click',right_arrow_click);
+		if($('.card-container .slide-navigation .right-arrow').hasClass('disabled')){
+			$('.card-container .slide-navigation .right-arrow').removeClass('disabled');
+		}
+	}
+	
+	/*
+		Handles the acfion items when the left arrow is clicked
+	*/
+	function left_arrow_click(event){
+		event.preventDefault();
+		$('.card-container .slides-container #test-card-'+curCard).fadeTo(300,0.5,addNext); //Fade out previous card
+		curCard -= 1;
+		$('.card-container .slides-container #test-card-'+curCard).fadeTo(300,1,removeNext); //Fade in new card
+
+		//Move the slides-container left an amount based on the card width
+		$('.card-container .slides-container').animate({'marginLeft':'+='+cardWidth+"px"});
+		if(curCard <= maxCards && !rightArrowActivated){
+			activateRightArrow();
+		}
+		if(curCard == 0 && leftArrowActivated){
+			deactivateLeftArrow();
+		}
+	}
+	
+	/*
+		Handles the action items when the right arrow is clicked
+	*/
+	function right_arrow_click(event){
+		event.preventDefault();
+		$('.card-container .slides-container #test-card-'+curCard).fadeTo(300,0.5,addNext); //Fade out previous card
+		curCard += 1;
+		$('.card-container .slides-container #test-card-'+curCard).fadeTo (300,1,removeNext); //Fade in new card
+		
+		//Move the slides-container left an amount based on the card width
+		$('.card-container .slides-container').animate({'marginLeft':'-='+cardWidth+"px"});
+		if(curCard > 0 && !leftArrowActivated){
+			activateLeftArrow();
+		}
+		if(curCard >= maxCards && rightArrowActivated){
+			deactivateRightArrow();
+		}
+	}
+	
+	function shuffleCards(){
+		$(".card-container .slides-container").randomize("div.test-card");
+	}
+	
+	/*
+		1. Stop the card timer
+		2. Flip the card
+		3. Show the answer
+		4. Request whether or not the user guessed the correct answer
+	*/
+	function doTest(id){
+		alert("Taking the Test");
+		$('div.slides-container div#test-card-'+id+' div.quickflip-wrapper').quickFlipper();
+	}
+	
+	function addNext(){
+		if(!$(this).hasClass('next')){
+			$(this).addClass('next');
+		}
+	}
+	function removeNext(){
+		if($(this).hasClass('next')){
+			$(this).removeClass('next');
+		}
+	}
+	
+	(function($) {
+		$.fn.randomize = function(childElem) {
+		  return this.each(function() {
+				var $this = $(this);
+				var elems = $this.children(childElem);
+				var curNext;
+				elems.sort(function() { return (Math.round(Math.random())-0.5); });
+				$this.remove(childElem);
+				for(var i=0; i < elems.length; i++){
+					//Get the id and change it to the i val
+					var elementValues = $(elems[i]).attr('id').split('-');
+					var elementID = elementValues[2];
+					if($(elems[i]).hasClass('next')){
+						curNext = $(elems[i]).attr('id');
+						$(elems[i]).removeClass('next');
+					}
+					$(elems[i]).fadeTo(10,1);
+					$(elems[i]).attr('id','test-card-'+i);
+					$this.append(elems[i]);
+				}
+				//Add the next class to the div # that used to have it.
+				$("#"+curNext).fadeTo(10,0.5);
+				$("#"+curNext).addClass('next');
+		  });
+		}
+	})(jQuery);
 </script>

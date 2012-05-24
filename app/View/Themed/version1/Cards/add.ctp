@@ -26,7 +26,7 @@
 		var tagVal = $('.tags > input').val();
 		//Front
 		$('textarea.card-front').focus(function(){
-			$(this).val('');
+			if($(this).val() == frontVal) $(this).val('');
 			$(this).css({'color':newColor});
 		}).blur(function(){
 			if($(this).val() == '' || $(this).val() == ' '){
@@ -37,7 +37,7 @@
 		
 		//Back
 		$('textarea.card-back').focus(function(){
-			$(this).val('');
+			if($(this).val() == backVal) $(this).val('');
 			$(this).css({'color':newColor});
 		}).blur(function(){
 			if($(this).val() == '' || $(this).val() == ' '){

@@ -25,7 +25,7 @@
 	?>
 	</div>
 <?php endif; ?>
-<div class="clear">&nbsp;</div>
+	<div class="clear">&nbsp;</div>
 	<div class="actions">
 		<ul>
 			<li><?php echo $this->Html->link(__('Add A Card'), array('controller' => 'cards', 'action' => 'add',$stack['Stack']['id']));?> </li>

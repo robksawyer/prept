@@ -1,5 +1,5 @@
 <div class="quickflip-wrapper">
-	<div class="card shadow panel1" id="card-<?php echo $counter; ?>" style="<?php echo "background: #".$data['Color']['hex']; ?>">
+	<div class="card shadow panel1" id="card-front-<?php echo $counter; ?>" style="<?php echo "background: #".$data['Color']['hex']; ?>">
 		<span class="card-overlay">&nbsp;</span>
 		<div class="card-data" id="card-data-front-<?php echo $counter; ?>">
 			<?php
@@ -17,7 +17,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="card shadow panel2" id="card-<?php echo $counter; ?>" style="<?php echo "background: #".$data['Color']['hex']; ?>">
+	<div class="card shadow panel2" id="card-back-<?php echo $counter; ?>" style="<?php echo "background: #".$data['Color']['hex']; ?>">
 		<span class="card-overlay">&nbsp;</span>
 		<div class="flipped-icon">&#x21BA;</div>
 		<div class="card-data" id="card-data-back-<?php echo $counter; ?>">
