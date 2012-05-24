@@ -986,6 +986,7 @@ div.slides-container div.test-card{
 	position: relative;
 	clear: none;
 	width: 740px;
+	cursor: normal;
 }
 div.slides-container div.test-card div.container{
 	float: left;
@@ -996,9 +997,9 @@ div.slides-container div.test-card div.container{
 	margin: 0;
 	padding: 0;
 	font-size: 24px;
-	cursor:pointer;
 	text-align: center;
 	border: 31px solid #ffffff;
+	cursor: default;
 }
 div.slides-container div.test-card div.container div.stack-name{
 	position: absolute;
@@ -1045,7 +1046,7 @@ div.slides-container div.test-card div.quickflip-wrapper{
 	margin: 0;
 	padding: 0;
 	background: none;
-	cursor: pointer;
+	cursor: default;
 }
 div.slides-container div.test-card div.card{
 	display: block;
@@ -1060,19 +1061,55 @@ div.slides-container div.test-card div.card{
 	text-decoration: none;
 	border: none;
 }
-div.related div.quickflip-wrapper div.card.panel1,
-div.related div.quickflip-wrapper div.card.panel2,
-div.view div.quickflip-wrapper div.card.panel1,
-div.view div.quickflip-wrapper div.card.panel2{
+div.slides-container div.test-card div.card .grade-panel,
+div.slides-container div.test-card div.card .grade-panel a{
+	font-size: 14px;
+}
+div.slides-container div.test-card div.card .grade-panel {
+	position: absolute;
+	top: 315px;
+	left: 320px;
+	z-index: 300;
+	margin: 0 auto;
+	padding: 0;
+	font-weight: normal;
+}
+div.slides-container div.test-card div.card .grade-panel a:link,
+div.slides-container div.test-card div.card .grade-panel a:active,
+div.slides-container div.test-card div.card .grade-panel a:visited{
+	text-decoration: underline;
+	cursor: pointer;
+}
+div.slides-container div.test-card div.card .grade-panel a:hover{
+	text-decoration: none;
+}
+
+div.slides-container div.test-card div.quickflip-wrapper div.card.panel1,
+div.slides-container div.test-card div.quickflip-wrapper div.card.panel2{
 	margin: 0; padding: 0;
 	clear: none;
 }
 
-div.related div.quickflip-wrapper div.card.panel1,
-div.view div.quickflip-wrapper div.card.panel1 {
-	z-index: 1;
+div.slides-container div.test-card div.quickflip-wrapper div.card.panel1{
+	/*z-index: 1;*/
 }
-div.related div.quickflip-wrapper div.card.panel2,
-div.view div.quickflip-wrapper div.card.panel2 {
-	display: none;
+div.slides-container div.test-card div.quickflip-wrapper div.card.panel2{
+	/*display: none;*/
+}
+div.slides-container div.test-card div.quickflip-wrapper div.card.panel2 div.flipped-icon{
+	position: relative;
+	z-index: 300;
+	margin: 0 0 0 300px;
+	text-align: center;
+	font-size: 20px;
+	padding: 2px;
+	width: 25px;
+	height: 25px;
+	opacity:0.8;
+	filter:alpha(opacity=80); /* For IE8 and earlier */
+	cursor: pointer;
+}
+div.slides-container div.test-card div.quickflip-wrapper div.card.panel2 div.flipped-icon:hover{
+	opacity:1;
+	filter:alpha(opacity=100); /* For IE8 and earlier */
 }

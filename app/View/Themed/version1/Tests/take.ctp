@@ -207,7 +207,10 @@ echo $this->Html->script('jquery.ba-bbq.min',array('inline'=>false)); //https://
 		4. Request whether or not the user guessed the correct answer
 	*/
 	function doTest(id){
-		alert("Taking the Test");
+		$('div.slides-container div#test-card-'+id+' div.quickflip-wrapper').quickFlipper();
+	}
+	
+	function flipBackAround(id){
 		$('div.slides-container div#test-card-'+id+' div.quickflip-wrapper').quickFlipper();
 	}
 	

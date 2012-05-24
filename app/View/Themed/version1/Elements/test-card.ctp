@@ -21,6 +21,7 @@
 		<div class="card container shadow panel2" id="card-back-<?php echo $counter; ?>" style="<?php echo "background-color: #".$data['Color']['hex']; ?>">
 			<div class="stack-name"><?php echo $stack['Stack']['title']; ?></div>
 			<span class="card-overlay">&nbsp;</span>
+			<div class="flipped-icon" onclick="javascript:flipBackAround(<?php echo $counter; ?>);" title="flip around">&#x21BA;</div>
 			<div class="card-data">
 				<?php
 					if($test_type != 'terms'){
@@ -30,6 +31,7 @@
 					}
 				?>
 			</div>
+			<div class="grade-panel">Did you get it <?php echo $this->Html->link('right','#',array('title'=>'Congratulations!')); ?> or <?php echo $this->Html->link('wrong','#',array('title'=>'Keep studying, you\'ll get it right soon enough.')); ?>?</div>
 		</div>
 	</div>
 	<ul class='test-card-actions' id='test-card-actions-<?php echo $counter; ?>'>
