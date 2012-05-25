@@ -83,20 +83,20 @@ class User extends AppModel {
 			'message' => 'The passwords are not equal, please try again.'
 		),
 		//'new_password' => $this->validate['passwd'],
-		'confirm_password' => array(
+		/*'confirm_password' => array(
 			'required' => array(
 				'rule' => array('compareFields', 'new_password', 'confirm_password'), 
-				'required' => true, 
+				'required' => false, 
 				'message' => 'The passwords are not equal.'
 			)
 		),
 		'old_password' => array(
 			'to_short' => array(
 				'rule' => 'validateOldPassword', 
-				'required' => true, 
+				'required' => false, 
 				'message' => 'Invalid password.'
 			)
-		)
+		)*/
 	);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -445,6 +445,8 @@ class User extends AppModel {
 			$this->save($this->data, array('validate' => false,'callbacks' => false));
 			$this->validate = $tmp;
 			return true;
+		}else{
+			$errors = $this->validationErrors;
 		}
 
 		$this->validate = $tmp;
@@ -526,7 +528,6 @@ class User extends AppModel {
 	public function register($postData = array(), $useEmailVerification = true, $generatePassword = false) {
 		$postData = $this->_beforeRegistration($postData, $useEmailVerification);
 		$this->_removeExpiredRegistrations();
-
 		$this->set($postData);
 		if ($this->validates()) {
 			if($generatePassword === false){
@@ -539,6 +540,9 @@ class User extends AppModel {
 			}
 			$this->create();
 			return $this->save($postData, false);
+		}else{
+			$errors = $this->validationErrors;
+			debug($errors);
 		}
 
 		return false;

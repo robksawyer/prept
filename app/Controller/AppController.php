@@ -75,7 +75,8 @@ class AppController extends Controller {
 	 * Fires before the page is rendered
 	 */
 	public function beforeRender(){
-		
+		//$this->viewClass = 'Theme';
+		//$this->theme = 'version1';
 	}
 	
 }

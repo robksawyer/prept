@@ -139,6 +139,11 @@ class UsersController extends AppController {
 	 **/
 	public function backpack() {
 		//debug($this->current_user);
+		$user = $this->Auth->user();
+		if(empty($user)){
+			$this->Session->setFlash(__('You are not authorized to access that location.'));
+			$this->redirect(array('action' => 'index'));
+		}
 		$this->paginate = array(
 			'Stack' => array(
 				'conditions'=>array('user_id' => $this->current_user['id'])
