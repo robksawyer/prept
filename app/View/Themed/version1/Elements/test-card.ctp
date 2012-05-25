@@ -31,7 +31,40 @@
 					}
 				?>
 			</div>
-			<div class="grade-panel">Did you get it <?php echo $this->Html->link('right','#',array('title'=>'Congratulations!')); ?> or <?php echo $this->Html->link('wrong','#',array('title'=>'Keep studying, you\'ll get it right soon enough.')); ?>?</div>
+			<div class="grade-panel" id="grade-panel-<?php echo $counter; ?>">
+				<div class="loading" id="#loading-<?php echo $counter; ?>">&nbsp;</div>
+				<div class="grade" id="grade-<?php echo $counter; ?>">
+				<!-- There's a bug and it's only adding one ajax link. For some reason when I click, the alert pops up three times.  -->
+				Did you get it <?php echo $this->Ajax->link('right',
+															array('controller'=>'questions','action'=>'answer',
+																	'test_id'=>$test['Test']['id'],
+																	'score'=>'right',
+																	'id'=>'right-link-'.$counter,
+																	'time_elapsed'=>'00:00:34',
+																	'card_id'=>$data['id']
+																	),
+															array(
+																'title'=>'Congratulations!',
+																'indicator'=>'loading-'.$counter,
+																'update'=>'grade-'.$counter,
+																'complete'=>'addedScore(request.responseText)'
+															)); ?> or <?php echo $this->Ajax->link('wrong',
+																array('controller'=>'questions','action'=>'answer',
+																	'test_id'=>$test['Test']['id'],
+																	'score'=>'wrong',
+																	'id'=>'wrong-link-'.$counter,
+																	'time_elapsed'=>'00:00:34',
+																	'card_id'=>$data['id']
+																),
+																array(
+																	'title'=>'Keep studying, you\'ll get it right soon enough.',
+																	'indicator'=>'loading-'.$counter,
+																	'update'=>'grade-'.$counter,
+																	'complete'=>'addedScore(request.responseText)'
+																)
+																); ?>?
+				</div>
+			</div>
 		</div>
 	</div>
 	<ul class='test-card-actions' id='test-card-actions-<?php echo $counter; ?>'>

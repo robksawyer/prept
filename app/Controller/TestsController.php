@@ -12,15 +12,41 @@ class TestsController extends AppController {
 	/**
 	 * This method handles testing the user's skills
 	 *
-	 * @param $id The stack to test
+	 * @param $stack_id The stack to test
 	 * @param $test_type [terms,definitions] Whether or not the user wants to start the test with terms or definitions 
 	 * @return void
 	 * @author Rob Sawyer
 	 **/
-	public function take($id=null,$test_type='') {
+	public function take($stack_id=null,$test_type='',$test_id = null) {
 		$this->Test->Stack->contain(array('Card'=>array('Tag','Color'),'Tag','User','Color'));
-		$stack = $this->Test->Stack->read(null,$id);
-		$this->set('stack', $stack);
+		$stack = $this->Test->Stack->read(null,$stack_id);
+		
+		if($this->request->is('post')) {
+			//Create the test record so that it can be updated as the user continues the test
+			$this->request->data['Test']['user_id'] = $this->Auth->user('id');
+			$this->request->data['Test']['completed'] = 0; //Only complete the test at the end when the user chooses to get their test results
+			$this->request->data['Test']['score'] = 0;
+			$this->request->data['Test']['stack_id'] = $stack['Stack']['id'];
+			
+			$test_type = $this->request->data['Test']['test_type'];
+			$this->Test->create();
+			if ($this->Test->save($this->request->data)) {
+				$this->Session->setFlash(__('Let the test begin. Good luck!'));
+				//$test = $this->Test->read(null,$this->Test->getLastInsertId());
+				$test_id = $this->Test->getLastInsertId();
+				$this->redirect(array('action' => 'take',$stack_id,$test_type,$test_id));
+			} else {
+				$this->Session->setFlash(__('There was an issue setting up the test. Please try again and if you continue to have issues, please contact us.'));
+			}
+		}
+		
+		if(!empty($test_id)){
+			$this->Test->recursive = -1;
+			$test = $this->Test->read(null,$test_id);
+			$this->set(compact('test'));
+		}
+		
+		$this->set(compact('stack'));
 	}
 	
 /**

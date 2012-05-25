@@ -25,11 +25,18 @@ echo $this->Html->script('test');
 	<?php
 	else:
 		if(empty($test_type)):
+			echo $this->Form->create('Test');
 	?>
-		<div class="panel1">
+		<div class="test-selection">
+			<?php echo $this->Form->input('name',array('label'=>'Do you want to name your test?','after'=>'e.g <i>Study Session Round 1</i>')); ?>
 			<p>Do you want to start your test with the terms or the definitions?</p>
-			<?php echo $this->Html->link('Terms',array('action'=>'take',$stack['Stack']['id'],'terms'),array()).' or '.$this->Html->link('Definitions',array('action'=>'take',$stack['Stack']['id'],'definitions'),array()); ?>
+			<?php
+			$options = array('terms' => 'Terms', 'definitions' => 'Definitions');
+			$attributes = array('legend' => false);
+			echo $this->Form->radio('test_type', $options, $attributes);
+			?>
 		</div>
+		<?php echo $this->Form->end(__('Start Testing',true)); ?>
 <?php else: ?>
 	<div class="card-container" id="card-container-0">
 		<div class="slides-container">
@@ -43,6 +50,7 @@ echo $this->Html->script('test');
 																		'stack'=>$stack,
 																		'counter'=>$counter,
 																		'test_type'=>$test_type,
+																		'test'=>$test,
 																		'next'=>$next
 																		)
 																	);
@@ -64,3 +72,8 @@ echo $this->Html->script('test');
 		endif;
 	endif; ?>
 </div>
+<script type="text/javascript">
+function addedScore(responseText){
+	alert(responseText);
+}
+</script>
