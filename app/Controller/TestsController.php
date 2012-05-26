@@ -18,8 +18,25 @@ class TestsController extends AppController {
 	 * @author Rob Sawyer
 	 **/
 	public function take($stack_id=null,$test_type='',$test_id = null) {
+		if(!empty($test_type) && empty($test_id)){
+			$this->Session->setFlash(__('You are not allowed to access this test.'));
+			$this->redirect(array('controller'=>'users','action' => 'backpack'));
+		}
+		/* Check to see if an uncompleted test exist for the stack and user, 
+		*  if it does, ask the user if they'd like to continue the test or start fresh.
+		*/
+		
 		$this->Test->Stack->contain(array('Card'=>array('Tag','Color'),'Tag','User','Color'));
 		$stack = $this->Test->Stack->read(null,$stack_id);
+		if(empty($stack)){
+			$this->Session->setFlash(__('This is not a valid stack.'));
+			$this->redirect(array('controller'=>'users','action' => 'backpack'));
+		}
+		$user_id = $this->Auth->user('id');
+		$existingTest = $this->Test->find('first', array('conditions'=>array('Test.stack_id'=>$stack['Stack']['id'],'Test.user_id'=>$user_id)));
+		if($existingTest){
+			$this->set(compact('existingTest'));
+		}
 		
 		if($this->request->is('post')) {
 			//Create the test record so that it can be updated as the user continues the test
@@ -47,6 +64,38 @@ class TestsController extends AppController {
 		}
 		
 		$this->set(compact('stack'));
+	}
+	
+	/**
+	 * Check to see what the user wants to do about the existing test.
+	 */
+	public function existingTestUserPref(){
+		$this->autoRender = false;
+		
+		if($this->request->is('post')) {
+			$userPref = $this->request->data['Test']['user_test_pref'];
+			$test = $this->Test->read(null,$this->request->data['Test']['id']);
+			if(!empty($test)){
+				$stack_id = $test['Test']['stack_id']; //Hold the stack id
+				if($userPref == "continue"){
+					$this->Session->setFlash(__('Good luck!'));
+					$this->redirect(array('controller'=>'tests','action' => 'take',$stack_id,$test['Test']['test_type'],$test['Test']['id']));
+				}else{
+					//Delete the old test
+					if (!$this->request->is('post')) {
+						throw new MethodNotAllowedException();
+					}
+					$this->Test->id = $test['Test']['id'];
+					if (!$this->Test->exists()) {
+						throw new NotFoundException(__('Invalid test'));
+					}
+					if ($this->Test->delete()) {
+						$this->Session->setFlash(__('We\'ve restarted the test. Good luck!'));
+						$this->redirect(array('controller'=>'tests','action' => 'take',$stack_id));
+					}
+				}
+			}
+		}
 	}
 	
 /**

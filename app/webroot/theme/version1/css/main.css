@@ -912,10 +912,12 @@ div.cards.view div.stacks.view div.card span.card-overlay{
 	height: 116px !important;
 }
 /** Stack Test Page **/
+div.existing-test input[type='radio'],
 div.test-selection input[type='radio']{
 	position: relative;
 	margin: 2px 10px 0 0;
 }
+div.existing-test input[type='text'],
 div.test-selection input[type='text']{
 	margin: 0 0 5px 0;
 }

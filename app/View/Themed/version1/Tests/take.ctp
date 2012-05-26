@@ -13,18 +13,38 @@ echo $this->Html->script('test');
 </script>
 <div class="stacks test">
 	<?php
-	if(!empty($this->request->params['pass'][1])){
-		$test_type = $this->request->params['pass'][1];
-	}
+		if(!empty($this->request->params['pass'][1])){
+			$test_type = $this->request->params['pass'][1];
+		}
 	
-	if(count($stack['Card']) < 1):
+		if(!empty($existingTest) && empty($test_type)):
+	?>
+		<div class="existing-test">
+			<?php echo $this->Form->create('Test',array('url'=>array('controller'=>'tests','action'=>'existingTestUserPref'))); ?>
+			We've noticed that you have an existing test open for this stack.
+			<?php
+			$options = array('continue' => 'continue', 'start_over' => 'start over');
+			$attributes = array('legend' => "Would you like to...",'value'=>'continue');
+			echo $this->Form->input('id',array('type'=>'hidden','value'=>$existingTest['Test']['id']));
+			echo $this->Form->radio('user_test_pref', $options, $attributes);
+			echo $this->Form->end(__('Let us know',true));
+			?>
+		</div>
+	<?php
+		else:
+			$existingTest = null;
+		endif;
+	?>
+	
+	<?php
+	if(count($stack['Card']) < 1 && empty($existingTest)):
 	?>
 	<div class="no-cards">
 		<p>This stack doesn't contain any cards. But, you can add some cards by navigating to the <?php echo $this->Html->link('add card',array('controller'=>'stacks','action'=>'add',$stack['Stack']['id'])); ?> page.</p>
 	</div>
 	<?php
 	else:
-		if(empty($test_type)):
+		if(empty($test_type) && empty($existingTest)):
 			echo $this->Form->create('Test');
 	?>
 		<div class="test-selection">
@@ -37,7 +57,7 @@ echo $this->Html->script('test');
 			?>
 		</div>
 		<?php echo $this->Form->end(__('Start Testing',true)); ?>
-<?php else: ?>
+<?php elseif(empty($existingTest)): ?>
 	<div class="card-container" id="card-container-0">
 		<div class="slides-container">
 			<?php 

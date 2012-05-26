@@ -4,6 +4,12 @@ var cardWidth = 0;
 var rightArrowActivated = false;
 var leftArrowActivated = false;
 
+//Timer Variables
+var secs = 0;
+var mins = 0;
+var hours = 0;
+var timer_int;
+
 $(document).ready(function() {
 	//Activate card action rollovers
 	$(".test-card-actions img").hover(function() { 
@@ -16,6 +22,8 @@ $(document).ready(function() {
 	//Deactivate left arrow
 	deactivateLeftArrow();
 	activateRightArrow();
+	//Start the timer on the current card
+	start_timer(curCard);
 	
 	//TODO: 
 	//Generate a form of checkboxes that track the user right and wrong answers
@@ -67,6 +75,49 @@ $(document).ready(function() {
 		}
 	});*/
 });
+
+/**
+* Starts the card timer
+* @param id The id of the div.card to target.
+*/ 
+function start_timer(id){
+	timer_int = setInterval("timer("+id+")",1000); //1000 will  run it every 1 second
+	return;
+}
+
+/**
+* Stops the card timer
+* @param id The id of the div.card to target.
+*/
+function stop_timer(id){
+	clearInterval(timer_int);
+	//counter ended, do something here
+	return;
+}
+
+/**
+* The timer brain
+* @param id The id of the div.card to target.
+*/
+function timer(id) {
+	secs = secs+1;
+	if(secs == 60){
+		secs = 0;
+		mins = mins+1;
+	}
+	if(mins == 60){
+		mins = 0;
+		hours = hours+1;
+	}
+	document.getElementById("timer-"+id).innerHTML = pad2(hours)+":"+pad2(mins)+":"+pad2(secs);
+}
+
+/** 
+* Pads a number with two digits.
+*/ 
+function pad2(number) {
+	return (number < 10 ? '0' : '') + number;
+}
 
 function deactivateLeftArrow(){
 	leftArrowActivated = false;
