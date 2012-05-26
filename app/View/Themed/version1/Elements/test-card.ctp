@@ -7,7 +7,7 @@
 	<div class="quickflip-wrapper">
 		<div class="card container shadow panel1" id="card-front-<?php echo $counter; ?>" style="<?php echo "background-color: #".$data['Color']['hex']; ?>">
 			<div class="stack-name"><?php echo $stack['Stack']['title']; ?></div>
-			<span id="timer-<?php echo $counter; ?>"></span>
+			<div class="timer" id="timer-<?php echo $counter; ?>"></div>
 			<span class="card-overlay">&nbsp;</span>
 			<div class="card-data">
 				<?php

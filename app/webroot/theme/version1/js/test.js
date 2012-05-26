@@ -5,9 +5,7 @@ var rightArrowActivated = false;
 var leftArrowActivated = false;
 
 //Timer Variables
-var secs = 0;
-var mins = 0;
-var hours = 0;
+var timers = new Array(); //Holds the timers for each card
 var timer_int;
 
 $(document).ready(function() {
@@ -81,7 +79,14 @@ $(document).ready(function() {
 * @param id The id of the div.card to target.
 */ 
 function start_timer(id){
-	timer_int = setInterval("timer("+id+")",1000); //1000 will  run it every 1 second
+	//Tested is turned to true when the user tests their knowledge on the card. After it flips. 
+	if(!timers[id]){
+		timer_int = setInterval("timer("+id+")",1000); //1000 will  run it every 1 second
+	}else{
+		if(!timers[id]['tested']){
+			timer_int = setInterval("timer("+id+")",1000); //1000 will  run it every 1 second
+		}
+	}
 	return;
 }
 
@@ -96,20 +101,39 @@ function stop_timer(id){
 }
 
 /**
+* Cancels the timer and keeps it from starting back up when switching between the cards
+* @param id The id of the div.card to target.
+*/
+function cancel_timer(id){
+	timers[id]['tested'] = true;
+	clearInterval(timer_int);
+	//counter ended, do something here
+	return;
+}
+
+/**
 * The timer brain
 * @param id The id of the div.card to target.
 */
 function timer(id) {
-	secs = secs+1;
-	if(secs == 60){
-		secs = 0;
-		mins = mins+1;
+	if(timers[id] == undefined){
+		timers[id] = new Array();
+		timers[id]['secs'] = 0;
+		timers[id]['mins'] = 0;
+		timers[id]['hours'] = 0;
+		timers[id]['tested'] = false;
 	}
-	if(mins == 60){
-		mins = 0;
-		hours = hours+1;
+	
+	timers[id]['secs'] = timers[id]['secs'] + 1;
+	if(timers[id]['secs'] == 60){
+		timers[id]['secs'] = 0;
+		timers[id]['mins'] = timers[id]['mins'] + 1;
 	}
-	document.getElementById("timer-"+id).innerHTML = pad2(hours)+":"+pad2(mins)+":"+pad2(secs);
+	if(timers[id]['mins'] == 60){
+		timers[id]['mins'] = 0;
+		timers[id]['hours'] = timers[id]['hours'] + 1;
+	}
+	document.getElementById("timer-"+id).innerHTML = pad2(timers[id]['hours'])+":"+pad2(timers[id]['mins'])+":"+pad2(timers[id]['secs']);
 }
 
 /** 
@@ -152,8 +176,12 @@ function activateRightArrow(){
 */
 function left_arrow_click(event){
 	event.preventDefault();
+	stop_timer(curCard); //Stop the timer on the card
+	
 	$('.card-container .slides-container #test-card-'+curCard).fadeTo(300,0.5,addNext); //Fade out previous card
 	curCard -= 1;
+	start_timer(curCard); //Start the timer on the next card
+	
 	$('.card-container .slides-container #test-card-'+curCard).fadeTo(300,1,removeNext); //Fade in new card
 
 	//Move the slides-container left an amount based on the card width
@@ -171,8 +199,12 @@ function left_arrow_click(event){
 */
 function right_arrow_click(event){
 	event.preventDefault();
+	stop_timer(curCard); //Stop the timer on the card
+	
 	$('.card-container .slides-container #test-card-'+curCard).fadeTo(300,0.5,addNext); //Fade out previous card
 	curCard += 1;
+	start_timer(curCard); //Start the timer on the next card
+	
 	$('.card-container .slides-container #test-card-'+curCard).fadeTo (300,1,removeNext); //Fade in new card
 	
 	//Move the slides-container left an amount based on the card width
@@ -197,6 +229,7 @@ function shuffleCards(){
 */
 function doTest(id){
 	$('div.slides-container div#test-card-'+id+' div.quickflip-wrapper').quickFlipper();
+	cancel_timer(id); //Cancel the timer so that it doesn't start back up
 }
 
 function flipBackAround(id){

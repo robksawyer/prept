@@ -996,6 +996,7 @@ div.slides-container div.test-card{
 	clear: none;
 	width: 740px;
 	cursor: normal;
+	margin: 15px;
 }
 div.slides-container div.test-card div.container{
 	float: left;
@@ -1056,6 +1057,13 @@ div.slides-container div.test-card div.quickflip-wrapper{
 	padding: 0;
 	background: none;
 	cursor: default;
+}
+div.slides-container div.test-card div.quickflip-wrapper div.timer{
+	position: absolute;
+	left: 535px;
+	font-size: 12px;
+	margin: 5px 0;
+	color: #d7d7d7;
 }
 div.slides-container div.test-card div.card{
 	display: block;
