@@ -39,13 +39,15 @@
 				<?php 
 					//Get the test id from the params
 					$test_id = $this->request->params['pass'][2];
-					echo $this->Form->input('Question.'.$counter.'.test_id',array('type'=>'hidden','value'=>$test_id));
-					echo $this->Form->input('Question.'.$counter.'.stack_id',array('type'=>'hidden','value'=>$stack['Stack']['id']));
-					echo $this->Form->input('Question.'.$counter.'.card_id',array('type'=>'hidden','value'=>$data['id']));
-					echo $this->Form->input('Question.'.$counter.'.time_elapsed',array('type'=>'hidden','value'=>'00:00:00'));
-					$options = array('1' => 'Yes', '0' => 'No');
-					$attributes = array('legend' => "Did you get it right?");
-					echo $this->Form->radio('Question.'.$counter.'.correct',$options, $attributes);
+					if(!empty($test_id)){
+						$score_options = array(1 => 'Yes', 0 => 'No');
+						$score_attributes = array('legend' => "Did you get it right?",'selected'=>0);
+						echo $this->Form->radio('Question.'.$counter.'.correct',$score_options, $score_attributes);
+						echo $this->Form->input('Question.'.$counter.'.test_id',array('type'=>'hidden','value'=>$test_id));
+						echo $this->Form->input('Question.'.$counter.'.stack_id',array('type'=>'hidden','value'=>$stack['Stack']['id']));
+						echo $this->Form->input('Question.'.$counter.'.card_id',array('type'=>'hidden','value'=>$data['id']));
+						echo $this->Form->input('Question.'.$counter.'.time_elapsed',array('type'=>'hidden','value'=>'00:00:00'));
+					}
 				?>
 				</div>
 			</div>

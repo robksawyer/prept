@@ -1098,9 +1098,9 @@ div.slides-container div.test-card div.card .grade-panel {
 	color: #777777;
 }
 div.slides-container div.test-card div.card div.submit input[type='submit']{
-	display: relative;
-	margin: 50px 0;
-	z-index: 5;
+	position: relative;
+	margin: 100px 0;
+	z-index: 6;
 	cursor: pointer;
 	clear: both;
 }

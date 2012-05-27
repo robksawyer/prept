@@ -81,10 +81,10 @@ echo $this->Html->script('test');
 			<div class="test-card <?php if($next) echo "next"; ?>" id="test-card-<?php echo $counter; ?>">
 				<div class="card container shadow panel1" id="card-front-<?php echo $counter; ?>" style="background-color: #ffffff;">
 					<div class="stack-name"><?php echo $stack['Stack']['title']; ?></div>
-					<span class="card-overlay">&nbsp;</span>
 					<?php
 						echo $this->Form->submit(__('Get your score',true));
 					?>
+					<span class="card-overlay">&nbsp;</span>
 				</div>
 			</div>
 			<?php echo $this->Form->end(); ?>

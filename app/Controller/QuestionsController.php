@@ -41,24 +41,22 @@ class QuestionsController extends AppController {
 	* Makes the final score
 	*/
 	public function score(){
-		if($this->RequestHandler->isAjax()){
-			$this->autoRender = false;
-			debug($this->request);
-			/*
-			$this->request->data['Question'] = $this->request->named;
-			$this->request->data['Question']['user_id'] = $this->Auth->user('id');
-			//Create a new record with the user's result
-			$this->Question->create();
-			if ($this->Question->save($this->request->data)) {
-				if($this->request->data['Question']['score']=="right"){
-					return "Good job";
-				}else{
-					return "Keep studying, you'll eventually get it.";
-				}
-			} else {
-				return false;
-			}*/
-		}
+		$this->autoRender = false;
+		debug($this->request->data);
+		/*
+		$this->request->data['Question'] = $this->request->named;
+		$this->request->data['Question']['user_id'] = $this->Auth->user('id');
+		//Create a new record with the user's result
+		$this->Question->create();
+		if ($this->Question->save($this->request->data)) {
+			if($this->request->data['Question']['score']=="right"){
+				return "Good job";
+			}else{
+				return "Keep studying, you'll eventually get it.";
+			}
+		} else {
+			return false;
+		}*/
 	}
 	
 }
