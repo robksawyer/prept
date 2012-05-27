@@ -36,34 +36,17 @@
 				<div class="loading" id="#loading-<?php echo $counter; ?>">&nbsp;</div>
 				<div class="grade" id="grade-<?php echo $counter; ?>">
 				<!-- There's a bug and it's only adding one ajax link. For some reason when I click, the alert pops up three times.  -->
-				Did you get it <?php echo $this->Ajax->link('right',
-															array('controller'=>'questions','action'=>'answer',
-																	'test_id'=>$test['Test']['id'],
-																	'score'=>'right',
-																	'id'=>'right-link-'.$counter,
-																	'time_elapsed'=>'00:00:34',
-																	'card_id'=>$data['id']
-																	),
-															array(
-																'title'=>'Congratulations!',
-																'indicator'=>'loading-'.$counter,
-																'update'=>'grade-'.$counter,
-																'complete'=>'addedScore(request.responseText)'
-															)); ?> or <?php echo $this->Ajax->link('wrong',
-																array('controller'=>'questions','action'=>'answer',
-																	'test_id'=>$test['Test']['id'],
-																	'score'=>'wrong',
-																	'id'=>'wrong-link-'.$counter,
-																	'time_elapsed'=>'00:00:34',
-																	'card_id'=>$data['id']
-																),
-																array(
-																	'title'=>'Keep studying, you\'ll get it right soon enough.',
-																	'indicator'=>'loading-'.$counter,
-																	'update'=>'grade-'.$counter,
-																	'complete'=>'addedScore(request.responseText)'
-																)
-																); ?>?
+				<?php 
+					//Get the test id from the params
+					$test_id = $this->request->params['pass'][2];
+					echo $this->Form->input('Question.'.$counter.'.test_id',array('type'=>'hidden','value'=>$test_id));
+					echo $this->Form->input('Question.'.$counter.'.stack_id',array('type'=>'hidden','value'=>$stack['Stack']['id']));
+					echo $this->Form->input('Question.'.$counter.'.card_id',array('type'=>'hidden','value'=>$data['id']));
+					echo $this->Form->input('Question.'.$counter.'.time_elapsed',array('type'=>'hidden','value'=>'00:00:00'));
+					$options = array('1' => 'Yes', '0' => 'No');
+					$attributes = array('legend' => "Did you get it right?");
+					echo $this->Form->radio('Question.'.$counter.'.correct',$options, $attributes);
+				?>
 				</div>
 			</div>
 		</div>

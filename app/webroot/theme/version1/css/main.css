@@ -1018,7 +1018,7 @@ div.slides-container div.test-card div.container div.stack-name{
 	top: 0;
 	left: 0;
 	padding: 0;
-	margin: -27px 0 0 0;
+	margin: 7px 0 0 7px;
 	font-size: 13px;
 	color: #b2b2b2;
 	text-align: left;
@@ -1090,13 +1090,38 @@ div.slides-container div.test-card div.card .grade-panel a{
 }
 div.slides-container div.test-card div.card .grade-panel {
 	position: absolute;
-	top: 315px;
-	left: 320px;
-	z-index: 300;
-	margin: 0 auto;
+	text-align: left;
+	top: 250px;
+	margin: 0;
 	padding: 0;
 	font-weight: normal;
+	color: #777777;
 }
+div.slides-container div.test-card div.card div.submit input[type='submit']{
+	display: relative;
+	margin: 50px 0;
+	z-index: 5;
+	cursor: pointer;
+	clear: both;
+}
+div.slides-container div.test-card div.card .grade-panel legend{
+	font-size: 12px;
+	float: left;
+	clear: none;
+	margin: 0 15px 0 0;
+}
+div.slides-container div.test-card div.card .grade-panel input,
+div.slides-container div.test-card div.card .grade-panel label{
+	float: left;
+	clear: none;
+	margin: 0 10px 0 0;
+}
+div.slides-container div.test-card div.card .grade-panel input[type='radio']{
+	position: relative;
+	margin: 2px 5px 0 0;
+	z-index: 5;
+}
+
 div.slides-container div.test-card div.card .grade-panel a:link,
 div.slides-container div.test-card div.card .grade-panel a:active,
 div.slides-container div.test-card div.card .grade-panel a:visited{
@@ -1121,7 +1146,7 @@ div.slides-container div.test-card div.quickflip-wrapper div.card.panel2{
 }
 div.slides-container div.test-card div.quickflip-wrapper div.card.panel2 div.flipped-icon{
 	position: relative;
-	z-index: 300;
+	z-index: 5;
 	margin: 0 0 0 300px;
 	text-align: center;
 	font-size: 20px;

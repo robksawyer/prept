@@ -3,6 +3,7 @@ var curCard = 0;
 var cardWidth = 0;
 var rightArrowActivated = false;
 var leftArrowActivated = false;
+var scoreCard = false;
 
 //Timer Variables
 var timers = new Array(); //Holds the timers for each card
@@ -177,15 +178,22 @@ function activateRightArrow(){
 function left_arrow_click(event){
 	event.preventDefault();
 	stop_timer(curCard); //Stop the timer on the card
-	
+	if(curCard == (maxCards-1)){
+		scoreCard = true;
+	}else{
+		scoreCard = false;
+	}
 	$('.card-container .slides-container #test-card-'+curCard).fadeTo(300,0.5,addNext); //Fade out previous card
 	curCard -= 1;
-	start_timer(curCard); //Start the timer on the next card
+	
+	if(!scoreCard){
+		start_timer(curCard); //Start the timer on the next card
+	}
 	
 	$('.card-container .slides-container #test-card-'+curCard).fadeTo(300,1,removeNext); //Fade in new card
-
 	//Move the slides-container left an amount based on the card width
 	$('.card-container .slides-container').animate({'marginLeft':'+='+cardWidth+"px"});
+	
 	if(curCard <= maxCards && !rightArrowActivated){
 		activateRightArrow();
 	}
@@ -200,15 +208,23 @@ function left_arrow_click(event){
 function right_arrow_click(event){
 	event.preventDefault();
 	stop_timer(curCard); //Stop the timer on the card
+	if(curCard == (maxCards-1)){
+		scoreCard = true;
+	}else{
+		scoreCard = false;
+	}
 	
 	$('.card-container .slides-container #test-card-'+curCard).fadeTo(300,0.5,addNext); //Fade out previous card
 	curCard += 1;
-	start_timer(curCard); //Start the timer on the next card
+	
+	if(!scoreCard){
+		start_timer(curCard); //Start the timer on the next card
+	}
 	
 	$('.card-container .slides-container #test-card-'+curCard).fadeTo (300,1,removeNext); //Fade in new card
-	
 	//Move the slides-container left an amount based on the card width
 	$('.card-container .slides-container').animate({'marginLeft':'-='+cardWidth+"px"});
+	
 	if(curCard > 0 && !leftArrowActivated){
 		activateLeftArrow();
 	}
@@ -229,7 +245,15 @@ function shuffleCards(){
 */
 function doTest(id){
 	$('div.slides-container div#test-card-'+id+' div.quickflip-wrapper').quickFlipper();
+	setElapsedTime(id);
 	cancel_timer(id); //Cancel the timer so that it doesn't start back up
+}
+
+/**
+* Sets the elapsed time of the card
+*/
+function setElapsedTime(id){
+	$('.grade #Question'+id+'TimeElapsed').val($('#timer-'+id).text());
 }
 
 function flipBackAround(id){

@@ -9,7 +9,7 @@ echo $this->Html->script('test');
 ?>
 <script type="text/javascript">
 	//Set the total card count
-	maxCards = <?php echo count($stack['Card'])-1; ?>;
+	maxCards = <?php echo count($stack['Card']); //I would -1 but the extra score card exists ?>;
 </script>
 <div class="stacks test">
 	<?php
@@ -60,6 +60,7 @@ echo $this->Html->script('test');
 <?php elseif(empty($existingTest)): ?>
 	<div class="card-container" id="card-container-0">
 		<div class="slides-container">
+			<?php echo $this->Form->create('Question',array('url'=>array('controller'=>'questions','action'=>'score'))); ?>
 			<?php 
 				$counter = 0;
 				$next = false;
@@ -77,6 +78,16 @@ echo $this->Html->script('test');
 					$counter++;
 				}
 			?>
+			<div class="test-card <?php if($next) echo "next"; ?>" id="test-card-<?php echo $counter; ?>">
+				<div class="card container shadow panel1" id="card-front-<?php echo $counter; ?>" style="background-color: #ffffff;">
+					<div class="stack-name"><?php echo $stack['Stack']['title']; ?></div>
+					<span class="card-overlay">&nbsp;</span>
+					<?php
+						echo $this->Form->submit(__('Get your score',true));
+					?>
+				</div>
+			</div>
+			<?php echo $this->Form->end(); ?>
 		</div>
 		<div class="clear"></div>
 		<div class="slide-navigation">
@@ -94,6 +105,6 @@ echo $this->Html->script('test');
 </div>
 <script type="text/javascript">
 function addedScore(responseText){
-	alert(responseText);
+	//alert(responseText);
 }
 </script>
