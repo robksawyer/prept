@@ -122,7 +122,9 @@ echo $this->Html->script('test');
 $(document).shortkeys({
 	'left':		function(){ $('.card-container .slide-navigation .left-arrow').click(); },
 	'right':		function(){ $('.card-container .slide-navigation .right-arrow').click(); },
-	'Space':		function(){ flipBackAround(curCard); }
+	'Space':		function(){ 
+									flipBackAround(curCard,true); 
+								}
 	}
 );
 

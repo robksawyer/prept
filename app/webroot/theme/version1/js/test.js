@@ -252,10 +252,14 @@ function doTest(id){
 * Sets the elapsed time of the card
 */
 function setElapsedTime(id){
-	$('.grade #Question'+id+'TimeElapsed').val($('#timer-'+id).text());
+	$('.grade #'+id+'QuestionTimeElapsed').val($('#timer-'+id).text());
 }
 
-function flipBackAround(id){
+function flipBackAround(id,cancelTimer){
+	if(cancelTimer){
+		setElapsedTime(id);
+		cancel_timer(id); //Cancel the timer so that it doesn't start back up
+	}
 	$('div.slides-container div#test-card-'+id+' div.quickflip-wrapper').quickFlipper();
 }
 
