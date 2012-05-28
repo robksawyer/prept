@@ -10,6 +10,7 @@ echo $this->Html->script('test');
 <script type="text/javascript">
 	//Set the total card count
 	maxCards = <?php echo count($stack['Card']); //I would -1 but the extra score card exists ?>;
+	existingTest = <?php echo $existingTest; ?>;
 </script>
 <div class="stacks test">
 	<?php
@@ -32,7 +33,7 @@ echo $this->Html->script('test');
 		</div>
 	<?php
 		else:
-			$existingTest = null;
+			$existingTest = false;
 		endif;
 	?>
 	
@@ -58,6 +59,11 @@ echo $this->Html->script('test');
 		</div>
 		<?php echo $this->Form->end(__('Start Testing',true)); ?>
 <?php elseif(empty($existingTest)): ?>
+	<script type="text/javascript">
+		//Set the total card count
+		maxCards = <?php echo count($stack['Card']); //I would -1 but the extra score card exists ?>;
+		start_timer(curCard);
+	</script>
 	<div class="card-container" id="card-container-0">
 		<div class="slides-container">
 			<?php echo $this->Form->create('Question',array('url'=>array('controller'=>'questions','action'=>'score'))); ?>

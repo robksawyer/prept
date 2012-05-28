@@ -34,8 +34,13 @@ class TestsController extends AppController {
 		}
 		$user_id = $this->Auth->user('id');
 		$existingTest = $this->Test->find('first', array('conditions'=>array('Test.stack_id'=>$stack['Stack']['id'],'Test.user_id'=>$user_id)));
-		if($existingTest){
-			$this->set(compact('existingTest'));
+		if(!empty($existingTest)){
+			if(!$existingTest['Test']['completed']){
+				$this->set(compact('existingTest'));
+			}else{
+				$existingTest = false;
+				$this->set(compact('existingTest'));
+			}
 		}
 		
 		if($this->request->is('post')) {
@@ -100,11 +105,18 @@ class TestsController extends AppController {
 	
 /**
  * index method
- *
+ *	@param user_id Find tests from the passed user id
  * @return void
  */
-	public function index() {
+	public function index($user_id=null) {
 		$this->Test->recursive = 0;
+		if(empty($user_id)){
+			$this->Session->setFlash(__('You are not allowed to access this test.'));
+			$this->redirect(array('controller'=>'users','action' => 'backpack'));
+		}
+		$this->paginate = array(
+			'Test' => array('conditions'=>array('Test.user_id'=>$user_id))
+		);
 		$this->set('tests', $this->paginate());
 	}
 

@@ -4,6 +4,7 @@ var cardWidth = 0;
 var rightArrowActivated = false;
 var leftArrowActivated = false;
 var scoreCard = false;
+var existingTest = false;
 
 //Timer Variables
 var timers = new Array(); //Holds the timers for each card
@@ -21,8 +22,6 @@ $(document).ready(function() {
 	//Deactivate left arrow
 	deactivateLeftArrow();
 	activateRightArrow();
-	//Start the timer on the current card
-	start_timer(curCard);
 	
 	//TODO: 
 	//Generate a form of checkboxes that track the user right and wrong answers
