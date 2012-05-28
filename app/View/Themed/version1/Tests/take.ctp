@@ -1,16 +1,16 @@
 <?php
-//http://slidesjs.com/
-//echo $this->Html->css('testing-page');
-//echo $this->Html->script('slides.min.jquery',array('inline'=>false));
-echo $this->Html->script('jquery.quickflip.min',array('inline'=>false)); //http://dev.jonraasch.com/quickflip/docs
 //echo $this->Html->script('jquery.ba-hashchange.min',array('inline'=>false)); //http://benalman.com/projects/jquery-hashchange-plugin/
-echo $this->Html->script('jquery.ba-bbq.min',array('inline'=>false)); //https://github.com/cowboy/jquery-bbq/
+//echo $this->Html->script('jquery.ba-bbq.min',array('inline'=>false)); //https://github.com/cowboy/jquery-bbq/
+echo $this->Html->script('jquery.quickflip.min',array('inline'=>false)); //http://dev.jonraasch.com/quickflip/docs
+echo $this->Html->script('jquery.shortkeys.js'); //http://rikrikrik.com/jquery/shortkeys/
 echo $this->Html->script('test');
 ?>
 <script type="text/javascript">
 	//Set the total card count
 	maxCards = <?php echo count($stack['Card']); //I would -1 but the extra score card exists ?>;
+	<?php if(!empty($existingTest)): ?>
 	existingTest = <?php echo $existingTest; ?>;
+	<?php endif; ?>
 </script>
 <div class="stacks test">
 	<?php
@@ -105,11 +105,27 @@ echo $this->Html->script('test');
 			</div>
 		</div>
 	</div>
+	<div class="shortcut-guide">
+		<legend>Shortcut key guide</legend>
+		<ul>
+			<li>left arrow = slide cards left</li>
+			<li>right arrow = slide cards right</li>
+			<li>spacebar = flip card</li>
+		</ul>
+		<?php //echo $this->Html->image('../img/common/shortcut-key-guide.png',array('border'=>false)); ?>
+	</div>
 	<?php 
 		endif;
 	endif; ?>
 </div>
 <script type="text/javascript">
+$(document).shortkeys({
+	'left':		function(){ $('.card-container .slide-navigation .left-arrow').click(); },
+	'right':		function(){ $('.card-container .slide-navigation .right-arrow').click(); },
+	'Space':		function(){ flipBackAround(curCard); }
+	}
+);
+
 function addedScore(responseText){
 	//alert(responseText);
 }
