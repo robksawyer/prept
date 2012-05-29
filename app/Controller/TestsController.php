@@ -34,8 +34,8 @@ class TestsController extends AppController {
 		}
 		$user_id = $this->Auth->user('id');
 		$existingTest = $this->Test->find('first', array('conditions'=>array('Test.stack_id'=>$stack['Stack']['id'],'Test.user_id'=>$user_id)));
-		if(!empty($existingTest)){
-			if(!$existingTest['Test']['completed']){
+		if(!empty($existingTest['Test'])){
+			if(!empty($existingTest['Test']['completed'])){
 				$this->set(compact('existingTest'));
 			}else{
 				$existingTest = false;
