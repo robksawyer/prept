@@ -133,7 +133,7 @@
 		//Cards
 		$('fieldset.cards .card-input-container').each(function(){
 			$(this + '.textarea textarea.card-front').focus(function(){
-				$(this).val('');
+				if($(this).val() == cardFrontVal) $(this).val('');
 				$(this).css({'color':newColor});
 			}).blur(function(){
 				if($(this).val() == '' || $(this).val() == ' '){
@@ -144,7 +144,7 @@
 		});
 		$('fieldset.cards .card-input-container').each(function(){
 			$(this + '.textarea textarea.card-back').focus(function(){
-				$(this).val('');
+				if($(this).val() == cardBackVal) $(this).val('');
 				$(this).css({'color':newColor});
 			}).blur(function(){
 				if($(this).val() == '' || $(this).val() == ' '){
