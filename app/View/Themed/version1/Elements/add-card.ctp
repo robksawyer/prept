@@ -6,8 +6,8 @@ if(!empty($containsUserData)){
 	echo $this->Form->input('Card.'.$num.'.front',array('label'=>false,'class'=>'card-front','id'=>'card-front-'.$num));
 	echo $this->Form->input('Card.'.$num.'.back',array('label'=>false,'class'=>'card-back','id'=>'card-back-'.$num));
 }else{
-	echo $this->Form->input('Card.'.$num.'.front',array('label'=>false,'value'=>'Enter the term here. Press tab to go to next input box.','class'=>'card-front','id'=>'card-front-'.$num));
-	echo $this->Form->input('Card.'.$num.'.back',array('label'=>false,'value'=>'Enter the definition here.','class'=>'card-back','id'=>'card-back-'.$num));
+	echo $this->Form->input('Card.'.$num.'.front',array('label'=>false,'value'=>'','class'=>'card-front','id'=>'card-front-'.$num));
+	echo $this->Form->input('Card.'.$num.'.back',array('label'=>false,'value'=>'','class'=>'card-back','id'=>'card-back-'.$num));
 }
 if($num > 0){
 	if($showRemoveBtn == true){
