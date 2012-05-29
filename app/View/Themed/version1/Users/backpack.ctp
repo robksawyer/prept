@@ -7,6 +7,7 @@
 				echo __('Your Stacks');
 			}*/
 		?></h2>-->
+		<?php if(!empty($user_tests)): ?>
 		<div class="test-overview" style="margin-bottom: 15px;">
 			<!--<table cellpadding="0" cellspacing="0">
 			<tr class="sort-bar">
@@ -29,6 +30,7 @@
 			</table>-->
 			You currently have taken or started <?php echo $this->Html->link(count($user_tests)." tests",array('controller'=>'tests','action'=>'index',$current_user['id'])); ?>. Pat yourself on the back.<br/>
 		</div>
+		<?php endif; ?>
 		<table cellpadding="0" cellspacing="0">
 		<tr class="sort-bar">
 				<th><?php echo $this->Paginator->sort('title');?></th>
