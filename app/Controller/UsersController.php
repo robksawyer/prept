@@ -146,11 +146,16 @@ class UsersController extends AppController {
 		}
 		$this->paginate = array(
 			'Stack' => array(
-				'conditions'=>array('user_id' => $this->current_user['id'])
+				'conditions'=>array('Stack.user_id' => $this->current_user['id'])
+			),
+			'Test' => array(
+				'conditions'=>array('Test.user_id' => $this->current_user['id']),
+				'recursive' => '-1'
 			)
 		);
+		$user_tests = $this->paginate('Test');
 		$user_stacks = $this->paginate('Stack');
-		$this->set(compact('user_stacks'));
+		$this->set(compact('user_stacks','user_tests'));
 	}
 	
 	

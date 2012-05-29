@@ -7,9 +7,30 @@
 				echo __('Your Stacks');
 			}*/
 		?></h2>-->
+		<div class="test-overview" style="margin-bottom: 15px;">
+			<!--<table cellpadding="0" cellspacing="0">
+			<tr class="sort-bar">
+					<th><?php //echo $this->Paginator->sort('title');?></th>
+					<th><?php //echo $this->Paginator->sort('description');?></th>
+					<th><?php //echo $this->Paginator->sort('color_id');?></th>
+					<th><?php //echo $this->Paginator->sort('user_id');?></th>
+					<th><?php //echo $this->Paginator->sort('created');?></th>
+					<th><?php //echo $this->Paginator->sort('modified');?></th>
+			</tr>
+			<tr>-->
+			<?php
+			$test_counter = 1;
+			foreach ($user_tests as $test): 
+				//echo "<td>".$test['Test']['name']."</td>";
+			$test_counter += 1; //Increment the counter
+			endforeach;
+			?>
+			<!--</tr>
+			</table>-->
+			You currently have taken or started <?php echo $this->Html->link(count($user_tests)." tests",array('controller'=>'tests','action'=>'index',$current_user['id'])); ?>. Pat yourself on the back.<br/>
+		</div>
 		<table cellpadding="0" cellspacing="0">
 		<tr class="sort-bar">
-				<th><?php echo $this->Paginator->sort('id');?></th>
 				<th><?php echo $this->Paginator->sort('title');?></th>
 				<th><?php echo $this->Paginator->sort('description');?></th>
 				<th><?php echo $this->Paginator->sort('color_id');?></th>
