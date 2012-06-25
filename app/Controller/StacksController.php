@@ -330,12 +330,12 @@ class StacksController extends AppController {
 					if(!empty($this->request->data['Card'][$i])){
 						$this->request->data['Card'][$i]['front'] = trim($this->request->data['Card'][$i]['front']);
 						$this->request->data['Card'][$i]['back'] = trim($this->request->data['Card'][$i]['back']);
-						if($this->request->data['Card'][$i]['front'] == $frontValue){
+						if($this->request->data['Card'][$i]['front'] == $frontValue || $this->request->data['Card'][$i]['front'] == ''){
 							//Unset this item
 							unset($this->request->data['Card'][$i]);
 						}
 						if(!empty($this->request->data['Card'][$i])){
-							if($this->request->data['Card'][$i]['back'] == $backValue){
+							if($this->request->data['Card'][$i]['back'] == $backValue || $this->request->data['Card'][$i]['back'] == ''){
 								$this->request->data['Card'][$i]['back'] = null;
 							}
 						}
@@ -344,7 +344,7 @@ class StacksController extends AppController {
 				
 				$this->Stack->set($this->request->data);
 				if($this->Stack->validates()){
-					$this->Stack->create();
+					//$this->Stack->create();
 					if ($this->Stack->saveAll($this->request->data,array('validate'=>false))) {
 						$this->Session->setFlash(__('Your stack has been saved – good luck with your studies.'));
 						$this->redirect(array('controller'=>'users','action' => 'backpack'));
