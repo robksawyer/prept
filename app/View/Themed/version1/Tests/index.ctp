@@ -2,25 +2,25 @@
 	<h2><?php echo __('Tests');?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
-			<th><?php echo $this->Paginator->sort('id');?></th>
+			<!--<th><?php //echo $this->Paginator->sort('id');?></th>-->
 			<th><?php echo $this->Paginator->sort('name');?></th>
 			<th><?php echo $this->Paginator->sort('test_type');?></th>
 			<th><?php echo $this->Paginator->sort('user_id');?></th>
-			<th><?php echo $this->Paginator->sort('created');?></th>
-			<th><?php echo $this->Paginator->sort('modified');?></th>
+			<th><?php echo $this->Paginator->sort('created','Date Taken');?></th>
+			<!--<th><?php //echo $this->Paginator->sort('modified');?></th>-->
 			<th class="actions"><?php echo __('Actions');?></th>
 	</tr>
 	<?php
 	foreach ($tests as $test): ?>
 	<tr>
-		<td><?php echo h($test['Test']['id']); ?>&nbsp;</td>
+		<!--<td><?php //echo h($test['Test']['id']); ?>&nbsp;</td>-->
 		<td><?php echo h($test['Test']['name']); ?>&nbsp;</td>
 		<td><?php echo h($test['Test']['test_type']); ?>&nbsp;</td>
 		<td>
 			<?php echo $this->Html->link($test['User']['fullname'], array('controller' => 'users', 'action' => 'view', $test['User']['id'])); ?>
 		</td>
 		<td><?php echo h($test['Test']['created']); ?>&nbsp;</td>
-		<td><?php echo h($test['Test']['modified']); ?>&nbsp;</td>
+		<!--<td><?php //echo h($test['Test']['modified']); ?>&nbsp;</td>-->
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $test['Test']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $test['Test']['id'])); ?>
@@ -44,10 +44,10 @@
 	?>
 	</div>
 </div>
-<div class="actions">
+<div class="actions" style="display:none">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
-		<li><?php echo $this->Html->link(__('New Test'), array('action' => 'add')); ?></li>
+		<li><?php echo $this->Html->link(__('Start a Test'), array('action' => 'take')); ?></li>
 		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New User'), array('controller' => 'users', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Questions'), array('controller' => 'questions', 'action' => 'index')); ?> </li>

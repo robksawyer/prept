@@ -64,6 +64,7 @@ echo $this->Html->script('test');
 		maxCards = <?php echo count($stack['Card']); //I would -1 but the extra score card exists ?>;
 		start_timer(curCard);
 	</script>
+	<h1><?php echo __($test['Test']['name'],true); ?></h1>
 	<div class="card-container" id="card-container-0">
 		<div class="slides-container" id="slide-container-0">
 			<?php echo $this->Form->create('Question',array('url'=>array('controller'=>'questions','action'=>'score'))); ?>

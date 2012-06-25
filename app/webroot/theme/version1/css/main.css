@@ -936,7 +936,7 @@ div.card-container div.slides-container{
 	height: 400px;
 	margin: 0;
 	z-index: 1;
-	background: red;
+	background: transparent;
 }
 div.card-container div.slides-container div.test-card ul.test-card-actions{
 	position: relative;

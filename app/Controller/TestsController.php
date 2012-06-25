@@ -42,7 +42,6 @@ class TestsController extends AppController {
 				$this->set(compact('existingTest'));
 			}
 		}
-		
 		if($this->request->is('post')) {
 			//Create the test record so that it can be updated as the user continues the test
 			$this->request->data['Test']['user_id'] = $this->Auth->user('id');

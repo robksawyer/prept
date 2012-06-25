@@ -46,7 +46,7 @@ class QuestionsController extends AppController {
 			$this->request->data[$i]['Question']['user_id'] = $this->Auth->user('id');
 		}
 		//Create a new record with the user's result
-		$this->Question->create();
+		//$this->Question->create();
 		if ($this->Question->saveAll($this->request->data)) {
 			$this->Session->setFlash(__('Good job finishing the test.'));
 			$this->Question->Test->id = $this->request->data[0]['Question']['test_id'];
