@@ -65,7 +65,7 @@ echo $this->Html->script('test');
 		start_timer(curCard);
 	</script>
 	<div class="card-container" id="card-container-0">
-		<div class="slides-container">
+		<div class="slides-container" id="slide-container-0">
 			<?php echo $this->Form->create('Question',array('url'=>array('controller'=>'questions','action'=>'score'))); ?>
 			<?php 
 				$counter = 0;
@@ -95,7 +95,7 @@ echo $this->Html->script('test');
 			</div>
 			<?php echo $this->Form->end(); ?>
 		</div>
-		<div class="clear"></div>
+		<div class="clear">&nbsp;</div>
 		<div class="slide-navigation">
 			<div class="left-arrow">
 				<?php echo $this->Html->link($this->Html->image('../img/slide-show/arrow_left.gif',array('border'=>false)),'#',array('escape'=>false)); ?>

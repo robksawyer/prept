@@ -1,6 +1,7 @@
 var maxCards = 0;
 var curCard = 0;
 var cardWidth = 0;
+var cardMargin = 0;
 var rightArrowActivated = false;
 var leftArrowActivated = false;
 var scoreCard = false;
@@ -19,6 +20,8 @@ $(document).ready(function() {
 	});
 	
 	cardWidth = $('.card-container .slides-container .test-card').width();
+	cardMargin = parseInt($('.card-container .slides-container .test-card').css("marginRight"));
+	cardMargin += (cardMargin * 2);
 	//Deactivate left arrow
 	deactivateLeftArrow();
 	activateRightArrow();
@@ -191,7 +194,7 @@ function left_arrow_click(event){
 	
 	$('.card-container .slides-container #test-card-'+curCard).fadeTo(300,1,removeNext); //Fade in new card
 	//Move the slides-container left an amount based on the card width
-	$('.card-container .slides-container').animate({'marginLeft':'+='+cardWidth+"px"});
+	$('.card-container .slides-container').animate({'marginLeft':'+='+(cardWidth+cardMargin)+"px"});
 	
 	if(curCard <= maxCards && !rightArrowActivated){
 		activateRightArrow();
@@ -222,7 +225,7 @@ function right_arrow_click(event){
 	
 	$('.card-container .slides-container #test-card-'+curCard).fadeTo (300,1,removeNext); //Fade in new card
 	//Move the slides-container left an amount based on the card width
-	$('.card-container .slides-container').animate({'marginLeft':'-='+cardWidth+"px"});
+	$('.card-container .slides-container').animate({'marginLeft':'-='+(cardWidth+cardMargin)+"px"});
 	
 	if(curCard > 0 && !leftArrowActivated){
 		activateLeftArrow();
