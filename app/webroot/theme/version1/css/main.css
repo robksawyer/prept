@@ -1009,13 +1009,16 @@ div.slides-container div.test-card.next{
 	filter:alpha(opacity=50); /* For IE8 and earlier */
 }
 
+div.slides-container div#test-card-0{
+	margin:  15px 15px 15px 175px;
+}
 div.slides-container div.test-card{
 	float: left;
 	position: relative;
 	clear: none;
 	width: 740px;
 	cursor: normal;
-	margin: 15px;
+	margin:  15px;
 }
 div.slides-container div.test-card div.container{
 	float: left;
