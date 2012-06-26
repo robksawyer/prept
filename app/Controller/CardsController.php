@@ -99,9 +99,10 @@ class CardsController extends AppController {
  * delete method
  *
  * @param string $id
+ * @param int $stack_id
  * @return void
  */
-	public function delete($id = null) {
+	public function delete($id = null,$stack_id = null) {
 		if (!$this->request->is('post')) {
 			throw new MethodNotAllowedException();
 		}
@@ -111,9 +112,9 @@ class CardsController extends AppController {
 		}
 		if ($this->Card->delete()) {
 			$this->Session->setFlash(__('Card deleted'));
-			$this->redirect(array('action' => 'index'));
+			$this->redirect(array('controller'=>'stacks','action'=>'view',$stack_id));
 		}
 		$this->Session->setFlash(__('Card was not deleted'));
-		$this->redirect(array('action' => 'index'));
+		$this->redirect(array('controller'=>'stacks','action'=>'view',$stack_id));
 	}
 }
